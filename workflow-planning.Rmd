@@ -1,0 +1,40 @@
+---
+title: "PLAY workflow planning"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: 
+  html_document:
+    keep_md: true
+    theme: lumen
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      out.width = "600px")
+```
+
+# Purpose
+
+To describe in detailed terms the steps involved in the PLAY workflow, especially focusing on file management.
+
+```{r, child="workflow-1.0.Rmd"}
+```
+
+# Background
+
+The original source of many of these workflow ideas was this Google doc:
+
+<https://docs.google.com/document/d/1t0vwlsN0rUdcNVjEx5VzEYa9KkLIdkxYh6cMrg3G-fU/edit>
+
+The Google doc contains text from an unfunded NSF RIDIR proposal submitted in 2018 plus additional components added later.
+At that time, we called the system we planned to use for PLAY a scientific process management (SPM) system with the working name `LabNanny`.
+
+```{r, child="NSF-RIDIR-2018.Rmd"}
+```
+
+```{r, child="user-stories.Rmd"}
+```

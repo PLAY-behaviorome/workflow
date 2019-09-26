@@ -1,7 +1,7 @@
 ---
 title: "PLAY workflow planning"
 author: "Rick Gilmore"
-date: "`r Sys.time()`"
+date: "2019-09-26 14:34:06"
 output: 
   html_document:
     keep_md: true
@@ -12,23 +12,111 @@ output:
     code_folding: hide
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,
-                      out.width = "600px")
-```
+
 
 # Purpose
 
 To describe in detailed terms the steps involved in the PLAY workflow, especially focusing on file management.
 
-The original source of these ideas was this Google doc:
+
+
+# PLAY 1.0 Workflow
+
+The following figure depicts the PLAY project workflow as of 2019-09-26.
+
+
+```r
+knitr::include_graphics("https://www.play-project.org/img/overview-project.png")
+```
+
+<div class="figure">
+<img src="https://www.play-project.org/img/overview-project.png" alt="Source: https://www.play-project.org/overview.html" width="600px" />
+<p class="caption">Source: https://www.play-project.org/overview.html</p>
+</div>
+
+## Pre-collection training
+
+### Overview (1.5 hrs)
+
+### Training 2
+
+### Training 3
+
+### Training 4
+
+## Data collection
+
+See steps described in <https://www.play-project.org/collection.html>
+
+### Upload data
+
+1. *Designated Site RA* creates a session within the site-specific volume and completes Databrary spreadsheet data.
+1. *Designated Site RA* uploads video to the site-specific Databrary volume.
+1. *Designated Site RA* uploads ambient sound recording to data session on site-specific Databrary volume.
+1. *Kobotoolbox application* uploads data file to Kobotoolbox server.
+1. *PLAY staff* download Kobotoolbox file from Kobotoolbox server.
+1. *PLAY staff* generate NDAR GUID using NYU server.
+1. *PLAY staff* add NDAR GUID to appropriate session and volume.
+
+#### Discussion
+
+- *Launch Group PIs* will 'co-own' data with PLAY PIs, so uploading to site-specific Databrary volumes makes sense for initial upload.
+This also ensures that session-specific metadata is entered in a consistent fashion and makes it possible to create automated workflows down the line.
+- *How does Kobotoolbox questionnaire data get from Kobotoolbox server to the proper volume and session?*
+
+## Quality Assurance (QA)
+
+### Discussion
+
+- *PLAY staff* must retrieve video and audio files from site-specific volumes and sessions. 
+  - *How do PLAY staff know when there are files for them to process?*
+  - *Can Databrary's notifications feature provide information about uploaded files that are ready for QA?*
+- *PLAY staff* must download video files from site-specific volumes to i) play videos and ii) generate QA Datavyu file.
+  - *What is the QA coding protocol?*
+  - *What is an example QA Datavyu file?*
+  - *Could we use Box as working file server for QA and coding assignments?*
+    - Box would be more flexible than creating new Databrary volumes.
+    - Box has an API that we might be able to access via scripts.
+- *Do audio files undergo QA?*
+- *How does questionnaire data undergo QA?*
+
+## Coding
+
+### Pre-coding training
+
+1. *PLAY staff* ship coding equipment to coding labs.
+1. *PLAY staff* conduct training.
+
+### Assigning videos to coding labs
+
+### Coding labs acquire videos
+
+### Coding
+
+Coding protocols for each pass are described in <https://www.play-project.org/coding.html>
+
+### Coding files get returned
+
+## Coding Quality Assurance (QA)
+
+### Coding QA
+
+### Reliability
+
+## Merge coded data
+
+## Clean and upload
+
+# Background
+
+The original source of many of these workflow ideas was this Google doc:
 
 <https://docs.google.com/document/d/1t0vwlsN0rUdcNVjEx5VzEYa9KkLIdkxYh6cMrg3G-fU/edit>
 
 The Google doc contains text from an unfunded NSF RIDIR proposal submitted in 2018 plus additional components added later.
 At that time, we called the system we planned to use for PLAY a scientific process management (SPM) system with the working name `LabNanny`.
 
-# Background
+
 
 ## NSF RIDIR 2018
 
@@ -125,6 +213,9 @@ After we have file uploads working well, we will enable LabNanny to pull files f
 ##### Comments
 
  … A prototype has been created that allows for browsing public assets and downloading them. We are also looking at this feature to replace/augment the ZIPPING on db since it is CPU intensive.
+
+
+
 
 ## User stories
 
@@ -229,84 +320,3 @@ As a member of the PLAY staff, I want to view what aspects of training/reliabili
 I need to be able to view which labs are “good to go” for each aspect of collection or coding, and which need to revetted and need to be retrained. 
 Aspects of training/vetting for data collection include: identifying eligible participants, scheduling/confirming, video collection, survey collection, data entry. 
 Aspects of training/vetting for data coding include: initial training.
-
-# PLAY 1.0 Workflow
-
-The following figure depicts the PLAY project workflow as of `r Sys.Date()`.
-
-```{r, fig.cap="Source: https://www.play-project.org/overview.html"}
-knitr::include_graphics("https://www.play-project.org/img/overview-project.png")
-```
-
-## Pre-collection training
-
-### Overview (1.5 hrs)
-
-### Training 2
-
-### Training 3
-
-### Training 4
-
-## Data collection
-
-See steps described in <https://www.play-project.org/collection.html>
-
-### Upload data
-
-1. *Designated Site RA* creates a session within the site-specific volume and completes Databrary spreadsheet data.
-1. *Designated Site RA* uploads video to the site-specific Databrary volume.
-1. *Designated Site RA* uploads ambient sound recording to data session on site-specific Databrary volume.
-1. *Kobotoolbox application* uploads data file to Kobotoolbox server.
-1. *PLAY staff* download Kobotoolbox file from Kobotoolbox server.
-1. *PLAY staff* generate NDAR GUID using NYU server.
-1. *PLAY staff* add NDAR GUID to appropriate session and volume.
-
-#### Discussion
-
-- *Launch Group PIs* will 'co-own' data with PLAY PIs, so uploading to site-specific Databrary volumes makes sense for initial upload.
-This also ensures that session-specific metadata is entered in a consistent fashion and makes it possible to create automated workflows down the line.
-- *How does Kobotoolbox questionnaire data get from Kobotoolbox server to the proper volume and session?*
-
-## Quality Assurance (QA)
-
-### Discussion
-
-- *PLAY staff* must retrieve video and audio files from site-specific volumes and sessions. 
-  - *How do PLAY staff know when there are files for them to process?*
-  - *Can Databrary's notifications feature provide information about uploaded files that are ready for QA?*
-- *PLAY staff* must download video files from site-specific volumes to i) play videos and ii) generate QA Datavyu file.
-  - *What is the QA coding protocol?*
-  - *What is an example QA Datavyu file?*
-  - *Could we use Box as working file server for QA and coding assignments?*
-    - Box would be more flexible than creating new Databrary volumes.
-    - Box has an API that we might be able to access via scripts.
-- *Do audio files undergo QA?*
-- *How does questionnaire data undergo QA?*
-
-## Coding
-
-### Pre-coding training
-
-1. *PLAY staff* ship coding equipment to coding labs.
-1. *PLAY staff* conduct training.
-
-### Assigning videos to coding labs
-
-### Coding labs acquire videos
-
-### Coding
-
-Coding protocols for each pass are described in <https://www.play-project.org/coding.html>
-
-### Coding files get returned
-
-## Coding Quality Assurance (QA)
-
-### Coding QA
-
-### Reliability
-
-## Merge coded data
-
-## Clean and upload

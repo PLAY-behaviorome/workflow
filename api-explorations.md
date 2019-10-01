@@ -1,7 +1,7 @@
 ---
 title: "api-explorations"
 author: "Rick Gilmore"
-date: "2019-10-01 15:42:53"
+date: "2019-10-01 16:02:26"
 output: 
   html_document:
     keep_md: true
@@ -9,7 +9,7 @@ output:
     toc: true
     toc_depth: 4
     toc_float: true
-    code_folding: hide
+    code_folding: show
 ---
 
 
@@ -81,12 +81,12 @@ str(f)
 ```
 ## List of 22
 ##  $ type               : chr "folder"
-##  $ id                 : chr "88738958645"
+##  $ id                 : chr "88740842233"
 ##  $ sequence_id        : chr "0"
 ##  $ etag               : chr "0"
 ##  $ name               : chr "TEST-PLAY-workflow"
-##  $ created_at         : chr "2019-10-01T12:42:56-07:00"
-##  $ modified_at        : chr "2019-10-01T12:42:56-07:00"
+##  $ created_at         : chr "2019-10-01T13:02:29-07:00"
+##  $ modified_at        : chr "2019-10-01T13:02:29-07:00"
 ##  $ description        : chr ""
 ##  $ size               : int 0
 ##  $ path_collection    :List of 2
@@ -110,8 +110,8 @@ str(f)
 ##   ..$ login: chr "rog1@psu.edu"
 ##  $ trashed_at         : NULL
 ##  $ purged_at          : NULL
-##  $ content_created_at : chr "2019-10-01T12:42:56-07:00"
-##  $ content_modified_at: chr "2019-10-01T12:42:56-07:00"
+##  $ content_created_at : chr "2019-10-01T13:02:29-07:00"
+##  $ content_modified_at: chr "2019-10-01T13:02:29-07:00"
 ##  $ owned_by           :List of 4
 ##   ..$ type : chr "user"
 ##   ..$ id   : chr "196373178"
@@ -155,7 +155,7 @@ boxr::box_setwd(f$id)
 ```
 ## box.com working directory changed to 'TEST-PLAY-workflow'
 ## 
-##       id: 88738958645
+##       id: 88740842233
 ##     tree: All Files/TEST-PLAY-workflow
 ##    owner: rog1@psu.edu
 ## contents: 0 files, 0 folders
@@ -186,8 +186,8 @@ play_dirs %>% knitr::kable()
 
 name              type     id             size  description   owner          path                           modified_at           content_modified_at   sha1    version
 ----------------  -------  ------------  -----  ------------  -------------  -----------------------------  --------------------  --------------------  -----  --------
-data_collection   folder   88739936223       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-01 15:42:59   2019-10-01 15:42:59   NA            1
-qa                folder   88735876093       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-01 15:42:58   2019-10-01 15:42:58   NA            1
+data_collection   folder   88739522064       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-01 16:02:31   2019-10-01 16:02:31   NA            1
+qa                folder   88741148779       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-01 16:02:30   2019-10-01 16:02:30   NA            1
 
 ### Create a CSV data file and upload
 
@@ -200,15 +200,7 @@ df <- data.frame(name = c("Tom", "Dick", "Harriet"),
                  alive = c(FALSE, TRUE, TRUE))
 ```
 
-Let's create a Penn State `psu` subdirectory under `data_collection`.
-
-
-```r
-psu <- boxr::box_dir_create("data_collection/psu")
-```
-
-So, that did not work.
-Let's try another approach.
+Let's create a Penn State `psu` and `nyu` subdirectory under `data_collection`.
 
 
 ```r
@@ -228,16 +220,16 @@ nyu
 ## box.com remote folder reference
 ## 
 ##  name        : nyu 
-##  dir id      : 88740041000 
+##  dir id      : 88739437360 
 ##  size        : 0 B 
-##  modified at : 2019-10-01 12:43:01 
-##  created at  : 2019-10-01 12:43:01 
+##  modified at : 2019-10-01 13:02:33 
+##  created at  : 2019-10-01 13:02:33 
 ##  uploaded by : rog1@psu.edu 
 ##  owned by    : rog1@psu.edu 
 ##  shared link : None 
 ## 
 ##  parent folder name :  data_collection 
-##  parent folder id   :  88739936223
+##  parent folder id   :  88739522064
 ```
 Now that we have an `nyu` subdirectory, we can add a file to it.
 
@@ -258,17 +250,17 @@ boxr::box_ul(nyu$id, file = "tmp.csv")
 ## box.com remote file reference
 ## 
 ##  name        : tmp.csv 
-##  file id     : 532990942616 
+##  file id     : 533016052226 
 ##  version     : V1 
 ##  size        : 57 B 
-##  modified at : 2019-10-01 12:43:02 
-##  created at  : 2019-10-01 12:43:02 
+##  modified at : 2019-10-01 13:02:34 
+##  created at  : 2019-10-01 13:02:34 
 ##  uploaded by : rog1@psu.edu 
 ##  owned by    : rog1@psu.edu 
 ##  shared link : None 
 ## 
 ##  parent folder name :  nyu 
-##  parent folder id   :  88740041000
+##  parent folder id   :  88739437360
 ```
 
 ### Downloading uploaded file
@@ -288,7 +280,7 @@ nyu_list
 ##   Summary of first 1:
 ## 
 ##      name type           id size        owner
-## 1 tmp.csv file 532990942616 57 B rog1@psu.edu
+## 1 tmp.csv file 533016052226 57 B rog1@psu.edu
 ## 
 ## 
 ## Use as.data.frame() to extract full results.
@@ -341,9 +333,6 @@ str(downloaded_f)
 ```
 
 Ok. That seems to work so far.
-
-This document will not render because I did not save the returned data. 
-Thus, Box will try to recreate files and directories that already exist.
 
 ## Clean-up
 

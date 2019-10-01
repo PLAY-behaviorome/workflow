@@ -9,7 +9,7 @@ output:
     toc: true
     toc_depth: 4
     toc_float: true
-    code_folding: hide
+    code_folding: show
 ---
 
 ```{r setup, include=FALSE}
@@ -100,14 +100,7 @@ df <- data.frame(name = c("Tom", "Dick", "Harriet"),
                  alive = c(FALSE, TRUE, TRUE))
 ```
 
-Let's create a Penn State `psu` subdirectory under `data_collection`.
-
-```{r}
-psu <- boxr::box_dir_create("data_collection/psu")
-```
-
-So, that did not work.
-Let's try another approach.
+Let's create a Penn State `psu` and `nyu` subdirectory under `data_collection`.
 
 ```{r}
 this_dir <- as.data.frame(play_dirs) %>%
@@ -149,9 +142,6 @@ str(downloaded_f)
 ```
 
 Ok. That seems to work so far.
-
-This document will not render because I did not save the returned data. 
-Thus, Box will try to recreate files and directories that already exist.
 
 ## Clean-up
 

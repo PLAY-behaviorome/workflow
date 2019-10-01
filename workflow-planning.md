@@ -1,7 +1,7 @@
 ---
 title: "PLAY workflow planning"
 author: "Rick Gilmore"
-date: "2019-09-26 14:34:06"
+date: "2019-10-01 08:46:41"
 output: 
   html_document:
     keep_md: true
@@ -16,13 +16,14 @@ output:
 
 # Purpose
 
-To describe in detailed terms the steps involved in the PLAY workflow, especially focusing on file management.
+To describe in detailed terms the steps involved in the PLAY workflow, especially focusing on file management and progress tracking.
 
+<!-- Term/role definitions -->
 
 
 # PLAY 1.0 Workflow
 
-The following figure depicts the PLAY project workflow as of 2019-09-26.
+The following figure depicts the PLAY project workflow as of 2019-10-01.
 
 
 ```r
@@ -38,6 +39,10 @@ knitr::include_graphics("https://www.play-project.org/img/overview-project.png")
 
 ### Overview (1.5 hrs)
 
+#### Discussion
+
+- How is the play-project.org website used to support training?
+
 ### Training 2
 
 ### Training 3
@@ -48,26 +53,53 @@ knitr::include_graphics("https://www.play-project.org/img/overview-project.png")
 
 See steps described in <https://www.play-project.org/collection.html>
 
-### Upload data
+### Post-visit data upload
 
-1. *Designated Site RA* creates a session within the site-specific volume and completes Databrary spreadsheet data.
-1. *Designated Site RA* uploads video to the site-specific Databrary volume.
-1. *Designated Site RA* uploads ambient sound recording to data session on site-specific Databrary volume.
-1. *Kobotoolbox application* uploads data file to Kobotoolbox server.
-1. *PLAY staff* download Kobotoolbox file from Kobotoolbox server.
-1. *PLAY staff* generate NDAR GUID using NYU server.
-1. *PLAY staff* add NDAR GUID to appropriate session and volume.
+1. *Data Collection Site RA* creates a session within the site-specific volume and completes Databrary spreadsheet data.
+1. *Data Collection Site RA* uploads video to the site-specific Databrary volume.
+1. *Data Collection Site RA* uploads ambient sound recording to data session on site-specific Databrary volume.
+1. *KoboToolbox application* uploads data file to Kobotoolbox server.
 
 #### Discussion
 
 - *Launch Group PIs* will 'co-own' data with PLAY PIs, so uploading to site-specific Databrary volumes makes sense for initial upload.
 This also ensures that session-specific metadata is entered in a consistent fashion and makes it possible to create automated workflows down the line.
-- *How does Kobotoolbox questionnaire data get from Kobotoolbox server to the proper volume and session?*
+- *How does KoBoToolbox questionnaire data get from KoBoToolbox server to the proper volume and session?*
 
 ## Quality Assurance (QA)
 
+### Data retrieval
+
+#### Survey data from KoboToolbox server
+
+1. *PLAY staff* download KoBoToolbox file from KoBoToolbox server to <WORKING DIRECTORY UNSPECIFIED>.
+
+#### Session metadata from Databrary
+
+1. *PLAY staff* rrtrieve session metadata from Databrary volume
+
+#### Video and audio files from Databrary
+
+### Data evaluation
+
+#### KoBoToolbox-derived data
+
+1. *PLAY staff* generate NDAR GUID using NYU server.
+1. *PLAY staff* add NDAR GUID to appropriate Databrary session and volume.
+
+#### Comparing KoBoToolbox data with Databrary session
+
+1. *PLAY staff* compare participant demographic data from KoBoToolbox to that entered into the Databrary spreadsheet.
+1. *PLAY staff* reconcile discrepancies.
+
+#### Video
+
+#### Audio file
+
 ### Discussion
 
+- There is an API for KoboToolbox.
+  - *Could we script the transfer of KoboToolbox files to Box?*
 - *PLAY staff* must retrieve video and audio files from site-specific volumes and sessions. 
   - *How do PLAY staff know when there are files for them to process?*
   - *Can Databrary's notifications feature provide information about uploaded files that are ready for QA?*
@@ -77,6 +109,7 @@ This also ensures that session-specific metadata is entered in a consistent fash
   - *Could we use Box as working file server for QA and coding assignments?*
     - Box would be more flexible than creating new Databrary volumes.
     - Box has an API that we might be able to access via scripts.
+    - There is an R package for the Box API: <https://cran.r-project.org/web/packages/boxr/vignettes/boxr.html>
 - *Do audio files undergo QA?*
 - *How does questionnaire data undergo QA?*
 
@@ -89,13 +122,26 @@ This also ensures that session-specific metadata is entered in a consistent fash
 
 ### Assigning videos to coding labs
 
+1. *PLAY staff* assign videos to coding labs based on source of video and the coding pass a lab is trained to provide.
+1. *PLAY staff* generate a *Template Datavyu Coding File* associated with the assigned coding pass.
+
+#### Discussion
+
+- *Template Datavyu Coding File* must contain the code and code definitions.
+- *Template Datavyu Coding File* must have an initial ID column with metadata about the participant and the video file name to which it is linked.
+- *Template Datavyu Coding File* must have a file name that matches the video.
+
 ### Coding labs acquire videos
+
+1. *Coding Site RA* downloads assigned video for coding.
 
 ### Coding
 
 Coding protocols for each pass are described in <https://www.play-project.org/coding.html>
 
 ### Coding files get returned
+
+1. *Coding Site RA* copies completed *Template Datavyu Coding File* to <FILE DIRECTORY NOT YET ASSIGNED>.
 
 ## Coding Quality Assurance (QA)
 
@@ -106,6 +152,46 @@ Coding protocols for each pass are described in <https://www.play-project.org/co
 ## Merge coded data
 
 ## Clean and upload
+
+<!-- Term/role definitions -->
+
+
+# Terminology
+
+The following describes the people and their roles in carrying out the PLAY project workflow along with the tools and technologies used in that workflow.
+
+## People & roles
+
+### PLAY staff
+
+*PLAY staff*
+
+### Data collection site
+
+*Data Collection Site PI*
+
+*Data Collection Site RA*
+
+### Data coding site
+
+## Technologies and tools
+
+### Websites & servers
+
+[Databrary](https://databrary.org)
+
+[Datavyu](https://datavyu.org)
+
+[KoBoToolbox](https://www.kobotoolbox.org)
+
+### Desktop software
+
+[Datavyu](https://datavyu.org)
+
+[RStudio](https://rstudio.com)
+
+#### R packages
+
 
 # Background
 

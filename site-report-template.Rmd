@@ -1,0 +1,120 @@
+---
+title: "site-report-template"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: 
+  html_document:
+    keep_md: true
+    theme: lumen
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: hide
+params:
+  vol_id: 881
+  databrary_login: account@email.com
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Install required packages
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+if (!require(databraryapi)) {
+  if (!require(devtools)) {
+    install.packages("devtools")
+  }
+  devtools::install_github("PLAY-behaviorome/databraryapi")
+}
+
+library(tidyverse)
+```
+
+## Purpose
+
+This document provides a template for how a site-specific progress report might be generated using the Databrary API and other sources.
+
+## Set-up
+
+### Log in to Databrary
+
+Some of the functions require authentication to Databrary.
+For this to work, you need to have entered your Databrary credentials into your own computer's credentials file.
+On Mac OS, this is called Keychain.
+If you have installed the `databraryapi` package, running `databraryapi::config_passwd()` will accept and store your credentials properly.
+
+Once you have done that, you may render this file securely by executing the following code from the R consol
+You will need to substitute your actual Databrary login ID for "myemail\@email.com".
+
+```
+rmarkdown::render("site-report-template.Rmd", params = list(databrary_login = "myemail@email.com")
+```
+
+```{r}
+if (databraryapi::login_db(params$databrary_login)) {
+  message("Authenticated to Databrary")
+} else {
+  message("Authentication failure.")
+}
+```
+
+
+### Get basic data about the volume
+
+```{r}
+vol_data <- databraryapi::list_volume_metadata(as.numeric(params$vol_id))
+
+if (!is.null(vol_data)) {
+  message(paste0("Progress report for volume ", as.character(vol_data$vol_id)))
+  message(paste0("Volume name: ", vol_data$name))
+  message(paste0("Investigators: ", vol_data$owners))
+} else {
+  message(paste0("Error in retrieving metadata from volume ", params$site_upload_vol_id))
+}
+```
+
+Note, we can also put these variables in headers, like this:
+
+### Volume `r vol_data$vol_id` : `r vol_data$name`
+
+## Sessions created
+
+If we have `read` privileges on the volume, we can see details about any sessions that have been created.
+
+```{r}
+these_sessions <- databraryapi::list_sessions(as.numeric(params$vol_id))
+these_sessions %>%
+  knitr::kable(.)
+```
+
+## Spreadsheet data
+
+```{r}
+this_volume <- databraryapi::download_containers_records(as.numeric(params$vol_id))
+
+this_ss <- this_volume$records$measures
+
+this_ss <- this_ss %>%
+  filter(`1` != 1) # Weird, I know but filtering drops var names
+
+this_ss %>%
+  knitr::kable(.)
+```
+
+## Videos uploaded
+
+```{r}
+databraryapi::list_assets_by_type(as.numeric(params$vol_id))
+```
+
+## All files uploaded
+
+```{r}
+files <- databraryapi::list_assets_in_volume(as.numeric(params$vol_id))
+
+files %>%
+  knitr::kable(.)
+```
+

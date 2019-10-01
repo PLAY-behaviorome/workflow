@@ -19,9 +19,14 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Purpose
 
-To describe in detailed terms the steps involved in the PLAY workflow, especially focusing on file management.
+To describe in detailed terms the steps involved in the PLAY workflow, especially focusing on file management and progress tracking.
 
+<!-- Term/role definitions -->
 ```{r, child="workflow-1.0.Rmd"}
+```
+
+<!-- Term/role definitions -->
+```{r, child="terminology.Rmd"}
 ```
 
 # Background

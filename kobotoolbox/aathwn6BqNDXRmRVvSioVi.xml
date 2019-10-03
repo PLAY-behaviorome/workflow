@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:odk="http://www.opendatakit.org/xforms" xmlns:orx="http://openrosa.org/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <h:head>
+    <h:title>Untitled</h:title>
+    <model>
+      <instance>
+        <data id="snapshot_xml">
+          <start/>
+          <end/>
+          <What_is_your_name/>
+          <What_is_your_quest/>
+          <What_is_your_favorite_color/>
+          <What_is_the_time_right_now/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </data>
+      </instance>
+      <bind jr:preload="timestamp" jr:preloadParams="start" nodeset="/data/start" type="dateTime"/>
+      <bind jr:preload="timestamp" jr:preloadParams="end" nodeset="/data/end" type="dateTime"/>
+      <bind nodeset="/data/What_is_your_name" required="false()" type="string"/>
+      <bind nodeset="/data/What_is_your_quest" required="false()" type="string"/>
+      <bind nodeset="/data/What_is_your_favorite_color" required="false()" type="select"/>
+      <bind nodeset="/data/What_is_the_time_right_now" required="false()" type="dateTime"/>
+      <bind calculate="concat('uuid:', uuid())" nodeset="/data/meta/instanceID" readonly="true()" type="string"/>
+    </model>
+  </h:head>
+  <h:body>
+    <input ref="/data/What_is_your_name">
+      <label>What is your name?</label>
+    </input>
+    <input ref="/data/What_is_your_quest">
+      <label>What is your quest?</label>
+    </input>
+    <select ref="/data/What_is_your_favorite_color">
+      <label>What is your favorite color?</label>
+      <item>
+        <label>Blue</label>
+        <value>blue</value>
+      </item>
+      <item>
+        <label>Green</label>
+        <value>green</value>
+      </item>
+      <item>
+        <label>Red</label>
+        <value>red</value>
+      </item>
+    </select>
+    <input ref="/data/What_is_the_time_right_now">
+      <label>What is the time right now?</label>
+    </input>
+  </h:body>
+</h:html>

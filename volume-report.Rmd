@@ -10,7 +10,7 @@ output:
     toc_depth: 4
     toc_float: true
     code_folding: hide
-    self-contained: false
+    self-contained: true
 params:
   vol_id: 444
   databrary_login: account@email.com
@@ -52,14 +52,14 @@ vol_data <- databraryapi::list_volume_metadata(as.numeric(params$vol_id))
 rmarkdown::render("volume-report.Rmd", params = list(databrary_login = "account@email.com"))
 ```
 
-# [`r vol_data$vol_id` : `r vol_data$name`](`r paste0("https://databrary.org/volume/", params$vol_id)`)
+# `r vol_data$vol_id` : `r vol_data$name`
 
 ## Summary data
 
-### Owners
+### Owner(s)
 
-```{r owners}
-as.character(vol_data$owners)
+```{r owners, render='asis'}
+cat(stringr::str_replace_all(string = as.character(vol_data$owners), replacement = "/n", pattern ="; "))
 ```
 
 ### DOI
@@ -110,7 +110,7 @@ sessions_filtered %>%
 gender_race <- sessions_filtered %>%
   select(group.name, participant.gender, participant.race)
 
-levels(gender_race$participant.race) <- c(NA, "Asian", "Mult", "Unk", "Wht")
+#levels(gender_race$participant.race) <- c(NA, "Asian", "Mult", "Unk", "Wht")
 age_gender_table <- xtabs(formula = ~ group.name + participant.gender, data = sessions_filtered)
 
 age_gender_table %>%
@@ -120,27 +120,55 @@ age_gender_table %>%
   vcd::mosaic(.)
 ```
 
-## Videos uploaded
+## Files by type {.tabset}
+
+### Videos
 
 ```{r videos}
-videos <- databraryapi::list_assets_by_type(as.numeric(params$vol_id))
+video_files <- databraryapi::list_assets_by_type(as.numeric(params$vol_id))
 
-videos_filtered <- videos %>%
-  dplyr::select(vol_id, session_id, name, asset_id, duration, segment)
-
-videos_filtered %>%
-  knitr::kable(.)
+if (is.null(video_files)) {
+  cat("No video files in volume.")
+} else {
+  opf_filtered <- video_files %>%
+    dplyr::select(vol_id, session_id, name, 
+                  asset_id, duration, segment)
+  
+  opf_filtered %>%
+    knitr::kable(.)  
+}
 ```
 
-## All uploaded files
+### Datavyu (.opf)
 
-```{r all-files}
-all_files <- databraryapi::list_assets_in_volume(as.numeric(params$vol_id))
+```{r datavyu-files}
+opf_files <- databraryapi::list_assets_by_type(as.numeric(params$vol_id), type = "datavyu")
 
-all_files_filtered <- all_files %>%
-  dplyr::select(vol_id, session_id, name, asset_id, asset_type) %>%
-  dplyr::arrange(session_id, asset_type, name)
+if (is.null(opf_files)) {
+  cat("No Datavyu (.opf) files in volume.")
+} else {
+  opf_filtered <- opf_files %>%
+    dplyr::select(vol_id, session_id, name, 
+                  asset_id, duration, segment)
+  
+  opf_filtered %>%
+    knitr::kable(.)  
+}
+```
 
-all_files_filtered %>%
-  knitr::kable(.)
+### Text
+
+```{r text-files}
+text_files <- databraryapi::list_assets_by_type(as.numeric(params$vol_id), type = "text")
+
+if (is.null(text_files)) {
+  cat("No text files in volume.")
+} else {
+  text_filtered <- text_files %>%
+    dplyr::select(vol_id, session_id, name, 
+                  asset_id, duration, segment)
+  
+  opf_filtered %>%
+    knitr::kable(.)  
+}
 ```

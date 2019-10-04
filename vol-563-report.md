@@ -1,7 +1,7 @@
 ---
 title: "volume-report"
 author: "Rick Gilmore"
-date: "2019-10-04 10:18:09"
+date: "2019-10-04 10:57:47"
 output: 
   html_document:
     keep_md: true
@@ -31,7 +31,7 @@ vol_data <- databraryapi::list_volume_metadata(as.numeric(params$vol_id))
 rmarkdown::render("volume-report.Rmd", params = list(databrary_login = "account@email.com"))
 ```
 
-# [444 : PLAY Project: Pilot Data Collections](https://databrary.org/volume/444)
+# [563 : LEGO](https://databrary.org/volume/563)
 
 ## Summary data
 
@@ -43,7 +43,7 @@ as.character(vol_data$owners)
 ```
 
 ```
-## [1] "Adolph, Karen; Tamis-LeMonda, Catherine; Gilmore, Rick O."
+## [1] "Adolph, Karen; Tamis-LeMonda, Catherine"
 ```
 
 ### DOI
@@ -58,7 +58,7 @@ if (as.character(vol_data$doi) == "NA") {
 ```
 
 ```
-## https://databrary.org/volume/444
+## https://databrary.org/volume/563
 ```
 
 ## Materials & Data {.tabset}
@@ -80,11 +80,8 @@ materials %>%
 
 
 
-session_name             url                                           
------------------------  ----------------------------------------------
-Parent report data       https://databrary.org/volume/444/slot/26295/- 
-Video exemplars          https://databrary.org/volume/444/slot/27087/- 
-Supporting information   https://databrary.org/volume/444/slot/29558/- 
+|session_name |url |
+|:------------|:---|
 
 ### Participant sessions
 
@@ -105,29 +102,108 @@ sessions_filtered %>%
 
 
 
- participant.ID  group.name   participant.gender   participant.race          participant.ethnicity     url                                           
----------------  -----------  -------------------  ------------------------  ------------------------  ----------------------------------------------
-             21               Male                 More than one             Hispanic or Latino        https://databrary.org/volume/444/slot/35609/- 
-              8  12 mos       Female               White                     Hispanic or Latino        https://databrary.org/volume/444/slot/18811/- 
-             13  12 mos       Female               White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18818/- 
-             15  12 mos       Female               Asian                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18821/- 
-             20  12 mos       Male                 White                     Hispanic or Latino        https://databrary.org/volume/444/slot/18826/- 
-              3  18 mos       Female               More than one             Hispanic or Latino        https://databrary.org/volume/444/slot/18805/- 
-              6  18 mos       Female               White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18808/- 
-              7  18 mos       Female               White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18810/- 
-             11  18 mos       Female               Unknown or not reported   Hispanic or Latino        https://databrary.org/volume/444/slot/18815/- 
-             14  18 mos       Female               White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18819/- 
-              1  18 mos       Male                 Unknown or not reported   Unknown or not reported   https://databrary.org/volume/444/slot/18801/- 
-              2  18 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18803/- 
-              4  18 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18806/- 
-              9  18 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18813/- 
-             10  18 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18814/- 
-             16  18 mos       Male                 More than one             Hispanic or Latino        https://databrary.org/volume/444/slot/18822/- 
-             18  18 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18824/- 
-              5  24 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18807/- 
-             12  24 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18817/- 
-             17  24 mos       Male                 White                     Not Hispanic or Latino    https://databrary.org/volume/444/slot/18823/- 
-             19  24 mos       Male                 White                     Hispanic or Latino        https://databrary.org/volume/444/slot/18825/- 
+ participant.ID  group.name       participant.gender   participant.race            participant.ethnicity    url                                           
+---------------  ---------------  -------------------  --------------------------  -----------------------  ----------------------------------------------
+              8  13 mos Crawler   Female               White                       Hispanic or Latino       https://databrary.org/volume/563/slot/25105/- 
+              8  13 mos Crawler   Female               White                       Hispanic or Latino       https://databrary.org/volume/563/slot/25245/- 
+             13  13 mos Crawler   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25711/- 
+             13  13 mos Crawler   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25945/- 
+             18  13 mos Crawler   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/26890/- 
+             18  13 mos Crawler   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/27109/- 
+             38  13 mos Crawler   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/33008/- 
+             38  13 mos Crawler   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/34961/- 
+              9  13 mos Crawler   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25106/- 
+              9  13 mos Crawler   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25346/- 
+             10  13 mos Crawler   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25541/- 
+             10  13 mos Crawler   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25624/- 
+             20  13 mos Crawler   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/27457/- 
+             20  13 mos Crawler   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/30524/- 
+             52  13 mos Crawler   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39882/- 
+             52  13 mos Crawler   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39939/- 
+              5  13 mos Walkers   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24362/- 
+              5  13 mos Walkers   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24643/- 
+              4  13 mos Walkers   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24967/- 
+              4  13 mos Walkers   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24968/- 
+             28  13 mos Walkers   Female               More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/30242/- 
+             28  13 mos Walkers   Female               More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/30290/- 
+             42  13 mos Walkers   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/34870/- 
+             42  13 mos Walkers   Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/35063/- 
+             51  13 mos Walkers   Female               More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39646/- 
+             51  13 mos Walkers   Female               More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39890/- 
+              2  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24098/- 
+              2  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24099/- 
+             17  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/26343/- 
+             17  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/26344/- 
+             26  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/29971/- 
+             26  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/30240/- 
+             35  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/32807/- 
+             36  13 mos Walkers   Male                 More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/32827/- 
+             35  13 mos Walkers   Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/32866/- 
+             36  13 mos Walkers   Male                 More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/33000/- 
+             43  13 mos Walkers   Male                 Black or African American   Not Hispanic or Latino   https://databrary.org/volume/563/slot/35095/- 
+             43  13 mos Walkers   Male                 Black or African American   Not Hispanic or Latino   https://databrary.org/volume/563/slot/35172/- 
+             44  13 mos Walkers   Male                 Asian                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/36221/- 
+             50  13 mos Walkers   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39554/- 
+             50  13 mos Walkers   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39597/- 
+             55  13 mos Walkers   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/40817/- 
+             14  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25817/- 
+             14  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25818/- 
+             15  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25973/- 
+             15  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25974/- 
+             21  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/27920/- 
+             21  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/28159/- 
+             30  18 mos           Female               More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/30487/- 
+             30  18 mos           Female               More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/30511/- 
+             33  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/31895/- 
+             33  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/32142/- 
+             48  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/39246/- 
+             48  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/39375/- 
+             49  18 mos           Female               Black or African American   Not Hispanic or Latino   https://databrary.org/volume/563/slot/39474/- 
+             54  18 mos           Female               More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/40456/- 
+             54  18 mos           Female               More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/40518/- 
+             22  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/28959/- 
+             22  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/29302/- 
+             24  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/29464/- 
+             24  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/29543/- 
+             25  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/29895/- 
+             25  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/29906/- 
+             29  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/30453/- 
+             29  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/30494/- 
+             40  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/33459/- 
+             46  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/38271/- 
+             46  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/38306/- 
+             53  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/40267/- 
+             53  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/40428/- 
+              6  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24658/- 
+              6  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25655/- 
+             16  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/26340/- 
+             27  23 mos           Female               White                       Hispanic or Latino       https://databrary.org/volume/563/slot/30156/- 
+             16  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/30525/- 
+             31  23 mos           Female               More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/31726/- 
+             31  23 mos           Female               More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/31801/- 
+             37  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/32974/- 
+             37  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/32990/- 
+             41  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/34133/- 
+             41  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/34439/- 
+             45  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/36745/- 
+             45  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/36926/- 
+              3  23 mos           Male                 More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/24192/- 
+              7  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24861/- 
+              7  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24964/- 
+             11  23 mos           Male                 More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/25568/- 
+             12  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25627/- 
+             12  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25654/- 
+             11  23 mos           Male                 More than one               Not Hispanic or Latino   https://databrary.org/volume/563/slot/25661/- 
+             19  23 mos           Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/27064/- 
+             23  23 mos           Male                 Other                       Hispanic or Latino       https://databrary.org/volume/563/slot/29347/- 
+             23  23 mos           Male                 Other                       Hispanic or Latino       https://databrary.org/volume/563/slot/29595/- 
+             19  23 mos           Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/30526/- 
+             32  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/31749/- 
+             32  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/31805/- 
+             34  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/32454/- 
+             34  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/32463/- 
+             47  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/38934/- 
+             47  23 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/39478/- 
 
 ### Participant summary
 
@@ -143,12 +219,12 @@ age_gender_table %>%
   knitr::kable(.)
 ```
 
-               Female   Male
--------  ---  -------  -----
-           0        0      1
-12 mos     0        3      1
-18 mos     0        5      7
-24 mos     0        0      4
+                  Female   Male
+---------------  -------  -----
+13 mos Crawler         8      8
+13 mos Walkers        10     16
+18 mos                15     13
+23 mos                13     17
 
 ```r
 age_gender_table %>%
@@ -172,193 +248,294 @@ videos_filtered %>%
 
 
 
- vol_id   session_id  name                                            asset_id   duration  segment                 
--------  -----------  ---------------------------------------------  ---------  ---------  ------------------------
-    444        18801  S#1_1-hour.mov                                     84604    3904000  c(0, 3904000)           
-    444        18803  S#2_HouseMap.mov                                   84638     642496  c(0, 642496)            
-    444        18803  S#2_1-Hour.mov                                     84640    3724843  c(0, 3724843)           
-    444        18803  S#2_HouseMapNEW.mov                                84642    1250368  c(3725843, 4976211)     
-    444        18803  S#2_HouseMapNEW_Unedited                           84644    1278912  c(4977211, 6256123)     
-    444        18803  S#2_Questionnaires.mov                             84656    4344470  c(6257021, 10601491)    
-    444        18803  S#2_QuestionnairesNEW.mov                          84658    2672003  c(10602491, 13274494)   
-    444        18803  Bathroom1                                          86020       4630  c(13275494, 13280124)   
-    444        18803  DownstairsHall                                     86022       8150  c(13275494, 13283644)   
-    444        18803  FamilyRoom                                         86024       2624  c(13284535, 13287159)   
-    444        18803  1_2Bath                                            86026       6340  c(13284535, 13290875)   
-    444        18803  ParentBath                                         86028       3627  c(13291375, 13295002)   
-    444        18803  NannyBed                                           86030       8150  c(13291375, 13299525)   
-    444        18803  ParentBed                                          86032      18646  c(13300416, 13319062)   
-    444        18803  TargetCBed                                         86034       4139  c(13319967, 13324106)   
-    444        18803  ParentBedHall                                      86038       6144  c(13319967, 13326111)   
-    444        18803  Sibling Bed                                        86036       6144  c(13319967, 13326111)   
-    444        18803  UpstairsHall                                       86040       4139  c(13327006, 13331145)   
-    444        18805  S#3_Books&Toys                                     84662      43243  c(0, 43243)             
-    444        18805  S#3_1-Hour play.mov                                84668    3702336  c(0, 3702336)           
-    444        18805  S#3_ObjPlayTasks.mov                               84666     250411  c(44162, 294573)        
-    444        18805  S#3_HouseMap.mov                                   84664     521643  c(44162, 565805)        
-    444        18805  Measure2                                           86002       8150  c(3703336, 3711486)     
-    444        18805  Measure1                                           86004       8640  c(3712377, 3721017)     
-    444        18805  Measure4                                           86006       6144  c(3721918, 3728062)     
-    444        18805  Measure5                                           86008       8640  c(3728957, 3737597)     
-    444        18805  Measure6                                           86010      10646  c(3728957, 3739603)     
-    444        18805  Measure9                                           86016       3627  c(3740500, 3744127)     
-    444        18805  Measure7                                           86013       5632  c(3740500, 3746132)     
-    444        18805  Measure3                                           86014       6635  c(3740500, 3747135)     
-    444        18805  Measure8                                           86018       9643  c(3748039, 3757682)     
-    444        18806  S#4_1-Hour play.mov                                84672    3682304  c(60797000, 64479304)   
-    444        18806  S#4_Solitary Play.mov                              84678     286422  c(60917000, 61203422)   
-    444        18806  S#4_1-Hour_Intro&Experimenter.mov                  84670      35970  c(62051000, 62086970)   
-    444        18806  S#4_Solitary Play_Experimenter.mov                 84684    3039659  c(63364000, 66403659)   
-    444        18806  S#4_Solitary Play_Intro.mov                        84682      37972  c(63954000, 63991972)   
-    444        18806  S#4_Questionnaires.mov                             84680    2631062  c(67544000, 70175062)   
-    444        18806  S#4_HouseMap.mov                                   84674     919552  c(69039000, 69958552)   
-    444        18806  S#4_PhoneQuestionnaire.mov                         84676     279403  c(71237000, 71516403)   
-    444        18807  S#5_Phone Questionnaire.mov                        84697     237867  c(-12687000, -12449133) 
-    444        18807  homemap-last piece                                 84687      10134  c(0, 10134)             
-    444        18807  S#5_1-hour_Experimenter.mov                        84689     318443  c(11134, 329577)        
-    444        18807  S#5_1-Hour.mov                                     84691    2817451  c(11134, 2828585)       
-    444        18807  S#5_HomeMap.mov                                    84693    1172310  c(2829585, 4001895)     
-    444        18807  S#5_HomeMap_Experimenter.mov                       84695     458091  c(4002895, 4460986)     
-    444        18807  S#5_Solitary.mov                                   84699     280918  c(4461986, 4742904)     
-    444        18807  S#5_Questionnaires.mov                             84703    3507627  c(4461986, 7969613)     
-    444        18807  S#5_Solitary_Experimenter.mov                      84701     125760  c(4743799, 4869559)     
-    444        18807  S#5_Body Dimensions.mov                            86042       8150  c(7970613, 7978763)     
-    444        18808  S#6_Phone Questionnaire (Video).mov                85481     487330  c(-19806000, -19318670) 
-    444        18808  S#6_ Home Map Instructions.mov                     85121      29072  c(0, 29072)             
-    444        18808  S#6_ Questionnaires_NEW.mp4                        85167    3462059  c(30072, 3492131)       
-    444        18808  S#6_1-Hour Instructions.mov                        85193      29272  c(3493131, 3522403)     
-    444        18808  S#6_1-Hour Play.mov                                85195    3910528  c(3523403, 7433931)     
-    444        18808  S#6_Home Map.mp4                                   85199     788779  c(7434931, 8223710)     
-    444        18808  S#6_1-Hour Play_old                                85477    3910483  c(8224710, 12135193)    
-    444        18808  S#6_Scheduling                                     85479     380822  c(12136150, 12516972)   
-    444        18808  S#6_Solitary Play.mov                              85483     301378  c(12517863, 12819241)   
-    444        18808  S#6_BodyDimensions.mov                             86044       2624  c(12820241, 12822865)   
-    444        18810  S#7_1-Hour Play.mov                                85241    3608726  c(59212000, 62820726)   
-    444        18810  S#7_Solitary Play.mov                              85251     295936  c(59957000, 60252936)   
-    444        18810  S#7_Home Map.mov                                   85243     982102  c(60087000, 61069102)   
-    444        18810  S#7_Phone Questionnaire (Video).mov                85247     415849  c(60894000, 61309849)   
-    444        18810  S#7_1-Hour Instructions.mov                        85207      14749  c(61855000, 61869749)   
-    444        18810  S#7_1-Hour_Experimenter Video.mov                  85239     637760  c(62025000, 62662760)   
-    444        18810  S#7_Solitary Play Instructions.mov                 85249      17280  c(62205000, 62222280)   
-    444        18810  S#7_Solitary Play- Experimenter.mov                85253      54678  c(62341000, 62395678)   
-    444        18810  S#7_ Questionnaires.mov                            85213    2583702  c(62482000, 65065702)   
-    444        18810  S#7_Home Map-Experimenter Video.mov                85245    1021454  c(63130000, 64151454)   
-    444        18811  S#8_1-Hour.mov                                     85451    3639275  c(0, 3639275)           
-    444        18811  S#8_1-Hour (experimenter)                          85453    3738859  c(3640275, 7379134)     
-    444        18811  S#8_House Map.mov                                  85455     559190  c(7380043, 7939233)     
-    444        18811  S#8_1-Hour (experimenter).mp4                      85459    3771755  c(7380043, 11151798)    
-    444        18811  S#8_Phone Questionnaire.mov                        85457     690624  c(7940233, 8630857)     
-    444        18811  S#8_Solitary.mov                                   85461     287424  c(11152798, 11440222)   
-    444        18811  S#8_Questionnaires.mp4                             85465    2174464  c(11152798, 13327262)   
-    444        18811  S#8_Solitary (experimenter).mov                    85463     425046  c(11441222, 11866268)   
-    444        18811  S#6_BodyDimensions.mov                             86048       2624  c(13328262, 13330886)   
-    444        18813  S#09_House Map.mov                                 85467     594027  c(0, 594027)            
-    444        18813  S#09_1-Hour.mov                                    85471    3612736  c(0, 3612736)           
-    444        18813  S#09_Phone Questionnaire.mov                       85469     463595  c(595027, 1058622)      
-    444        18813  S#09_Solitary.mov                                  85473     344470  c(3613736, 3958206)     
-    444        18813  S#09_Questionnaires.mov                            85475    1601033  c(3613736, 5214769)     
-    444        18814  S#10_Solitary (Experimenter).MOV                   85641     396063  c(64730000, 65126063)   
-    444        18814  S#10_House Map (Experimenter).MOV                  85633     624153  c(67566000, 68190153)   
-    444        18814  S#10_1-Hour (Experimenter).mov                     85631    3822702  c(87711000, 91533702)   
-    444        18814  S#10_Solitary.mov                                  85637     301931  c(90173000, 90474931)   
-    444        18814  S#10_Questionnaires.mov                            85639    1921558  c(90309000, 92230558)   
-    444        18814  S#10_House Map.mov                                 85627     621248  c(90640000, 91261248)   
-    444        18814  S#10_1-hour.mov                                    85617    3780907  c(91421000, 95201907)   
-    444        18815  S#11_Phone Questionnaire.mov                       85653     474112  c(4478000, 4952112)     
-    444        18815  S#11_1-Hour (experimenter).mov                     85649    3757376  c(77018000, 80775376)   
-    444        18815  S#11_Solitary (experimenter).mov                   85661     499627  c(77092000, 77591627)   
-    444        18815  S#11_Questionnaires.mov                            85655    1819947  c(77149000, 78968947)   
-    444        18815  S#11_House Map (experimenter).mov                  85651     519659  c(77201000, 77720659)   
-    444        18815  S#11_1-Hour.mov                                    85643    3721344  c(78479000, 82200344)   
-    444        18815  S#11_Solitary.mov                                  85657     399019  c(78496000, 78895019)   
-    444        18815  S#11_House Map.mov                                 85647     507648  c(78521000, 79028648)   
-    444        18817  S#12_1-Hour.mov                                    85669    3492630  c(0, 3492630)           
-    444        18817  S#12_HomeMap_Experimenter.mov                      85673     654294  c(3493630, 4147924)     
-    444        18817  S#12_1-hour_Experimenter.mov                       85675    3531158  c(3493630, 7024788)     
-    444        18817  S#12_Mother-Child Play.mov                         85679     189824  c(7025788, 7215612)     
-    444        18817  S#12_House Map.mov                                 85677     588224  c(7025788, 7614012)     
-    444        18817  S#12_Phone Questionnaire.mov                       85683     385024  c(7615012, 8000036)     
-    444        18817  S#12_Solitary Play.mov                             85689     124246  c(8001036, 8125282)     
-    444        18817  S#12_Questionnaires.mov                            85695    3325462  c(8001036, 11326498)    
-    444        18817  S#12_Solitary&DyadPlay_Experimenter.mov            85691     487126  c(8126282, 8613408)     
-    444        18818  S#13_Phone Questionnaire.mov                       85721     381504  c(-2616000, -2234496)   
-    444        18818  S#13_Solitary Play.mov                             85723     129771  c(101800000, 101929771) 
-    444        18818  S#13_Dyadic Play.mov                               85711     199830  c(101846000, 102045830) 
-    444        18818  S#13_Questionnaires.mov                            85725    2181113  c(102110000, 104291113) 
-    444        18818  S#13_House Map.mov                                 85715     541163  c(102237000, 102778163) 
-    444        18818  S#13_1-Hour.mov                                    85705    4222358  c(104244000, 108466358) 
-    444        18818  S#13_House Map (Experimenter).mov                  85719     544683  c(107682000, 108226683) 
-    444        18818  S#13_Solitary&Dyadic Play (Experimenter).mov       85727     504640  c(107776000, 108280640) 
-    444        18818  S#13_1-Hour (Experimenter).mov                     85717    4260395  c(108884000, 113144395) 
-    444        18819  S#14_1-Hour.mov                                    85730    3977110  c(0, 3977110)           
-    444        18819  S#14_Dyadic Play.mov                               85746     211840  c(3978110, 4189950)     
-    444        18819  S#14_1-Hour (Experimenter).mp4                     85750    4116246  c(3978110, 8094356)     
-    444        18819  S#14_House Map.mov                                 85748     648278  c(4190950, 4839228)     
-    444        18819  S#14_House Map (Experimenter).mp4                  85752     663787  c(8095255, 8759042)     
-    444        18819  S#14_Phone Questionnaire.mov                       85754     510444  c(16918000, 17428444)   
-    444        18819  S#14_Solitary & Dyadic (Experimenter).mp4          85756     331968  c(17429444, 17761412)   
-    444        18819  S#14_Questionnaires.mp4                            85760    3740075  c(17429444, 21169519)   
-    444        18819  S#14_Solitary Play.mp4                             85758     128022  c(17762308, 17890330)   
-    444        18821  S#15_1-Hour (Experimenter).mov                     85770    3677846  c(0, 3677846)           
-    444        18821  S#15_House Map (Experimenter).mov                  85774     425558  c(3678846, 4104404)     
-    444        18821  S#15_1-Hour.mp4                                    85778    3605227  c(3678846, 7284073)     
-    444        18821  S#15_House Map.mp4                                 85776     416043  c(4105404, 4521447)     
-    444        18821  S#15_Phone Questionnaire.mov                       85780     466603  c(7285073, 7751676)     
-    444        18821  S#15_Shoes                                         85782       4096  c(7752676, 7756772)     
-    444        18821  S#15_Questionnaires.mp4                            85788    3169707  c(7752676, 10922383)    
-    444        18821  S#15_Shoe Video.mov                                85784      16640  c(7757680, 7774320)     
-    444        18821  S#15_Solitary&DyadicPlay (Experimenter).mp4        85786     472000  c(7775320, 8247320)     
-    444        18821  S#15_Solitary&DyadicPlay.mp4                       85790     392534  c(8248320, 8640854)     
-    444        18822  S#16_1-Hour.mov                                    85792    3612736  c(0, 3612736)           
-    444        18822  S#16_Dyadic Play.mov                               85794     195328  c(3613736, 3809064)     
-    444        18822  S#16_1-Hour (Experimenter).mov                     85798    3670806  c(3613736, 7284542)     
-    444        18822  S#16_Dyadic Play (Experimenter).mov                85796     219350  c(3810064, 4029414)     
-    444        18822  S#16_House Map.mov                                 85800     602240  c(4030414, 4632654)     
-    444        18822  S#16_House Map (Experimenter).mov                  85802     615744  c(7285542, 7901286)     
-    444        18822  S#16_Solitary Play.mov                             85804     124758  c(7902286, 8027044)     
-    444        18822  S#16_Questionnaires.mp4                            85808    1762198  c(7902286, 9664484)     
-    444        18822  S#16_Solitary Play (Experimenter).mov              85806     164288  c(8028044, 8192332)     
-    444        18823  S#17_1-Hour.mov                                    85812    3606742  c(0, 3606742)           
-    444        18823  S#17_Dyadic Play.mov                               85814     204331  c(3607742, 3812073)     
-    444        18823  S#17_1-Hour (Experimenter)                         85816    3672768  c(3607742, 7280510)     
-    444        18823  S#17_House Map (Experimenter).mov                  85818    1172800  c(7281411, 8454211)     
-    444        18823  S#17_House Map_1.mov                               85820     782422  c(8455211, 9237633)     
-    444        18823  S#17_House Map_2.mov                               85822     356480  c(9238633, 9595113)     
-    444        18823  S#17_Solitary Play.mov                             85824     136768  c(9596113, 9732881)     
-    444        18823  S#17_Questionnaires.mov                            85826    2222358  c(9596113, 11818471)    
-    444        18823  S#17_Solitary&DyadicPlay (Experimenter).mov        85828     496619  c(9733881, 10230500)    
-    444        18824  S#18_1-Hour.mov                                    85830    3879360  c(0, 3879360)           
-    444        18824  S#18_Dyadic Play.mov                               85832     196822  c(3880360, 4077182)     
-    444        18824  S#18_1-Hour (Experimenter).mp4                     85837    4129750  c(3880360, 8010110)     
-    444        18824  S#18_House Map.mov                                 85834     603243  c(4078182, 4681425)     
-    444        18824  S#18_House Map (Experimenter).mov                  85839     610240  c(4682425, 5292665)     
-    444        18824  S#18_Phone Questionnaire.mov                       85841     409046  c(8011110, 8420156)     
-    444        18824  S#18_Solitary Play.mov                             85843     137259  c(8421156, 8558415)     
-    444        18824  S#18_Questionnaires.mov                            85845    1538539  c(8421156, 9959695)     
-    444        18824  S#18_Solitary&Dyadic Play (Experimenter).mov       85847     476096  c(9960695, 10436791)    
-    444        18825  S#19_House Map.mov                                 85853     523136  c(69908000, 70431136)   
-    444        18825  S#19_Dyadic Play.mov                               85851     208267  c(70027000, 70235267)   
-    444        18825  S#19_Solitary Play.mov                             85863     129259  c(70041000, 70170259)   
-    444        18825  S#19_1-Hour.mov                                    85849    3668800  c(78777000, 82445800)   
-    444        18825  S#19_Questionnaires.mp4                            85867    3012864  c(82179000, 85191864)   
-    444        18825  S#19_Solitary&Dyadic Play (Experimenter).mov       85865     461590  c(85767000, 86228590)   
-    444        18825  S#19_1-Hour (Experimenter).mov                     85855    3715840  c(86009000, 89724840)   
-    444        18825  S#19_House Map (Experimenter).mov                  85857     506646  c(86069000, 86575646)   
-    444        18825  S#19_Phone Questionnaire.mov                       85861     432064  c(89725840, 90157904)   
-    444        18826  S#20_House Map.mov                                 85885     769408  c(63820000, 64589408)   
-    444        18826  S#20_Questionnaires.mov                            85895    2541163  c(64026000, 66567163)   
-    444        18826  S#20_1-Hour.mov                                    85875    3788907  c(64129000, 67917907)   
-    444        18826  S#20_Solitary Play.mov                             85893     136278  c(64151000, 64287278)   
-    444        18826  S#20_Dyadic Play.mov                               85881     194816  c(64171000, 64365816)   
-    444        18826  S#20_1-Hour (Experimenter).mov                     85883    3830955  c(64517000, 68347955)   
-    444        18826  S#20_House Map (Experimenter).mov                  85887     595222  c(64538000, 65133222)   
-    444        18826  S#20_Solitary&Dyadic Play (Experimenter).mov       85897     488128  c(64582000, 65070128)   
-    444        18826  S#20_Phone Questionnaire.mov                       85891     440064  c(68348955, 68789019)   
-    444        27087  video-as-data                                     119877     372193  c(0, 372193)            
-    444        35609  PlayPilotS#021_1-Hour                             167792    3653782  c(0, 3653782)           
-    444        35609  PlayPilotS#021 House Map                          167794     646272  c(3654683, 4300955)     
-    444        35609  PlayPilotS#021 Dyadic Play                        167796     307947  c(4301861, 4609808)     
-    444        35609  PlayPilotS#021 Questionnaires                     167798    3549184  c(4610701, 8159885)     
+ vol_id   session_id  name                                                           asset_id   duration  segment               
+-------  -----------  ------------------------------------------------------------  ---------  ---------  ----------------------
+    563        24098  LEGO_S#002_Visit1 Housemap.mov                                   139947     625216  c(0, 625216)          
+    563        24098  LEGO_S#002_Visit1 Intake, locomotor & MCDI (first part).mov      139949    1451115  c(626216, 2077331)    
+    563        24098  LEGO_S#002_Visit1 MCDI (second part).mov                         139951    2879979  c(2078331, 4958310)   
+    563        24098  LEGO_S#002_Visit1 2-Hour.mov                                     139959    7201128  c(4959310, 12160438)  
+    563        24099  LEGO_S#002_Visit2 2-Hour                                         106322    7119190  c(0, 7119190)         
+    563        24099  LEGO_S#002_Visit2 Questionnaire 1                                139953     757398  c(7120190, 7877588)   
+    563        24099  LEGO_S#002_Visit2 Questionnaire 2                                139955     746368  c(7878479, 8624847)   
+    563        24192  LEGO_S#003_Visit1 2-hour (part)                                  106314    1502123  c(0, 1502123)         
+    563        24192  LEGO_S#003_Visit1 Consent                                        106316     287915  c(1503033, 1790948)   
+    563        24192  LEGO_S#003_Visit1 Housemap                                       106318     480640  c(1791853, 2272493)   
+    563        24192  LEGO_S#003_Visit1 Questionnaires LOC - MCDI                      106320    2742379  c(2273406, 5015785)   
+    563        24362  LEGO_S#005_Visit1 2-Hour                                         106891    7205824  c(0, 7205824)         
+    563        24362  LEGO_S#005_Visit1 Questionnaires                                 106893    3047702  c(7206731, 10254433)  
+    563        24643  S#005(2) 2-Hour                                                  108181    6867499  c(0, 6867499)         
+    563        24643  LEGO_S#005_Visit2 Housemap                                       108183     423552  c(6868393, 7291945)   
+    563        24643  LEGO_S#005_Visit2 Questionnaires                                 108185    1446080  c(7292849, 8738929)   
+    563        24658  LEGO_S#006_Visit1 Questionnaires                                 109041    1968598  c(0, 1968598)         
+    563        24658  LEGO_S#006_Visit1 Housemap.mov                                   139967     401024  c(1969598, 2370622)   
+    563        24658  LEGO_S#006_Visit1 2-Hour.mov                                     139979    7291478  c(2371622, 9663100)   
+    563        24658  LEGO_S#006_Visit1 Experimenter view.mov                          139983    5155776  c(9664100, 14819876)  
+    563        24861  LEGO_S#007_Visit1 Introduction                                   110391     122262  c(2588618, 2710880)   
+    563        24861  LEGO_S#007_Visit1 Questionnaires                                 110429    2690112  c(2711880, 5401992)   
+    563        24861  LEGO_S#007_Visit1 2-hour                                         110431    7203862  c(5402900, 12606762)  
+    563        24964  LEGO_S#007_Visit2 2-hour                                         111026    7201628  c(0, 7201628)         
+    563        24964  LEGO_S#007_Visit2 Housemap                                       139975     430571  c(7202628, 7633199)   
+    563        24964  LEGO_S#007_Visit2 Questionnaires                                 139977    1041195  c(7634124, 8675319)   
+    563        24967  LEGO_S#004_Visit1 2-Hour                                         111036    6201920  c(0, 6201920)         
+    563        24967  LEGO_S#004_Visit1 Housemap                                       139963     384640  c(6202920, 6587560)   
+    563        24967  LEGO_S#004_Visit1 Questionnaires                                 139965    2022656  c(6588365, 8611021)   
+    563        24967  LEGO_S#004_Visit1 Experimenter Housemap                          139969     397056  c(8611918, 9008974)   
+    563        24967  LEGO_S#004_Visit1 Experimenter 2-hour                            139971    6189888  c(8611918, 14801806)  
+    563        24968  S#004(2) 2-Hour                                                  111038    4563602  c(0, 4563602)         
+    563        24968  LEGO_S#004_Visit2 Questionnaire                                  111040    1205803  c(4564559, 5770362)   
+    563        25105  LEGO_S#008_Visit1 2-hour                                         112762    6863595  c(0, 6863595)         
+    563        25105  LEGO_S#008_Visit1 Questionnaires                                 112766    2786923  c(6864423, 9651346)   
+    563        25106  LEGO_S#009_Visit1 Housemap                                       111405     301440  c(0, 301440)          
+    563        25106  LEGO_S#009_Visit1 2-Hour                                         111407    7203328  c(0, 7203328)         
+    563        25106  LEGO_S#009_Visit1 Questionnaires                                 111409    2104235  c(7204229, 9308464)   
+    563        25245  LEGO_S#008_Visit2 2-hour                                         112002    7210880  c(0, 7210880)         
+    563        25245  LEGO_S#008_Visit2 Databrary                                      112006     148779  c(7211670, 7360449)   
+    563        25245  LEGO_S#008_Visit2 Housemap                                       112008     557078  c(7361351, 7918429)   
+    563        25346  LEGO_S#009_Visit2 2-Hour                                         112675    5911531  c(0, 5911531)         
+    563        25346  LEGO_S#009_Visit2 Questionnaires                                 112677     822443  c(5912438, 6734881)   
+    563        25541  LEGO_S#010_Visit1 2-Hour                                         113783    6290006  c(0, 6290006)         
+    563        25541  LEGO_S#010_Visit1 Questionnaires                                 113785    2034155  c(6290883, 8325038)   
+    563        25568  LEGO_S#011_Visit1 2-Hour                                         113963    7199638  c(0, 7199638)         
+    563        25568  LEGO_S#011_Visit1 Questionnaires                                 113965    4666795  c(7200531, 11867326)  
+    563        25624  LEGO_S#010_Visit2 Questionnaires                                 114657    1044758  c(0, 1044758)         
+    563        25624  LEGO_S#010_Visit2 Housemap                                       114659     402027  c(1045610, 1447637)   
+    563        25624  LEGO_S#010_Visit2 2-Hour                                         114661    7201323  c(1448544, 8649867)   
+    563        25627  LEGO_S#012_Visit1 Housemap                                       114701     301931  c(0, 301931)          
+    563        25627  LEGO_S#012_Visit1 Questionnaires                                 114703    1951083  c(302834, 2253917)    
+    563        25627  LEGO_S#012_Visit1 2-Hour                                         114709    7202326  c(2254816, 9457142)   
+    563        25654  LEGO_S#012_Visit2 Questionnaires                                 114786     894016  c(0, 894016)          
+    563        25654  LEGO_S#012_Visit2 2-Hour                                         116051    7361054  c(895016, 8256070)    
+    563        25655  LEGO_S#006_Visit2 Questionnaires.mov                             139987    1968598  c(0, 1968598)         
+    563        25661  LEGO_S#011_Visit2 2-Hour                                         114846    7201835  c(0, 7201835)         
+    563        25661  LEGO_S#011_Visit2 Housemap                                       114848     909846  c(7202727, 8112573)   
+    563        25661  LEGO_S#011_Visit2 Questionnaires                                 116634    1464192  c(8113573, 9577765)   
+    563        25711  LEGO_S#013_Visit1 Databrary                                      115106     218347  c(7205261, 7423608)   
+    563        25711  LEGO_S#013_Visit1 Questionnaires                                 115108    2770902  c(7424512, 10195414)  
+    563        25711  LEGO_S#013_Visit1 2-Hour                                         115112    7203414  c(10196313, 17399727) 
+    563        25817  LEGO_S#014_Visit1 Housemap                                       115359     397035  c(0, 397035)          
+    563        25817  LEGO_S#014_Visit1 Questionnaires                                 115363    3048768  c(397929, 3446697)    
+    563        25817  LEGO_S#014_Visit1 2-Hour                                         115404    7241963  c(3447574, 10689537)  
+    563        25818  LEGO_S#014_Visit2 Questionnaires                                 115394    1838464  c(0, 1838464)         
+    563        25818  LEGO_S#014_Visit2 2-Hour                                         115418    6947606  c(1839464, 8787070)   
+    563        25945  LEGO_S#013_Visit2 Housemap                                       115654     405526  c(0, 405526)          
+    563        25945  LEGO_S#013_Visit2 Questionnaires                                 115656      60694  c(406438, 467132)     
+    563        25945  LEGO_S#013_Visit2 2-Hour                                         115658    7201835  c(468132, 7669967)    
+    563        25973  LEGO_S#015_Visit1 2-Hour.mov                                     115923    7203819  c(0, 7203819)         
+    563        25973  LEGO_S#015_Visit1 Housemap                                       115925     459584  c(7204729, 7664313)   
+    563        25973  LEGO_S#015_Visit1 Questionnaires                                 115927    2200832  c(7665221, 9866053)   
+    563        25974  LEGO_S#015_Visit2 2-Hour                                         115929    7202816  c(0, 7202816)         
+    563        25974  LEGO_S#015_Visit2 Questionnaires                                 115931    1402027  c(7203728, 8605755)   
+    563        26340  LEGO_S#016_Visit1 2-Hour                                         117096    7108224  c(0, 7108224)         
+    563        26340  LEGO_S#016_Visit1 Housemap                                       117098     302934  c(7109134, 7412068)   
+    563        26340  LEGO_S#016_Visit1 Intro and Consent                              117100     203328  c(7412870, 7616198)   
+    563        26340  LEGO_S#016_Visit1 Questionnaires                                 117102    2713344  c(7617198, 10330542)  
+    563        26343  LEGO_S#017_Visit1 2-Hour                                         118347    7201835  c(0, 7201835)         
+    563        26343  LEGO_S#017_Visit1 Questionnaires                                 118355    1865494  c(7202727, 9068221)   
+    563        26344  LEGO_S#017_Visit2 Questionnaires                                 118343     922048  c(7867923, 8789971)   
+    563        26344  LEGO_S#017_Visit2 Housemap                                       140001     732950  c(8790971, 9523921)   
+    563        26344  LEGO_S#017_Visit1 2-Hour.mov                                     140015    7207830  c(9524769, 16732599)  
+    563        26890  LEGO_S#018_Visit1 2-Hour.mov                                     120738    7126251  c(0, 7126251)         
+    563        26890  LEGO_S#018_Visit1 Questionnaires.mov                             121241     295510  c(7127251, 7422761)   
+    563        27064  LEGO_S#019_Visit1 2-Hour                                         119817    7201323  c(0, 7201323)         
+    563        27064  LEGO_S#019_Visit1 Housemap                                       119819     496128  c(7202227, 7698355)   
+    563        27064  LEGO_S#019_Visit1 Questionnaires                                 119829    1256384  c(7699255, 8955639)   
+    563        27109  LEGO_S#018_Visit2 Questionnaires                                 120038     662294  c(0, 662294)          
+    563        27109  LEGO_S#018_Visit2 2-Hour                                         120046    7201323  c(663194, 7864517)    
+    563        27109  LEGO_S#018_Visit2 Databrary                                      120151     340480  c(7865421, 8205901)   
+    563        27109  LEGO_S#018_Visit2 Housemap                                       120528     365504  c(8206794, 8572298)   
+    563        27457  LEGO_S#020_Visit1 2-Hour                                         122063    7201323  c(0, 7201323)         
+    563        27457  LEGO_S#020_Visit1 Questionnaires                                 122093    2567702  c(7202227, 9769929)   
+    563        27920  LEGO_S#021_Visit1 Questionnaires II                              126761    1935062  c(0, 1935062)         
+    563        27920  LEGO_S#021_Visit1 Questionnaires I- Locomotor                    126767     325952  c(1935966, 2261918)   
+    563        27920  LEGO_S#021_Visit1 2-Hour                                         126775    7216832  c(2262824, 9479656)   
+    563        28159  LEGO_S#021_Visit2 2-Hour                                         127624    7211840  c(0, 7211840)         
+    563        28159  LEGO_S#021_Visit2 Housemap                                       127626     574208  c(7212737, 7786945)   
+    563        28159  LEGO_S#021_Visit2 Questionnaires 2 & Databrary                   127628     865003  c(7787843, 8652846)   
+    563        28159  LEGO_S#021_Visit2 Questionnaires                                 127631    1171307  c(8653740, 9825047)   
+    563        28959  LEGO_S#022_Visit1 2-Hour                                         130244    7201835  c(0, 7201835)         
+    563        28959  LEGO_S#022_Visit1 Questionnaires                                 130246    2803926  c(7202727, 10006653)  
+    563        28959  LEGO_S#022_Visit1 Housemap                                       139993     537750  c(10007653, 10545403) 
+    563        29302  LEGO_S#022_Visit2 2-Hour                                         132592    7207830  c(0, 7207830)         
+    563        29302  LEGO_S#022_Visit2 Questionnaires                                 132594    2646784  c(7208733, 9855517)   
+    563        29347  LEGO_S#023_Visit1 2-Hour                                         132915    7208342  c(0, 7208342)         
+    563        29347  LEGO_S#023_Visit1 Questionnaires                                 132917    2178816  c(7209234, 9388050)   
+    563        29464  LEGO_S#024_Visit1 2-Hour                                         133781    7211840  c(0, 7211840)         
+    563        29464  LEGO_S#024_Visit1 Questionnaires                                 133791    1793920  c(7212737, 9006657)   
+    563        29543  LEGO_S#024_Visit2 Questionnaires                                 139985    1047680  c(0, 1047680)         
+    563        29543  LEGO_S#024_Visit2 Housemap                                       139989     430571  c(1048579, 1479150)   
+    563        29543  LEGO_S#024_Visit2 Questionnaires.mov                             139991    1047680  c(1480042, 2527722)   
+    563        29595  LEGO_S#023_Visit2 2-Hour                                         134600    6210326  c(0, 6210326)         
+    563        29595  LEGO_S#023_Visit2 Housemap                                       134606     491115  c(6211237, 6702352)   
+    563        29595  LEGO_S#023_Visit2 Questionnaires                                 134612    1106731  c(6703260, 7809991)   
+    563        29895  LEGO_S#025_Visit1 2-Hour                                         136644    7204822  c(0, 7204822)         
+    563        29895  LEGO_S#025_Visit1 Questionnaires                                 136646    1785408  c(7205730, 8991138)   
+    563        29906  LEGO_S#025_Visit2 Questionnaires                                 136673     998635  c(0, 998635)          
+    563        29906  LEGO_S#025_Visit2 2-Hour                                         136677    7312960  c(999530, 8312490)    
+    563        29906  LEGO_S#025_Visit2 Housemap                                       136679     466603  c(8313435, 8780038)   
+    563        29906  LEGO_S#025_Visit2 Decibel meter location                         136681       7147  c(8780934, 8788081)   
+    563        29971  LEGO_S#026_Visit1 2-Hour                                         137012    7205824  c(0, 7205824)         
+    563        29971  LEGO_S#026_Visit1 Housemap                                       137014     431552  c(7206731, 7638283)   
+    563        29971  LEGO_S#026_Visit1 Questionnaires                                 137016    1868502  c(7639195, 9507697)   
+    563        30156  LEGO_S#027_Visit1 2-Hour                                         137406    6884011  c(0, 6884011)         
+    563        30156  LEGO_S#027_Visit1 Questionnaires                                 139981    2565782  c(6885011, 9450793)   
+    563        30240  LEGO_S#026_Visit2 2-Hour                                         137935    7035158  c(0, 7035158)         
+    563        30240  LEGO_S#026_Visit2 Questionnaires                                 137937    1174806  c(7036061, 8210867)   
+    563        30240  LEGO_S#026_Visit2 Solitary Play                                  137939     130752  c(8211767, 8342519)   
+    563        30242  LEGO_S#028_Visit1 2-Hour                                         137563    7204331  c(0, 7204331)         
+    563        30242  LEGO_S#028_Visit1 Questionnaires                                 137565    2221355  c(7205230, 9426585)   
+    563        30290  LEGO_S#028_Visit2 Dyadic Play                                    138042     361984  c(0, 361984)          
+    563        30290  LEGO_S#028_Visit2 Solitary Play                                  138044     125760  c(362894, 488654)     
+    563        30290  LEGO_S#028_Visit2 Housemap                                       138050     592214  c(7716835, 8309049)   
+    563        30290  LEGO_S#028_Visit2 Questionnaires                                 138052    1220352  c(8309959, 9530311)   
+    563        30290  LEGO_S#028_Visit2 2-Hour                                         139973    7225430  c(9531311, 16756741)  
+    563        30453  LEGO_S#029_Visit1 2-Hour                                         138945    7201323  c(0, 7201323)         
+    563        30453  LEGO_S#029_Visit1 Questionnaires                                 138947    1809942  c(7202227, 9012169)   
+    563        30453  LEGO_S#029_Visit1 Tablet Location                                139961      95723  c(9013169, 9108892)   
+    563        30487  LEGO_S#030_Visit1 2-Hour                                         139631    7256982  c(0, 7256982)         
+    563        30487  LEGO_S#030_Visit1 Questionnaires                                 139633    2186816  c(7257816, 9444632)   
+    563        30487  LEGO_S#030_Visit1 Tablet location                                139957       7638  c(9445632, 9453270)   
+    563        30494  LEGO_S#029_Visit2 Databrary                                      139659     146283  c(0, 146283)          
+    563        30494  LEGO_S#029_Visit2 Housemap                                       139661     511638  c(147179, 658817)     
+    563        30494  LEGO_S#029_Visit2 Tablet location                                139669       5142  c(659723, 664865)     
+    563        30494  LEGO_S#029_Visit2 Solitary Play                                  139673     240875  c(659723, 900598)     
+    563        30494  LEGO_S#029_Visit2 Questionnaires                                 139671    1106731  c(659723, 1766454)    
+    563        30494  LEGO_S#029_Visit2 2-Hour                                         139677    7210838  c(1767361, 8978199)   
+    563        30511  LEGO_S#030_Visit2 Housemap                                       139855     597824  c(0, 597824)          
+    563        30511  LEGO_S#030_Visit2 Questionnaires                                 139857    1270891  c(598663, 1869554)    
+    563        30511  LEGO_S#030_Visit2 Solitary Play                                  139859     241878  c(1870465, 2112343)   
+    563        30524  LEGO_S#020_Visit2 Housemap.mov                                   140005     461590  c(0, 461590)          
+    563        30524  LEGO_S#020_Visit2 2-Hour.mov                                     140009    7203328  c(0, 7203328)         
+    563        30524  LEGO_S#020_Visit2 Questionnaires.mov                             140007     957078  c(462590, 1419668)    
+    563        30525  LEGO_S#016_Visit2 Databrary                                      139995     122262  c(0, 122262)          
+    563        30525  LEGO_S#016_Visit2 Questionnaires.mov                             139997     784491  c(123155, 907646)     
+    563        30525  LEGO_S#016_Visit2 2-Hour.mov                                     140013    7202326  c(908646, 8110972)    
+    563        30526  LEGO_S#019_Visit2 2-Hour.mov                                     140003    1177302  c(0, 1177302)         
+    563        30526  LEGO_S#019_Visit2 Questionnaires.mov                             140011    1052672  c(1178302, 2230974)   
+    563        31726  LEGO_S#031_Visit1 Housemap                                       146628     645355  c(0, 645355)          
+    563        31726  LEGO_S#031_Visit1 Quesitonnaires                                 146630    3843478  c(646244, 4489722)    
+    563        31726  LEGO_S#031_Visit1 2-Hour                                         146632    7318443  c(4490616, 11809059)  
+    563        31749  LEGO_S#032_Visit1 Housemap                                       146778     509142  c(0, 509142)          
+    563        31749  LEGO_S#032_Visit1 Questionnaires                                 146780    1801942  c(510041, 2311983)    
+    563        31749  LEGO_S#032_Visit1 2-Hour                                         146782    7233856  c(2312874, 9546730)   
+    563        31801  LEGO_S#031_Visit2 2-Hour                                         147013    7221355  c(0, 7221355)         
+    563        31801  LEGO_S#031_Visit2 Questionnaires                                 147015    2353472  c(7222247, 9575719)   
+    563        31805  LEGO_S#032_Visit2 2-Hour                                         147111    7218347  c(0, 7218347)         
+    563        31805  LEGO_S#032_Visit2 Databrary                                      147113     208832  c(7219244, 7428076)   
+    563        31805  LEGO_S#032_Visit2 Dyadic Play                                    147115     346475  c(7428985, 7775460)   
+    563        31805  LEGO_S#032_Visit2 Solitary Play                                  147117     300928  c(7776364, 8077292)   
+    563        31895  LEGO_S#033_Visit1 Housemap                                       147497     741867  c(0, 741867)          
+    563        31895  LEGO_S#033_Visit1 Questionnaires                                 147499    1319446  c(742774, 2062220)    
+    563        31895  LEGO_S#033_Visit1  2-Hour                                        147507    7297430  c(2063125, 9360555)   
+    563        32142  LEGO_S#032_Visit2 Outfit                                         148318      20160  c(0, 20160)           
+    563        32142  LEGO_S#033_Visit2  2-Hour                                        148320    7281579  c(21160, 7302739)     
+    563        32142  LEGO_S#033_Visit2 Databrary                                      148322     206827  c(7303567, 7510394)   
+    563        32142  LEGO_S#033_Visit2 Questionnaires                                 148324     246379  c(7511306, 7757685)   
+    563        32454  LEGO_S#034_Visit1 Housemap                                       149348     492630  c(0, 492630)          
+    563        32454  LEGO_S#034_Visit1  2-Hour                                        149351    7241366  c(0, 7241366)         
+    563        32454  LEGO_S#034_Visit1 Questionnaires                                 149384    2970091  c(7242267, 10212358)  
+    563        32463  LEGO_S#034_Visit2 Dyadic Play                                    149516     330966  c(0, 330966)          
+    563        32463  LEGO_S#034_Visit2 Questionnaires                                 149518     925859  c(331863, 1257722)    
+    563        32463  LEGO_S#034_Visit2 Solitary Play                                  149520     336000  c(1258344, 1594344)   
+    563        32463  LEGO_S#034_Visit2 2-Hour                                         149594    7377024  c(1595344, 8972368)   
+    563        32807  LEGO_S#035_Visit1 Databrary                                      151194     136768  c(0, 136768)          
+    563        32807  LEGO_S#035_Visit1 Questionnaires                                 151200    2692822  c(137768, 2830590)    
+    563        32807  LEGO_S#035_Visit1 2-Hour                                         151206    6640234  c(2831491, 9471725)   
+    563        32827  LEGO_S#036_Visit 1 2-Hour                                        151323    7158315  c(0, 7158315)         
+    563        32827  LEGO_S#036_Visit1 Questionnaires                                 151966    3668288  c(7159315, 10827603)  
+    563        32866  LEGO_S#035_Visit2 House map                                      151673     563776  c(0, 563776)          
+    563        32866  LEGO_S#035_Visit2 2-Hour                                         151675    7256960  c(0, 7256960)         
+    563        32866  LEGO_S#035_Visit2 Questionnaires                                 151677     733867  c(7257849, 7991716)   
+    563        32974  LEGO_S#037_Visit1 Questionnaires                                 151916    1808427  c(0, 1808427)         
+    563        32974  LEGO_S#037_Visit1 2-Hours                                        151918    7211840  c(1809339, 9021179)   
+    563        32990  LEGO_S#037_Visit2 Dyadic Play                                    151956     302443  c(0, 302443)          
+    563        32990  LEGO_S#037_Visit2 Outfit                                         151958      11136  c(303335, 314471)     
+    563        32990  LEGO_S#037_Visit2 House map                                      151960     485611  c(303335, 788946)     
+    563        32990  LEGO_S#037_Visit2 Questionnaires                                 151962    3512150  c(789853, 4302003)    
+    563        32990  LEGO_S#037_Visit2 2-Hour                                         151964    7215830  c(4302894, 11518724)  
+    563        33000  LEGO_S#036_Visit2 DyadicPlay                                     151980     242880  c(0, 242880)          
+    563        33000  LEGO_S#036_Visit2 Outfit                                         151982      21142  c(243775, 264917)     
+    563        33000  LEGO_S#036_Visit2 Questionnaires                                 151984    1051734  c(265829, 1317563)    
+    563        33000  LEGO_S#036_Visit2 SolitaryPlay                                   151986     268502  c(1318412, 1586914)   
+    563        33000  LEGO_S#036_Visit2 2-hour                                         151988    7255062  c(1587746, 8842808)   
+    563        33008  LEGO_S#038_Visit1 2-Hour                                         152006    7210838  c(0, 7210838)         
+    563        33008  LEGO_S#038_Visit1 Questionnaires                                 152017    2413035  c(7211736, 9624771)   
+    563        33459  LEGO_S#040_Visit1 Housemap                                       154689     505643  c(0, 505643)          
+    563        33459  LEGO_S#040_Visit1 2-Hour                                         154691    7213334  c(0, 7213334)         
+    563        33459  LEGO_S#040_Visit1 Questionnaires                                 154693    1943062  c(7214239, 9157301)   
+    563        34133  LEGO_S#041_Visit1 Housemap                                       159199     714838  c(0, 714838)          
+    563        34133  LEGO_S#041_Visit1 2-Hour                                         159201    7265899  c(0, 7265899)         
+    563        34133  LEGO_S#041_Visit1 Questionnaires1                                159203    2116246  c(7266791, 9383037)   
+    563        34133  LEGO_S#041_Visit1 Questionnaires2                                159205    1356992  c(9383938, 10740930)  
+    563        34439  LEGO_S#041_Visit2 Questionnaires                                 160292    1010134  c(0, 1010134)         
+    563        34439  LEGO_S#041 2-Hour                                                160294    7221355  c(0, 7221355)         
+    563        34870  LEGO_S#042_Visit1 Questionnaires                                 161566    1899520  c(413945, 2313465)    
+    563        34870  LEGO_S#042_Visit1 2-Hour                                         161572    7221355  c(2314375, 9535730)   
+    563        34870  LEGO_S#042_Visit1 Housemap                                       162143     479680  c(9536730, 10016410)  
+    563        34961  LEGO_S#038_Visit2 Shoes                                          161816      27648  c(0, 27648)           
+    563        34961  LEGO_S#038_Visit2 Housemap                                       161818     397611  c(28560, 426171)      
+    563        34961  LEGO_S#038_Visit2 Questionnaires                                 161822    1340480  c(427023, 1767503)    
+    563        34961  LEGO_S#038_Visit2 2-hour                                         161824    7231360  c(1768395, 8999755)   
+    563        35063  LEGO_S#042_Visit2 Questionnaires                                 162139    1213334  c(0, 1213334)         
+    563        35063  LEGO_S#042_Visit2 Dyadic Play.mov                                162141     317440  c(1214245, 1531685)   
+    563        35095  LEGO_S#043_Visit1 2-Hour                                         162270    7218838  c(0, 7218838)         
+    563        35095  LEGO_S#043_Visit1 Housemap                                       162272     333056  c(7219744, 7552800)   
+    563        35095  LEGO_S#043_Visit1 Questionnaires                                 162276    1723862  c(7553643, 9277505)   
+    563        35172  LEGO_S#043_Visit2 Questionnaires                                 190825    1300928  c(0, 1300928)         
+    563        35172  LEGO_S#043_Visit2 2-Hour                                         190823    7261888  c(0, 7261888)         
+    563        36221  LEGO_S#044_Visit1 2-hrs                                          170461    7374336  c(0, 7374336)         
+    563        36221  LEGO_S#044_Visit1 Questionnaires                                 170463    1931363  c(7375200, 9306563)   
+    563        36745  LEGO_S#045_Visit1 Housemap                                       190819     446080  c(0, 446080)          
+    563        36745  LEGO_S#045_Visit1 2-Hour                                         190821    7206827  c(0, 7206827)         
+    563        36926  LEGO_S#045_Visit2 2-hour                                         174982    7231851  c(0, 7231851)         
+    563        36926  LEGO_S#045_Visit2 Questionnaires                                 174984    1318443  c(7232757, 8551200)   
+    563        38271  LEGO_S#046_Visit1 2-hour                                         183459    7201323  c(0, 7201323)         
+    563        38271  LEGO_S#046_Visit 1 Questionnaires                                183469    1781419  c(7202227, 8983646)   
+    563        38271  LEGO_S#046_Visit1 Housemap                                       183471    1309035  c(8984539, 10293574)  
+    563        38306  LEGO_S#046_Visit 2 Questionnaires                                183559    1866496  c(0, 1866496)         
+    563        38306  LEGO_S#046_Visit2 2-hour                                         183561    7260886  c(1867397, 9128283)   
+    563        38934  LEGO_S#047_Visit1 Questionnaire                                  188712     745366  c(0, 745366)          
+    563        38934  LEGO_S#047_Visit1 Questionnaires_2                               188715    1111744  c(746277, 1858021)    
+    563        38934  LEGO_S#047_Visit1 Housemap_1                                     188723     189312  c(1858920, 2048232)   
+    563        38934  LEGO_S#047_Visit1 2-hour                                         188729    7231851  c(1858920, 9090771)   
+    563        38934  LEGO_S#047_Visit1 Housemap_2                                     188735    1388523  c(9091677, 10480200)  
+    563        39246  LEGO_S#048_Visit1 2-Hour                                         189770    7231851  c(0, 7231851)         
+    563        39246  LEGO_S#048_Visit1 Questionnaires                                 189772    2514134  c(7232757, 9746891)   
+    563        39375  LEGO_S#048_Visit2 2-hour                                         190335    7231360  c(0, 7231360)         
+    563        39375  LEGO_S#048_Visit2 Housemap                                       190337     733867  c(7232257, 7966124)   
+    563        39375  LEGO_S#048_Visit2 Questionnaires                                 190339    1153792  c(7967023, 9120815)   
+    563        39474  LEGO_S#049_Visit1 Housemap                                       190782     200342  c(0, 200342)          
+    563        39474  LEGO_S#049_Visit1 2-Hour_1                                       190784    5967595  c(201233, 6168828)    
+    563        39474  LEGO_S#049_Visit1 2-Hour_2                                       190788    1321451  c(6169727, 7491178)   
+    563        39478  LEGO_S#047_Visit2 2-Hour                                         190815    7220843  c(0, 7220843)         
+    563        39478  LEGO_S#047_Visit2 Questionnaires                                 190817    1733867  c(7221746, 8955613)   
+    563        39554  LEGO_S#050_Visit1 2-Hour                                         192500    7211840  c(0, 7211840)         
+    563        39554  LEGO_S#050_Visit1 Questionnaires                                 192502    2039659  c(7212737, 9252396)   
+    563        39597  LEGO_S#050_Visit2 Housemap                                       192789     769899  c(0, 769899)          
+    563        39597  LEGO_S#050_Visit2 2-Hour                                         192791    7246379  c(0, 7246379)         
+    563        39597  LEGO_S#050_Visit2 Questionnaires                                 192793    1586710  c(7247272, 8833982)   
+    563        39646  LEGO_S#051_Visit1 2-Hour                                         193287    7201323  c(0, 7201323)         
+    563        39646  LEGO_S#051_Visit1 Questionnaires                                 193289    4365995  c(7202227, 11568222)  
+    563        39882  LEGO_S#052_Visit1 Housemap                                       193755    1051691  c(0, 1051691)         
+    563        39882  LEGO_S#052_Visit1 2-Hour                                         193757    7192320  c(0, 7192320)         
+    563        39882  LEGO_S#052_Visit1 Questionnaires                                 193759    4007638  c(7193218, 11200856)  
+    563        39890  LEGO_S#051_Visit2 2-Hour                                         193974    7212843  c(0, 7212843)         
+    563        39890  LEGO_S#051_Visit2 Housemap                                       193976    1838976  c(7213738, 9052714)   
+    563        39890  LEGO_S#051_Visit2 Questionnaires                                 193980    2882518  c(9053608, 11936126)  
+    563        39939  LEGO_S#052_Visit2 2-Hour                                         194157    7203819  c(0, 7203819)         
+    563        39939  LEGO_S#052_Visit2 Questionnaires                                 194159    1742870  c(7204729, 8947599)   
+    563        40267  LEGO_S#053_Visit1 Housemap                                       194691     493632  c(0, 493632)          
+    563        40267  LEGO_S#053_Visit1 2-Hour                                         194693    7231360  c(494526, 7725886)    
+    563        40267  LEGO_S#053_Visit1 Questionnaires                                 194695    2338966  c(7726783, 10065749)  
+    563        40267  LEGO_S#053_Visit1 Questionnaires (part 2)                        194697     277910  c(10066652, 10344562) 
+    563        40428  LEGO_S#053_Visit2 Questionnaire                                  199466    1405526  c(0, 1405526)         
+    563        40428  LEGO_S#053_Visit2 2-Hour                                         199468    7221355  c(1406437, 8627792)   
+    563        40456  LEGO_S#054_Visit1 2-Hour                                         199738    7201323  c(0, 7201323)         
+    563        40456  LEGO_S#054_Visit1 Questionnaires                                 199740    1281408  c(7202227, 8483635)   
+    563        40518  LEGO_S#054_Visit2 Housemap                                       200265    1048171  c(0, 1048171)         
+    563        40518  LEGO_S#054_Visit1 2-Hour                                         200267    7221355  c(0, 7221355)         
+    563        40518  LEGO_S#054_Visit2 Questionnaires                                 200269    1534656  c(7222247, 8756903)   
+    563        40817  LEGO_S#055_Visit1 2-Hour                                         201388    7262379  c(0, 7262379)         
+    563        40817  LEGO_S#055_Visit1 Questionnaires                                 201390    2046166  c(7263288, 9309454)   
 
 ## All uploaded files
 
@@ -376,222 +553,291 @@ all_files_filtered %>%
 
 
 
- vol_id   session_id  name                                            asset_id  asset_type                
--------  -----------  ---------------------------------------------  ---------  --------------------------
-    444        18801  S#1_1-hour.mov                                     84604  MPEG-4 video              
-    444        18803  1_2Bath                                            86026  MPEG-4 video              
-    444        18803  Bathroom1                                          86020  MPEG-4 video              
-    444        18803  DownstairsHall                                     86022  MPEG-4 video              
-    444        18803  FamilyRoom                                         86024  MPEG-4 video              
-    444        18803  NannyBed                                           86030  MPEG-4 video              
-    444        18803  ParentBath                                         86028  MPEG-4 video              
-    444        18803  ParentBed                                          86032  MPEG-4 video              
-    444        18803  ParentBedHall                                      86038  MPEG-4 video              
-    444        18803  S#2_1-Hour.mov                                     84640  MPEG-4 video              
-    444        18803  S#2_HouseMap.mov                                   84638  MPEG-4 video              
-    444        18803  S#2_HouseMapNEW_Unedited                           84644  MPEG-4 video              
-    444        18803  S#2_HouseMapNEW.mov                                84642  MPEG-4 video              
-    444        18803  S#2_Questionnaires.mov                             84656  MPEG-4 video              
-    444        18803  S#2_QuestionnairesNEW.mov                          84658  MPEG-4 video              
-    444        18803  Sibling Bed                                        86036  MPEG-4 video              
-    444        18803  TargetCBed                                         86034  MPEG-4 video              
-    444        18803  UpstairsHall                                       86040  MPEG-4 video              
-    444        18805  Measure1                                           86004  MPEG-4 video              
-    444        18805  Measure2                                           86002  MPEG-4 video              
-    444        18805  Measure3                                           86014  MPEG-4 video              
-    444        18805  Measure4                                           86006  MPEG-4 video              
-    444        18805  Measure5                                           86008  MPEG-4 video              
-    444        18805  Measure6                                           86010  MPEG-4 video              
-    444        18805  Measure7                                           86013  MPEG-4 video              
-    444        18805  Measure8                                           86018  MPEG-4 video              
-    444        18805  Measure9                                           86016  MPEG-4 video              
-    444        18805  S#3_1-Hour play.mov                                84668  MPEG-4 video              
-    444        18805  S#3_Books&Toys                                     84662  MPEG-4 video              
-    444        18805  S#3_HouseMap.mov                                   84664  MPEG-4 video              
-    444        18805  S#3_ObjPlayTasks.mov                               84666  MPEG-4 video              
-    444        18806  S#4_1-Hour play.mov                                84672  MPEG-4 video              
-    444        18806  S#4_1-Hour_Intro&Experimenter.mov                  84670  MPEG-4 video              
-    444        18806  S#4_HouseMap.mov                                   84674  MPEG-4 video              
-    444        18806  S#4_PhoneQuestionnaire.mov                         84676  MPEG-4 video              
-    444        18806  S#4_Questionnaires.mov                             84680  MPEG-4 video              
-    444        18806  S#4_Solitary Play_Experimenter.mov                 84684  MPEG-4 video              
-    444        18806  S#4_Solitary Play_Intro.mov                        84682  MPEG-4 video              
-    444        18806  S#4_Solitary Play.mov                              84678  MPEG-4 video              
-    444        18806  S#4_DecibelData                                   106655  Comma-separated values    
-    444        18807  homemap-last piece                                 84687  MPEG-4 video              
-    444        18807  S#5_1-hour_Experimenter.mov                        84689  MPEG-4 video              
-    444        18807  S#5_1-Hour.mov                                     84691  MPEG-4 video              
-    444        18807  S#5_Body Dimensions.mov                            86042  MPEG-4 video              
-    444        18807  S#5_HomeMap_Experimenter.mov                       84695  MPEG-4 video              
-    444        18807  S#5_HomeMap.mov                                    84693  MPEG-4 video              
-    444        18807  S#5_Phone Questionnaire.mov                        84697  MPEG-4 video              
-    444        18807  S#5_Questionnaires.mov                             84703  MPEG-4 video              
-    444        18807  S#5_Solitary_Experimenter.mov                      84701  MPEG-4 video              
-    444        18807  S#5_Solitary.mov                                   84699  MPEG-4 video              
-    444        18807  S#5_DecibelData                                   106656  Comma-separated values    
-    444        18808  S#6_ Home Map Instructions.mov                     85121  MPEG-4 video              
-    444        18808  S#6_ Questionnaires_NEW.mp4                        85167  MPEG-4 video              
-    444        18808  S#6_1-Hour Instructions.mov                        85193  MPEG-4 video              
-    444        18808  S#6_1-Hour Play_old                                85477  MPEG-4 video              
-    444        18808  S#6_1-Hour Play.mov                                85195  MPEG-4 video              
-    444        18808  S#6_BodyDimensions.mov                             86044  MPEG-4 video              
-    444        18808  S#6_Home Map.mp4                                   85199  MPEG-4 video              
-    444        18808  S#6_Phone Questionnaire (Video).mov                85481  MPEG-4 video              
-    444        18808  S#6_Scheduling                                     85479  MPEG-4 video              
-    444        18808  S#6_Solitary Play.mov                              85483  MPEG-4 video              
-    444        18808  S#6_DecibelData                                    86046  Comma-separated values    
-    444        18810  S#7_ Questionnaires.mov                            85213  MPEG-4 video              
-    444        18810  S#7_1-Hour Instructions.mov                        85207  MPEG-4 video              
-    444        18810  S#7_1-Hour Play.mov                                85241  MPEG-4 video              
-    444        18810  S#7_1-Hour_Experimenter Video.mov                  85239  MPEG-4 video              
-    444        18810  S#7_Home Map-Experimenter Video.mov                85245  MPEG-4 video              
-    444        18810  S#7_Home Map.mov                                   85243  MPEG-4 video              
-    444        18810  S#7_Phone Questionnaire (Video).mov                85247  MPEG-4 video              
-    444        18810  S#7_Solitary Play Instructions.mov                 85249  MPEG-4 video              
-    444        18810  S#7_Solitary Play- Experimenter.mov                85253  MPEG-4 video              
-    444        18810  S#7_Solitary Play.mov                              85251  MPEG-4 video              
-    444        18810  S#7_DecibelData                                    86045  Comma-separated values    
-    444        18811  S#6_BodyDimensions.mov                             86048  MPEG-4 video              
-    444        18811  S#8_1-Hour (experimenter)                          85453  MPEG-4 video              
-    444        18811  S#8_1-Hour (experimenter).mp4                      85459  MPEG-4 video              
-    444        18811  S#8_1-Hour.mov                                     85451  MPEG-4 video              
-    444        18811  S#8_House Map.mov                                  85455  MPEG-4 video              
-    444        18811  S#8_Phone Questionnaire.mov                        85457  MPEG-4 video              
-    444        18811  S#8_Questionnaires.mp4                             85465  MPEG-4 video              
-    444        18811  S#8_Solitary (experimenter).mov                    85463  MPEG-4 video              
-    444        18811  S#8_Solitary.mov                                   85461  MPEG-4 video              
-    444        18811  S#8_DecibelData                                    86052  Comma-separated values    
-    444        18813  S#09_1-Hour.mov                                    85471  MPEG-4 video              
-    444        18813  S#09_House Map.mov                                 85467  MPEG-4 video              
-    444        18813  S#09_Phone Questionnaire.mov                       85469  MPEG-4 video              
-    444        18813  S#09_Questionnaires.mov                            85475  MPEG-4 video              
-    444        18813  S#09_Solitary.mov                                  85473  MPEG-4 video              
-    444        18813  S#9_DecibelData                                    86053  Comma-separated values    
-    444        18814  S#10_1-Hour (Experimenter).mov                     85631  MPEG-4 video              
-    444        18814  S#10_1-hour.mov                                    85617  MPEG-4 video              
-    444        18814  S#10_House Map (Experimenter).MOV                  85633  MPEG-4 video              
-    444        18814  S#10_House Map.mov                                 85627  MPEG-4 video              
-    444        18814  S#10_Questionnaires.mov                            85639  MPEG-4 video              
-    444        18814  S#10_Solitary (Experimenter).MOV                   85641  MPEG-4 video              
-    444        18814  S#10_Solitary.mov                                  85637  MPEG-4 video              
-    444        18814  S#10_DecibelData                                   86054  Comma-separated values    
-    444        18815  S#11_1-Hour (experimenter).mov                     85649  MPEG-4 video              
-    444        18815  S#11_1-Hour.mov                                    85643  MPEG-4 video              
-    444        18815  S#11_House Map (experimenter).mov                  85651  MPEG-4 video              
-    444        18815  S#11_House Map.mov                                 85647  MPEG-4 video              
-    444        18815  S#11_Phone Questionnaire.mov                       85653  MPEG-4 video              
-    444        18815  S#11_Questionnaires.mov                            85655  MPEG-4 video              
-    444        18815  S#11_Solitary (experimenter).mov                   85661  MPEG-4 video              
-    444        18815  S#11_Solitary.mov                                  85657  MPEG-4 video              
-    444        18815  S#11_DecibelData                                   86055  Comma-separated values    
-    444        18817  S#12_1-hour_Experimenter.mov                       85675  MPEG-4 video              
-    444        18817  S#12_1-Hour.mov                                    85669  MPEG-4 video              
-    444        18817  S#12_HomeMap_Experimenter.mov                      85673  MPEG-4 video              
-    444        18817  S#12_House Map.mov                                 85677  MPEG-4 video              
-    444        18817  S#12_Mother-Child Play.mov                         85679  MPEG-4 video              
-    444        18817  S#12_Phone Questionnaire.mov                       85683  MPEG-4 video              
-    444        18817  S#12_Questionnaires.mov                            85695  MPEG-4 video              
-    444        18817  S#12_Solitary Play.mov                             85689  MPEG-4 video              
-    444        18817  S#12_Solitary&DyadPlay_Experimenter.mov            85691  MPEG-4 video              
-    444        18817  DecibelData                                        86056  Comma-separated values    
-    444        18817  NYU-012-survey-demog                               88115  Comma-separated values    
-    444        18818  S#13_1-Hour (Experimenter).mov                     85717  MPEG-4 video              
-    444        18818  S#13_1-Hour.mov                                    85705  MPEG-4 video              
-    444        18818  S#13_Dyadic Play.mov                               85711  MPEG-4 video              
-    444        18818  S#13_House Map (Experimenter).mov                  85719  MPEG-4 video              
-    444        18818  S#13_House Map.mov                                 85715  MPEG-4 video              
-    444        18818  S#13_Phone Questionnaire.mov                       85721  MPEG-4 video              
-    444        18818  S#13_Questionnaires.mov                            85725  MPEG-4 video              
-    444        18818  S#13_Solitary Play.mov                             85723  MPEG-4 video              
-    444        18818  S#13_Solitary&Dyadic Play (Experimenter).mov       85727  MPEG-4 video              
-    444        18818  NYU-013-survey-demog                               88116  Comma-separated values    
-    444        18818  S#13_Decibel Data                                  86057  Comma-separated values    
-    444        18819  S#14_1-Hour (Experimenter).mp4                     85750  MPEG-4 video              
-    444        18819  S#14_1-Hour.mov                                    85730  MPEG-4 video              
-    444        18819  S#14_Dyadic Play.mov                               85746  MPEG-4 video              
-    444        18819  S#14_House Map (Experimenter).mp4                  85752  MPEG-4 video              
-    444        18819  S#14_House Map.mov                                 85748  MPEG-4 video              
-    444        18819  S#14_Phone Questionnaire.mov                       85754  MPEG-4 video              
-    444        18819  S#14_Questionnaires.mp4                            85760  MPEG-4 video              
-    444        18819  S#14_Solitary & Dyadic (Experimenter).mp4          85756  MPEG-4 video              
-    444        18819  S#14_Solitary Play.mp4                             85758  MPEG-4 video              
-    444        18819  NYU-014-survey-demo                                88117  Comma-separated values    
-    444        18819  S#14_Decibel Data                                  86058  Comma-separated values    
-    444        18821  S#15_1-Hour (Experimenter).mov                     85770  MPEG-4 video              
-    444        18821  S#15_1-Hour.mp4                                    85778  MPEG-4 video              
-    444        18821  S#15_House Map (Experimenter).mov                  85774  MPEG-4 video              
-    444        18821  S#15_House Map.mp4                                 85776  MPEG-4 video              
-    444        18821  S#15_Phone Questionnaire.mov                       85780  MPEG-4 video              
-    444        18821  S#15_Questionnaires.mp4                            85788  MPEG-4 video              
-    444        18821  S#15_Shoe Video.mov                                85784  MPEG-4 video              
-    444        18821  S#15_Shoes                                         85782  MPEG-4 video              
-    444        18821  S#15_Solitary&DyadicPlay (Experimenter).mp4        85786  MPEG-4 video              
-    444        18821  S#15_Solitary&DyadicPlay.mp4                       85790  MPEG-4 video              
-    444        18821  NYU-015-survey-demo                                88118  Comma-separated values    
-    444        18821  S#15_DecibelData                                   86059  Comma-separated values    
-    444        18822  S#16_1-Hour (Experimenter).mov                     85798  MPEG-4 video              
-    444        18822  S#16_1-Hour.mov                                    85792  MPEG-4 video              
-    444        18822  S#16_Dyadic Play (Experimenter).mov                85796  MPEG-4 video              
-    444        18822  S#16_Dyadic Play.mov                               85794  MPEG-4 video              
-    444        18822  S#16_House Map (Experimenter).mov                  85802  MPEG-4 video              
-    444        18822  S#16_House Map.mov                                 85800  MPEG-4 video              
-    444        18822  S#16_Questionnaires.mp4                            85808  MPEG-4 video              
-    444        18822  S#16_Solitary Play (Experimenter).mov              85806  MPEG-4 video              
-    444        18822  S#16_Solitary Play.mov                             85804  MPEG-4 video              
-    444        18822  S#16_DecibelData                                   86060  Comma-separated values    
-    444        18823  S#17_1-Hour (Experimenter)                         85816  MPEG-4 video              
-    444        18823  S#17_1-Hour.mov                                    85812  MPEG-4 video              
-    444        18823  S#17_Dyadic Play.mov                               85814  MPEG-4 video              
-    444        18823  S#17_House Map (Experimenter).mov                  85818  MPEG-4 video              
-    444        18823  S#17_House Map_1.mov                               85820  MPEG-4 video              
-    444        18823  S#17_House Map_2.mov                               85822  MPEG-4 video              
-    444        18823  S#17_Questionnaires.mov                            85826  MPEG-4 video              
-    444        18823  S#17_Solitary Play.mov                             85824  MPEG-4 video              
-    444        18823  S#17_Solitary&DyadicPlay (Experimenter).mov        85828  MPEG-4 video              
-    444        18823  NYU-017-survey-demog                               88119  Comma-separated values    
-    444        18823  S#17_DecibelData                                   86061  Comma-separated values    
-    444        18824  S#18_1-Hour (Experimenter).mp4                     85837  MPEG-4 video              
-    444        18824  S#18_1-Hour.mov                                    85830  MPEG-4 video              
-    444        18824  S#18_Dyadic Play.mov                               85832  MPEG-4 video              
-    444        18824  S#18_House Map (Experimenter).mov                  85839  MPEG-4 video              
-    444        18824  S#18_House Map.mov                                 85834  MPEG-4 video              
-    444        18824  S#18_Phone Questionnaire.mov                       85841  MPEG-4 video              
-    444        18824  S#18_Questionnaires.mov                            85845  MPEG-4 video              
-    444        18824  S#18_Solitary Play.mov                             85843  MPEG-4 video              
-    444        18824  S#18_Solitary&Dyadic Play (Experimenter).mov       85847  MPEG-4 video              
-    444        18824  NYU-018-survey-demog                              108088  Comma-separated values    
-    444        18824  S#18_DecibelData                                   86062  Comma-separated values    
-    444        18825  S#19_1-Hour (Experimenter).mov                     85855  MPEG-4 video              
-    444        18825  S#19_1-Hour.mov                                    85849  MPEG-4 video              
-    444        18825  S#19_Dyadic Play.mov                               85851  MPEG-4 video              
-    444        18825  S#19_House Map (Experimenter).mov                  85857  MPEG-4 video              
-    444        18825  S#19_House Map.mov                                 85853  MPEG-4 video              
-    444        18825  S#19_Phone Questionnaire.mov                       85861  MPEG-4 video              
-    444        18825  S#19_Questionnaires.mp4                            85867  MPEG-4 video              
-    444        18825  S#19_Solitary Play.mov                             85863  MPEG-4 video              
-    444        18825  S#19_Solitary&Dyadic Play (Experimenter).mov       85865  MPEG-4 video              
-    444        18825  NYU-019-survey-demog                               88121  Comma-separated values    
-    444        18825  S#19_DecibelData                                   86063  Comma-separated values    
-    444        18826  S#20_1-Hour (Experimenter).mov                     85883  MPEG-4 video              
-    444        18826  S#20_1-Hour.mov                                    85875  MPEG-4 video              
-    444        18826  S#20_Dyadic Play.mov                               85881  MPEG-4 video              
-    444        18826  S#20_House Map (Experimenter).mov                  85887  MPEG-4 video              
-    444        18826  S#20_House Map.mov                                 85885  MPEG-4 video              
-    444        18826  S#20_Phone Questionnaire.mov                       85891  MPEG-4 video              
-    444        18826  S#20_Questionnaires.mov                            85895  MPEG-4 video              
-    444        18826  S#20_Solitary Play.mov                             85893  MPEG-4 video              
-    444        18826  S#20_Solitary&Dyadic Play (Experimenter).mov       85897  MPEG-4 video              
-    444        18826  NYU-020-survey-demog                               88122  Comma-separated values    
-    444        18826  S#20_DecibelData                                   86064  Comma-separated values    
-    444        26295  child-birth                                       116791  Comma-separated values    
-    444        26295  childcare                                         159177  Comma-separated values    
-    444        26295  family                                            116790  Comma-separated values    
-    444        26295  language-exposure                                 116787  Comma-separated values    
-    444        26295  locomotion                                        117092  Comma-separated values    
-    444        26295  sleep                                             116789  Comma-separated values    
-    444        27087  video-as-data                                     119877  MPEG-4 video              
-    444        29558  PLAY logo                                         134427  Portable network graphics 
-    444        35609  PlayPilotS#021 Dyadic Play                        167796  MPEG-4 video              
-    444        35609  PlayPilotS#021 House Map                          167794  MPEG-4 video              
-    444        35609  PlayPilotS#021 Questionnaires                     167798  MPEG-4 video              
-    444        35609  PlayPilotS#021_1-Hour                             167792  MPEG-4 video              
+ vol_id   session_id  name                                                           asset_id  asset_type   
+-------  -----------  ------------------------------------------------------------  ---------  -------------
+    563        24098  LEGO_S#002_Visit1 2-Hour.mov                                     139959  MPEG-4 video 
+    563        24098  LEGO_S#002_Visit1 Housemap.mov                                   139947  MPEG-4 video 
+    563        24098  LEGO_S#002_Visit1 Intake, locomotor & MCDI (first part).mov      139949  MPEG-4 video 
+    563        24098  LEGO_S#002_Visit1 MCDI (second part).mov                         139951  MPEG-4 video 
+    563        24099  LEGO_S#002_Visit2 2-Hour                                         106322  MPEG-4 video 
+    563        24099  LEGO_S#002_Visit2 Questionnaire 1                                139953  MPEG-4 video 
+    563        24099  LEGO_S#002_Visit2 Questionnaire 2                                139955  MPEG-4 video 
+    563        24192  LEGO_S#003_Visit1 2-hour (part)                                  106314  MPEG-4 video 
+    563        24192  LEGO_S#003_Visit1 Consent                                        106316  MPEG-4 video 
+    563        24192  LEGO_S#003_Visit1 Housemap                                       106318  MPEG-4 video 
+    563        24192  LEGO_S#003_Visit1 Questionnaires LOC - MCDI                      106320  MPEG-4 video 
+    563        24362  LEGO_S#005_Visit1 2-Hour                                         106891  MPEG-4 video 
+    563        24362  LEGO_S#005_Visit1 Questionnaires                                 106893  MPEG-4 video 
+    563        24643  LEGO_S#005_Visit2 Housemap                                       108183  MPEG-4 video 
+    563        24643  LEGO_S#005_Visit2 Questionnaires                                 108185  MPEG-4 video 
+    563        24643  S#005(2) 2-Hour                                                  108181  MPEG-4 video 
+    563        24658  LEGO_S#006_Visit1 2-Hour.mov                                     139979  MPEG-4 video 
+    563        24658  LEGO_S#006_Visit1 Experimenter view.mov                          139983  MPEG-4 video 
+    563        24658  LEGO_S#006_Visit1 Housemap.mov                                   139967  MPEG-4 video 
+    563        24658  LEGO_S#006_Visit1 Questionnaires                                 109041  MPEG-4 video 
+    563        24861  LEGO_S#007_Visit1 2-hour                                         110431  MPEG-4 video 
+    563        24861  LEGO_S#007_Visit1 Introduction                                   110391  MPEG-4 video 
+    563        24861  LEGO_S#007_Visit1 Questionnaires                                 110429  MPEG-4 video 
+    563        24964  LEGO_S#007_Visit2 2-hour                                         111026  MPEG-4 video 
+    563        24964  LEGO_S#007_Visit2 Housemap                                       139975  MPEG-4 video 
+    563        24964  LEGO_S#007_Visit2 Questionnaires                                 139977  MPEG-4 video 
+    563        24967  LEGO_S#004_Visit1 2-Hour                                         111036  MPEG-4 video 
+    563        24967  LEGO_S#004_Visit1 Experimenter 2-hour                            139971  MPEG-4 video 
+    563        24967  LEGO_S#004_Visit1 Experimenter Housemap                          139969  MPEG-4 video 
+    563        24967  LEGO_S#004_Visit1 Housemap                                       139963  MPEG-4 video 
+    563        24967  LEGO_S#004_Visit1 Questionnaires                                 139965  MPEG-4 video 
+    563        24968  LEGO_S#004_Visit2 Questionnaire                                  111040  MPEG-4 video 
+    563        24968  S#004(2) 2-Hour                                                  111038  MPEG-4 video 
+    563        25105  LEGO_S#008_Visit1 2-hour                                         112762  MPEG-4 video 
+    563        25105  LEGO_S#008_Visit1 Questionnaires                                 112766  MPEG-4 video 
+    563        25106  LEGO_S#009_Visit1 2-Hour                                         111407  MPEG-4 video 
+    563        25106  LEGO_S#009_Visit1 Housemap                                       111405  MPEG-4 video 
+    563        25106  LEGO_S#009_Visit1 Questionnaires                                 111409  MPEG-4 video 
+    563        25245  LEGO_S#008_Visit2 2-hour                                         112002  MPEG-4 video 
+    563        25245  LEGO_S#008_Visit2 Databrary                                      112006  MPEG-4 video 
+    563        25245  LEGO_S#008_Visit2 Housemap                                       112008  MPEG-4 video 
+    563        25346  LEGO_S#009_Visit2 2-Hour                                         112675  MPEG-4 video 
+    563        25346  LEGO_S#009_Visit2 Questionnaires                                 112677  MPEG-4 video 
+    563        25541  LEGO_S#010_Visit1 2-Hour                                         113783  MPEG-4 video 
+    563        25541  LEGO_S#010_Visit1 Questionnaires                                 113785  MPEG-4 video 
+    563        25568  LEGO_S#011_Visit1 2-Hour                                         113963  MPEG-4 video 
+    563        25568  LEGO_S#011_Visit1 Questionnaires                                 113965  MPEG-4 video 
+    563        25624  LEGO_S#010_Visit2 2-Hour                                         114661  MPEG-4 video 
+    563        25624  LEGO_S#010_Visit2 Housemap                                       114659  MPEG-4 video 
+    563        25624  LEGO_S#010_Visit2 Questionnaires                                 114657  MPEG-4 video 
+    563        25627  LEGO_S#012_Visit1 2-Hour                                         114709  MPEG-4 video 
+    563        25627  LEGO_S#012_Visit1 Housemap                                       114701  MPEG-4 video 
+    563        25627  LEGO_S#012_Visit1 Questionnaires                                 114703  MPEG-4 video 
+    563        25654  LEGO_S#012_Visit2 2-Hour                                         116051  MPEG-4 video 
+    563        25654  LEGO_S#012_Visit2 Questionnaires                                 114786  MPEG-4 video 
+    563        25655  LEGO_S#006_Visit2 Questionnaires.mov                             139987  MPEG-4 video 
+    563        25661  LEGO_S#011_Visit2 2-Hour                                         114846  MPEG-4 video 
+    563        25661  LEGO_S#011_Visit2 Housemap                                       114848  MPEG-4 video 
+    563        25661  LEGO_S#011_Visit2 Questionnaires                                 116634  MPEG-4 video 
+    563        25711  LEGO_S#013_Visit1 2-Hour                                         115112  MPEG-4 video 
+    563        25711  LEGO_S#013_Visit1 Databrary                                      115106  MPEG-4 video 
+    563        25711  LEGO_S#013_Visit1 Questionnaires                                 115108  MPEG-4 video 
+    563        25817  LEGO_S#014_Visit1 2-Hour                                         115404  MPEG-4 video 
+    563        25817  LEGO_S#014_Visit1 Housemap                                       115359  MPEG-4 video 
+    563        25817  LEGO_S#014_Visit1 Questionnaires                                 115363  MPEG-4 video 
+    563        25818  LEGO_S#014_Visit2 2-Hour                                         115418  MPEG-4 video 
+    563        25818  LEGO_S#014_Visit2 Questionnaires                                 115394  MPEG-4 video 
+    563        25945  LEGO_S#013_Visit2 2-Hour                                         115658  MPEG-4 video 
+    563        25945  LEGO_S#013_Visit2 Housemap                                       115654  MPEG-4 video 
+    563        25945  LEGO_S#013_Visit2 Questionnaires                                 115656  MPEG-4 video 
+    563        25973  LEGO_S#015_Visit1 2-Hour.mov                                     115923  MPEG-4 video 
+    563        25973  LEGO_S#015_Visit1 Housemap                                       115925  MPEG-4 video 
+    563        25973  LEGO_S#015_Visit1 Questionnaires                                 115927  MPEG-4 video 
+    563        25974  LEGO_S#015_Visit2 2-Hour                                         115929  MPEG-4 video 
+    563        25974  LEGO_S#015_Visit2 Questionnaires                                 115931  MPEG-4 video 
+    563        26340  LEGO_S#016_Visit1 2-Hour                                         117096  MPEG-4 video 
+    563        26340  LEGO_S#016_Visit1 Housemap                                       117098  MPEG-4 video 
+    563        26340  LEGO_S#016_Visit1 Intro and Consent                              117100  MPEG-4 video 
+    563        26340  LEGO_S#016_Visit1 Questionnaires                                 117102  MPEG-4 video 
+    563        26343  LEGO_S#017_Visit1 2-Hour                                         118347  MPEG-4 video 
+    563        26343  LEGO_S#017_Visit1 Questionnaires                                 118355  MPEG-4 video 
+    563        26344  LEGO_S#017_Visit1 2-Hour.mov                                     140015  MPEG-4 video 
+    563        26344  LEGO_S#017_Visit2 Housemap                                       140001  MPEG-4 video 
+    563        26344  LEGO_S#017_Visit2 Questionnaires                                 118343  MPEG-4 video 
+    563        26890  LEGO_S#018_Visit1 2-Hour.mov                                     120738  MPEG-4 video 
+    563        26890  LEGO_S#018_Visit1 Questionnaires.mov                             121241  MPEG-4 video 
+    563        27064  LEGO_S#019_Visit1 2-Hour                                         119817  MPEG-4 video 
+    563        27064  LEGO_S#019_Visit1 Housemap                                       119819  MPEG-4 video 
+    563        27064  LEGO_S#019_Visit1 Questionnaires                                 119829  MPEG-4 video 
+    563        27109  LEGO_S#018_Visit2 2-Hour                                         120046  MPEG-4 video 
+    563        27109  LEGO_S#018_Visit2 Databrary                                      120151  MPEG-4 video 
+    563        27109  LEGO_S#018_Visit2 Housemap                                       120528  MPEG-4 video 
+    563        27109  LEGO_S#018_Visit2 Questionnaires                                 120038  MPEG-4 video 
+    563        27457  LEGO_S#020_Visit1 2-Hour                                         122063  MPEG-4 video 
+    563        27457  LEGO_S#020_Visit1 Questionnaires                                 122093  MPEG-4 video 
+    563        27920  LEGO_S#021_Visit1 2-Hour                                         126775  MPEG-4 video 
+    563        27920  LEGO_S#021_Visit1 Questionnaires I- Locomotor                    126767  MPEG-4 video 
+    563        27920  LEGO_S#021_Visit1 Questionnaires II                              126761  MPEG-4 video 
+    563        28159  LEGO_S#021_Visit2 2-Hour                                         127624  MPEG-4 video 
+    563        28159  LEGO_S#021_Visit2 Housemap                                       127626  MPEG-4 video 
+    563        28159  LEGO_S#021_Visit2 Questionnaires                                 127631  MPEG-4 video 
+    563        28159  LEGO_S#021_Visit2 Questionnaires 2 & Databrary                   127628  MPEG-4 video 
+    563        28959  LEGO_S#022_Visit1 2-Hour                                         130244  MPEG-4 video 
+    563        28959  LEGO_S#022_Visit1 Housemap                                       139993  MPEG-4 video 
+    563        28959  LEGO_S#022_Visit1 Questionnaires                                 130246  MPEG-4 video 
+    563        29302  LEGO_S#022_Visit2 2-Hour                                         132592  MPEG-4 video 
+    563        29302  LEGO_S#022_Visit2 Questionnaires                                 132594  MPEG-4 video 
+    563        29347  LEGO_S#023_Visit1 2-Hour                                         132915  MPEG-4 video 
+    563        29347  LEGO_S#023_Visit1 Questionnaires                                 132917  MPEG-4 video 
+    563        29464  LEGO_S#024_Visit1 2-Hour                                         133781  MPEG-4 video 
+    563        29464  LEGO_S#024_Visit1 Questionnaires                                 133791  MPEG-4 video 
+    563        29543  LEGO_S#024_Visit2 Housemap                                       139989  MPEG-4 video 
+    563        29543  LEGO_S#024_Visit2 Questionnaires                                 139985  MPEG-4 video 
+    563        29543  LEGO_S#024_Visit2 Questionnaires.mov                             139991  MPEG-4 video 
+    563        29595  LEGO_S#023_Visit2 2-Hour                                         134600  MPEG-4 video 
+    563        29595  LEGO_S#023_Visit2 Housemap                                       134606  MPEG-4 video 
+    563        29595  LEGO_S#023_Visit2 Questionnaires                                 134612  MPEG-4 video 
+    563        29895  LEGO_S#025_Visit1 2-Hour                                         136644  MPEG-4 video 
+    563        29895  LEGO_S#025_Visit1 Questionnaires                                 136646  MPEG-4 video 
+    563        29906  LEGO_S#025_Visit2 2-Hour                                         136677  MPEG-4 video 
+    563        29906  LEGO_S#025_Visit2 Decibel meter location                         136681  MPEG-4 video 
+    563        29906  LEGO_S#025_Visit2 Housemap                                       136679  MPEG-4 video 
+    563        29906  LEGO_S#025_Visit2 Questionnaires                                 136673  MPEG-4 video 
+    563        29971  LEGO_S#026_Visit1 2-Hour                                         137012  MPEG-4 video 
+    563        29971  LEGO_S#026_Visit1 Housemap                                       137014  MPEG-4 video 
+    563        29971  LEGO_S#026_Visit1 Questionnaires                                 137016  MPEG-4 video 
+    563        30156  LEGO_S#027_Visit1 2-Hour                                         137406  MPEG-4 video 
+    563        30156  LEGO_S#027_Visit1 Questionnaires                                 139981  MPEG-4 video 
+    563        30240  LEGO_S#026_Visit2 2-Hour                                         137935  MPEG-4 video 
+    563        30240  LEGO_S#026_Visit2 Questionnaires                                 137937  MPEG-4 video 
+    563        30240  LEGO_S#026_Visit2 Solitary Play                                  137939  MPEG-4 video 
+    563        30242  LEGO_S#028_Visit1 2-Hour                                         137563  MPEG-4 video 
+    563        30242  LEGO_S#028_Visit1 Questionnaires                                 137565  MPEG-4 video 
+    563        30290  LEGO_S#028_Visit2 2-Hour                                         139973  MPEG-4 video 
+    563        30290  LEGO_S#028_Visit2 Dyadic Play                                    138042  MPEG-4 video 
+    563        30290  LEGO_S#028_Visit2 Housemap                                       138050  MPEG-4 video 
+    563        30290  LEGO_S#028_Visit2 Questionnaires                                 138052  MPEG-4 video 
+    563        30290  LEGO_S#028_Visit2 Solitary Play                                  138044  MPEG-4 video 
+    563        30453  LEGO_S#029_Visit1 2-Hour                                         138945  MPEG-4 video 
+    563        30453  LEGO_S#029_Visit1 Questionnaires                                 138947  MPEG-4 video 
+    563        30453  LEGO_S#029_Visit1 Tablet Location                                139961  MPEG-4 video 
+    563        30487  LEGO_S#030_Visit1 2-Hour                                         139631  MPEG-4 video 
+    563        30487  LEGO_S#030_Visit1 Questionnaires                                 139633  MPEG-4 video 
+    563        30487  LEGO_S#030_Visit1 Tablet location                                139957  MPEG-4 video 
+    563        30494  LEGO_S#029_Visit2 2-Hour                                         139677  MPEG-4 video 
+    563        30494  LEGO_S#029_Visit2 Databrary                                      139659  MPEG-4 video 
+    563        30494  LEGO_S#029_Visit2 Housemap                                       139661  MPEG-4 video 
+    563        30494  LEGO_S#029_Visit2 Questionnaires                                 139671  MPEG-4 video 
+    563        30494  LEGO_S#029_Visit2 Solitary Play                                  139673  MPEG-4 video 
+    563        30494  LEGO_S#029_Visit2 Tablet location                                139669  MPEG-4 video 
+    563        30511  LEGO_S#030_Visit2 Housemap                                       139855  MPEG-4 video 
+    563        30511  LEGO_S#030_Visit2 Questionnaires                                 139857  MPEG-4 video 
+    563        30511  LEGO_S#030_Visit2 Solitary Play                                  139859  MPEG-4 video 
+    563        30524  LEGO_S#020_Visit2 2-Hour.mov                                     140009  MPEG-4 video 
+    563        30524  LEGO_S#020_Visit2 Housemap.mov                                   140005  MPEG-4 video 
+    563        30524  LEGO_S#020_Visit2 Questionnaires.mov                             140007  MPEG-4 video 
+    563        30525  LEGO_S#016_Visit2 2-Hour.mov                                     140013  MPEG-4 video 
+    563        30525  LEGO_S#016_Visit2 Databrary                                      139995  MPEG-4 video 
+    563        30525  LEGO_S#016_Visit2 Questionnaires.mov                             139997  MPEG-4 video 
+    563        30526  LEGO_S#019_Visit2 2-Hour.mov                                     140003  MPEG-4 video 
+    563        30526  LEGO_S#019_Visit2 Questionnaires.mov                             140011  MPEG-4 video 
+    563        31726  LEGO_S#031_Visit1 2-Hour                                         146632  MPEG-4 video 
+    563        31726  LEGO_S#031_Visit1 Housemap                                       146628  MPEG-4 video 
+    563        31726  LEGO_S#031_Visit1 Quesitonnaires                                 146630  MPEG-4 video 
+    563        31749  LEGO_S#032_Visit1 2-Hour                                         146782  MPEG-4 video 
+    563        31749  LEGO_S#032_Visit1 Housemap                                       146778  MPEG-4 video 
+    563        31749  LEGO_S#032_Visit1 Questionnaires                                 146780  MPEG-4 video 
+    563        31801  LEGO_S#031_Visit2 2-Hour                                         147013  MPEG-4 video 
+    563        31801  LEGO_S#031_Visit2 Questionnaires                                 147015  MPEG-4 video 
+    563        31805  LEGO_S#032_Visit2 2-Hour                                         147111  MPEG-4 video 
+    563        31805  LEGO_S#032_Visit2 Databrary                                      147113  MPEG-4 video 
+    563        31805  LEGO_S#032_Visit2 Dyadic Play                                    147115  MPEG-4 video 
+    563        31805  LEGO_S#032_Visit2 Solitary Play                                  147117  MPEG-4 video 
+    563        31895  LEGO_S#033_Visit1  2-Hour                                        147507  MPEG-4 video 
+    563        31895  LEGO_S#033_Visit1 Housemap                                       147497  MPEG-4 video 
+    563        31895  LEGO_S#033_Visit1 Questionnaires                                 147499  MPEG-4 video 
+    563        32142  LEGO_S#032_Visit2 Outfit                                         148318  MPEG-4 video 
+    563        32142  LEGO_S#033_Visit2  2-Hour                                        148320  MPEG-4 video 
+    563        32142  LEGO_S#033_Visit2 Databrary                                      148322  MPEG-4 video 
+    563        32142  LEGO_S#033_Visit2 Questionnaires                                 148324  MPEG-4 video 
+    563        32454  LEGO_S#034_Visit1  2-Hour                                        149351  MPEG-4 video 
+    563        32454  LEGO_S#034_Visit1 Housemap                                       149348  MPEG-4 video 
+    563        32454  LEGO_S#034_Visit1 Questionnaires                                 149384  MPEG-4 video 
+    563        32463  LEGO_S#034_Visit2 2-Hour                                         149594  MPEG-4 video 
+    563        32463  LEGO_S#034_Visit2 Dyadic Play                                    149516  MPEG-4 video 
+    563        32463  LEGO_S#034_Visit2 Questionnaires                                 149518  MPEG-4 video 
+    563        32463  LEGO_S#034_Visit2 Solitary Play                                  149520  MPEG-4 video 
+    563        32807  LEGO_S#035_Visit1 2-Hour                                         151206  MPEG-4 video 
+    563        32807  LEGO_S#035_Visit1 Databrary                                      151194  MPEG-4 video 
+    563        32807  LEGO_S#035_Visit1 Questionnaires                                 151200  MPEG-4 video 
+    563        32827  LEGO_S#036_Visit 1 2-Hour                                        151323  MPEG-4 video 
+    563        32827  LEGO_S#036_Visit1 Questionnaires                                 151966  MPEG-4 video 
+    563        32866  LEGO_S#035_Visit2 2-Hour                                         151675  MPEG-4 video 
+    563        32866  LEGO_S#035_Visit2 House map                                      151673  MPEG-4 video 
+    563        32866  LEGO_S#035_Visit2 Questionnaires                                 151677  MPEG-4 video 
+    563        32974  LEGO_S#037_Visit1 2-Hours                                        151918  MPEG-4 video 
+    563        32974  LEGO_S#037_Visit1 Questionnaires                                 151916  MPEG-4 video 
+    563        32990  LEGO_S#037_Visit2 2-Hour                                         151964  MPEG-4 video 
+    563        32990  LEGO_S#037_Visit2 Dyadic Play                                    151956  MPEG-4 video 
+    563        32990  LEGO_S#037_Visit2 House map                                      151960  MPEG-4 video 
+    563        32990  LEGO_S#037_Visit2 Outfit                                         151958  MPEG-4 video 
+    563        32990  LEGO_S#037_Visit2 Questionnaires                                 151962  MPEG-4 video 
+    563        33000  LEGO_S#036_Visit2 2-hour                                         151988  MPEG-4 video 
+    563        33000  LEGO_S#036_Visit2 DyadicPlay                                     151980  MPEG-4 video 
+    563        33000  LEGO_S#036_Visit2 Outfit                                         151982  MPEG-4 video 
+    563        33000  LEGO_S#036_Visit2 Questionnaires                                 151984  MPEG-4 video 
+    563        33000  LEGO_S#036_Visit2 SolitaryPlay                                   151986  MPEG-4 video 
+    563        33008  LEGO_S#038_Visit1 2-Hour                                         152006  MPEG-4 video 
+    563        33008  LEGO_S#038_Visit1 Questionnaires                                 152017  MPEG-4 video 
+    563        33459  LEGO_S#040_Visit1 2-Hour                                         154691  MPEG-4 video 
+    563        33459  LEGO_S#040_Visit1 Housemap                                       154689  MPEG-4 video 
+    563        33459  LEGO_S#040_Visit1 Questionnaires                                 154693  MPEG-4 video 
+    563        34133  LEGO_S#041_Visit1 2-Hour                                         159201  MPEG-4 video 
+    563        34133  LEGO_S#041_Visit1 Housemap                                       159199  MPEG-4 video 
+    563        34133  LEGO_S#041_Visit1 Questionnaires1                                159203  MPEG-4 video 
+    563        34133  LEGO_S#041_Visit1 Questionnaires2                                159205  MPEG-4 video 
+    563        34439  LEGO_S#041 2-Hour                                                160294  MPEG-4 video 
+    563        34439  LEGO_S#041_Visit2 Questionnaires                                 160292  MPEG-4 video 
+    563        34870  LEGO_S#042_Visit1 2-Hour                                         161572  MPEG-4 video 
+    563        34870  LEGO_S#042_Visit1 Housemap                                       162143  MPEG-4 video 
+    563        34870  LEGO_S#042_Visit1 Questionnaires                                 161566  MPEG-4 video 
+    563        34961  LEGO_S#038_Visit2 2-hour                                         161824  MPEG-4 video 
+    563        34961  LEGO_S#038_Visit2 Housemap                                       161818  MPEG-4 video 
+    563        34961  LEGO_S#038_Visit2 Questionnaires                                 161822  MPEG-4 video 
+    563        34961  LEGO_S#038_Visit2 Shoes                                          161816  MPEG-4 video 
+    563        35063  LEGO_S#042_Visit2 Dyadic Play.mov                                162141  MPEG-4 video 
+    563        35063  LEGO_S#042_Visit2 Questionnaires                                 162139  MPEG-4 video 
+    563        35095  LEGO_S#043_Visit1 2-Hour                                         162270  MPEG-4 video 
+    563        35095  LEGO_S#043_Visit1 Housemap                                       162272  MPEG-4 video 
+    563        35095  LEGO_S#043_Visit1 Questionnaires                                 162276  MPEG-4 video 
+    563        35172  LEGO_S#043_Visit2 2-Hour                                         190823  MPEG-4 video 
+    563        35172  LEGO_S#043_Visit2 Questionnaires                                 190825  MPEG-4 video 
+    563        36221  LEGO_S#044_Visit1 2-hrs                                          170461  MPEG-4 video 
+    563        36221  LEGO_S#044_Visit1 Questionnaires                                 170463  MPEG-4 video 
+    563        36745  LEGO_S#045_Visit1 2-Hour                                         190821  MPEG-4 video 
+    563        36745  LEGO_S#045_Visit1 Housemap                                       190819  MPEG-4 video 
+    563        36926  LEGO_S#045_Visit2 2-hour                                         174982  MPEG-4 video 
+    563        36926  LEGO_S#045_Visit2 Questionnaires                                 174984  MPEG-4 video 
+    563        38271  LEGO_S#046_Visit 1 Questionnaires                                183469  MPEG-4 video 
+    563        38271  LEGO_S#046_Visit1 2-hour                                         183459  MPEG-4 video 
+    563        38271  LEGO_S#046_Visit1 Housemap                                       183471  MPEG-4 video 
+    563        38306  LEGO_S#046_Visit 2 Questionnaires                                183559  MPEG-4 video 
+    563        38306  LEGO_S#046_Visit2 2-hour                                         183561  MPEG-4 video 
+    563        38934  LEGO_S#047_Visit1 2-hour                                         188729  MPEG-4 video 
+    563        38934  LEGO_S#047_Visit1 Housemap_1                                     188723  MPEG-4 video 
+    563        38934  LEGO_S#047_Visit1 Housemap_2                                     188735  MPEG-4 video 
+    563        38934  LEGO_S#047_Visit1 Questionnaire                                  188712  MPEG-4 video 
+    563        38934  LEGO_S#047_Visit1 Questionnaires_2                               188715  MPEG-4 video 
+    563        39246  LEGO_S#048_Visit1 2-Hour                                         189770  MPEG-4 video 
+    563        39246  LEGO_S#048_Visit1 Questionnaires                                 189772  MPEG-4 video 
+    563        39375  LEGO_S#048_Visit2 2-hour                                         190335  MPEG-4 video 
+    563        39375  LEGO_S#048_Visit2 Housemap                                       190337  MPEG-4 video 
+    563        39375  LEGO_S#048_Visit2 Questionnaires                                 190339  MPEG-4 video 
+    563        39474  LEGO_S#049_Visit1 2-Hour_1                                       190784  MPEG-4 video 
+    563        39474  LEGO_S#049_Visit1 2-Hour_2                                       190788  MPEG-4 video 
+    563        39474  LEGO_S#049_Visit1 Housemap                                       190782  MPEG-4 video 
+    563        39478  LEGO_S#047_Visit2 2-Hour                                         190815  MPEG-4 video 
+    563        39478  LEGO_S#047_Visit2 Questionnaires                                 190817  MPEG-4 video 
+    563        39554  LEGO_S#050_Visit1 2-Hour                                         192500  MPEG-4 video 
+    563        39554  LEGO_S#050_Visit1 Questionnaires                                 192502  MPEG-4 video 
+    563        39597  LEGO_S#050_Visit2 2-Hour                                         192791  MPEG-4 video 
+    563        39597  LEGO_S#050_Visit2 Housemap                                       192789  MPEG-4 video 
+    563        39597  LEGO_S#050_Visit2 Questionnaires                                 192793  MPEG-4 video 
+    563        39646  LEGO_S#051_Visit1 2-Hour                                         193287  MPEG-4 video 
+    563        39646  LEGO_S#051_Visit1 Questionnaires                                 193289  MPEG-4 video 
+    563        39882  LEGO_S#052_Visit1 2-Hour                                         193757  MPEG-4 video 
+    563        39882  LEGO_S#052_Visit1 Housemap                                       193755  MPEG-4 video 
+    563        39882  LEGO_S#052_Visit1 Questionnaires                                 193759  MPEG-4 video 
+    563        39890  LEGO_S#051_Visit2 2-Hour                                         193974  MPEG-4 video 
+    563        39890  LEGO_S#051_Visit2 Housemap                                       193976  MPEG-4 video 
+    563        39890  LEGO_S#051_Visit2 Questionnaires                                 193980  MPEG-4 video 
+    563        39939  LEGO_S#052_Visit2 2-Hour                                         194157  MPEG-4 video 
+    563        39939  LEGO_S#052_Visit2 Questionnaires                                 194159  MPEG-4 video 
+    563        40267  LEGO_S#053_Visit1 2-Hour                                         194693  MPEG-4 video 
+    563        40267  LEGO_S#053_Visit1 Housemap                                       194691  MPEG-4 video 
+    563        40267  LEGO_S#053_Visit1 Questionnaires                                 194695  MPEG-4 video 
+    563        40267  LEGO_S#053_Visit1 Questionnaires (part 2)                        194697  MPEG-4 video 
+    563        40428  LEGO_S#053_Visit2 2-Hour                                         199468  MPEG-4 video 
+    563        40428  LEGO_S#053_Visit2 Questionnaire                                  199466  MPEG-4 video 
+    563        40456  LEGO_S#054_Visit1 2-Hour                                         199738  MPEG-4 video 
+    563        40456  LEGO_S#054_Visit1 Questionnaires                                 199740  MPEG-4 video 
+    563        40518  LEGO_S#054_Visit1 2-Hour                                         200267  MPEG-4 video 
+    563        40518  LEGO_S#054_Visit2 Housemap                                       200265  MPEG-4 video 
+    563        40518  LEGO_S#054_Visit2 Questionnaires                                 200269  MPEG-4 video 
+    563        40817  LEGO_S#055_Visit1 2-Hour                                         201388  MPEG-4 video 
+    563        40817  LEGO_S#055_Visit1 Questionnaires                                 201390  MPEG-4 video 

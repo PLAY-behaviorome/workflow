@@ -1,7 +1,7 @@
 ---
-title: "api-explorations"
+title: "api-explorations-box"
 author: "Rick Gilmore"
-date: "2019-10-01 16:02:26"
+date: "2019-10-04 11:29:41"
 output: 
   html_document:
     keep_md: true
@@ -81,12 +81,12 @@ str(f)
 ```
 ## List of 22
 ##  $ type               : chr "folder"
-##  $ id                 : chr "88740842233"
+##  $ id                 : chr "89160865905"
 ##  $ sequence_id        : chr "0"
 ##  $ etag               : chr "0"
 ##  $ name               : chr "TEST-PLAY-workflow"
-##  $ created_at         : chr "2019-10-01T13:02:29-07:00"
-##  $ modified_at        : chr "2019-10-01T13:02:29-07:00"
+##  $ created_at         : chr "2019-10-04T08:29:47-07:00"
+##  $ modified_at        : chr "2019-10-04T08:29:47-07:00"
 ##  $ description        : chr ""
 ##  $ size               : int 0
 ##  $ path_collection    :List of 2
@@ -110,8 +110,8 @@ str(f)
 ##   ..$ login: chr "rog1@psu.edu"
 ##  $ trashed_at         : NULL
 ##  $ purged_at          : NULL
-##  $ content_created_at : chr "2019-10-01T13:02:29-07:00"
-##  $ content_modified_at: chr "2019-10-01T13:02:29-07:00"
+##  $ content_created_at : chr "2019-10-04T08:29:47-07:00"
+##  $ content_modified_at: chr "2019-10-04T08:29:47-07:00"
 ##  $ owned_by           :List of 4
 ##   ..$ type : chr "user"
 ##   ..$ id   : chr "196373178"
@@ -155,7 +155,7 @@ boxr::box_setwd(f$id)
 ```
 ## box.com working directory changed to 'TEST-PLAY-workflow'
 ## 
-##       id: 88740842233
+##       id: 89160865905
 ##     tree: All Files/TEST-PLAY-workflow
 ##    owner: rog1@psu.edu
 ## contents: 0 files, 0 folders
@@ -186,8 +186,8 @@ play_dirs %>% knitr::kable()
 
 name              type     id             size  description   owner          path                           modified_at           content_modified_at   sha1    version
 ----------------  -------  ------------  -----  ------------  -------------  -----------------------------  --------------------  --------------------  -----  --------
-data_collection   folder   88739522064       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-01 16:02:31   2019-10-01 16:02:31   NA            1
-qa                folder   88741148779       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-01 16:02:30   2019-10-01 16:02:30   NA            1
+data_collection   folder   89161429081       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-04 11:29:49   2019-10-04 11:29:49   NA            1
+qa                folder   89159949764       0                rog1@psu.edu   All Files/TEST-PLAY-workflow   2019-10-04 11:29:48   2019-10-04 11:29:48   NA            1
 
 ### Create a CSV data file and upload
 
@@ -220,16 +220,16 @@ nyu
 ## box.com remote folder reference
 ## 
 ##  name        : nyu 
-##  dir id      : 88739437360 
+##  dir id      : 89159909000 
 ##  size        : 0 B 
-##  modified at : 2019-10-01 13:02:33 
-##  created at  : 2019-10-01 13:02:33 
+##  modified at : 2019-10-04 08:29:50 
+##  created at  : 2019-10-04 08:29:50 
 ##  uploaded by : rog1@psu.edu 
 ##  owned by    : rog1@psu.edu 
 ##  shared link : None 
 ## 
 ##  parent folder name :  data_collection 
-##  parent folder id   :  88739522064
+##  parent folder id   :  89161429081
 ```
 Now that we have an `nyu` subdirectory, we can add a file to it.
 
@@ -250,17 +250,17 @@ boxr::box_ul(nyu$id, file = "tmp.csv")
 ## box.com remote file reference
 ## 
 ##  name        : tmp.csv 
-##  file id     : 533016052226 
+##  file id     : 534981046731 
 ##  version     : V1 
 ##  size        : 57 B 
-##  modified at : 2019-10-01 13:02:34 
-##  created at  : 2019-10-01 13:02:34 
+##  modified at : 2019-10-04 08:29:52 
+##  created at  : 2019-10-04 08:29:52 
 ##  uploaded by : rog1@psu.edu 
 ##  owned by    : rog1@psu.edu 
 ##  shared link : None 
 ## 
 ##  parent folder name :  nyu 
-##  parent folder id   :  88739437360
+##  parent folder id   :  89159909000
 ```
 
 ### Downloading uploaded file
@@ -280,7 +280,7 @@ nyu_list
 ##   Summary of first 1:
 ## 
 ##      name type           id size        owner
-## 1 tmp.csv file 533016052226 57 B rog1@psu.edu
+## 1 tmp.csv file 534981046731 57 B rog1@psu.edu
 ## 
 ## 
 ## Use as.data.frame() to extract full results.

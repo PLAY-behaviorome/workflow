@@ -1,0 +1,146 @@
+---
+title: "volume-report"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: 
+  html_document:
+    keep_md: true
+    theme: lumen
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: hide
+    self-contained: false
+params:
+  vol_id: 444
+  databrary_login: account@email.com
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Install required packages
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+
+if (!require(databraryapi)) {
+  if (!require(devtools)) {
+    install.packages("devtools")
+  }
+  devtools::install_github("PLAY-behaviorome/databraryapi")
+}
+
+if (!require(vcd)) {
+  install.packages("vcd")
+}
+
+library(tidyverse)
+
+# Log in
+databraryapi::login_db(params$databrary_login)
+```
+
+```{r}
+# Get volume info
+vol_data <- databraryapi::list_volume_metadata(as.numeric(params$vol_id))
+```
+
+```{r how-to-render, eval=FALSE}
+# This report must be rendered from the R console
+# Substitute your Databrary email (account ID) for account@email.com, run from console
+rmarkdown::render("volume-report.Rmd", params = list(databrary_login = "account@email.com"))
+```
+
+# [`r vol_data$vol_id` : `r vol_data$name`](`r paste0("https://databrary.org/volume/", params$vol_id)`)
+
+## Summary data
+
+### Owners
+
+```{r owners}
+as.character(vol_data$owners)
+```
+
+### DOI
+
+```{r doi}
+if (as.character(vol_data$doi) == "NA") {
+  cat(paste0("https://databrary.org/volume/", params$vol_id))
+} else {
+  cat(as.character(vol_data$doi))
+}
+```
+
+## Materials & Data {.tabset}
+
+### Materials
+
+```{r materials}
+these_sessions <- databraryapi::download_session_csv(as.numeric(params$vol_id))
+materials <- these_sessions %>%
+  dplyr::filter(session_date == "materials") %>%
+  dplyr::mutate(url = paste0("https://databrary.org/volume/", 
+                             params$vol_id, "/slot/", session_id, "/-")) %>%
+  dplyr::select(session_name, url)
+
+materials %>%
+  knitr::kable(.)
+```
+
+### Participant sessions
+
+```{r session-summary}
+these_sessions <- databraryapi::download_session_csv(as.numeric(params$vol_id))
+
+sessions_filtered <- these_sessions %>%
+  dplyr::filter(session_date != "materials") %>%
+  dplyr::mutate(url = paste0("https://databrary.org/volume/", 
+                             params$vol_id, "/slot/", session_id, "/-")) %>%
+  dplyr::select(participant.ID, group.name, participant.gender, participant.race, participant.ethnicity, url) %>%
+  dplyr::arrange(group.name, participant.gender)
+
+sessions_filtered %>%
+  knitr::kable(.)
+```
+
+### Participant summary
+
+```{r participant-summary}
+gender_race <- sessions_filtered %>%
+  select(group.name, participant.gender, participant.race)
+
+levels(gender_race$participant.race) <- c(NA, "Asian", "Mult", "Unk", "Wht")
+age_gender_table <- xtabs(formula = ~ group.name + participant.gender, data = sessions_filtered)
+
+age_gender_table %>%
+  knitr::kable(.)
+
+age_gender_table %>%
+  vcd::mosaic(.)
+```
+
+## Videos uploaded
+
+```{r videos}
+videos <- databraryapi::list_assets_by_type(as.numeric(params$vol_id))
+
+videos_filtered <- videos %>%
+  dplyr::select(vol_id, session_id, name, asset_id, duration, segment)
+
+videos_filtered %>%
+  knitr::kable(.)
+```
+
+## All uploaded files
+
+```{r all-files}
+all_files <- databraryapi::list_assets_in_volume(as.numeric(params$vol_id))
+
+all_files_filtered <- all_files %>%
+  dplyr::select(vol_id, session_id, name, asset_id, asset_type) %>%
+  dplyr::arrange(session_id, asset_type, name)
+
+all_files_filtered %>%
+  knitr::kable(.)
+```

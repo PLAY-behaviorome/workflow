@@ -1,7 +1,7 @@
 ---
 title: "volume-report"
 author: "Rick Gilmore"
-date: "2019-10-04 10:57:47"
+date: "2019-10-07 18:01:07"
 output: 
   html_document:
     keep_md: true
@@ -10,7 +10,7 @@ output:
     toc_depth: 4
     toc_float: true
     code_folding: hide
-    self-contained: false
+    self-contained: true
 params:
   vol_id: 444
   databrary_login: account@email.com
@@ -31,19 +31,19 @@ vol_data <- databraryapi::list_volume_metadata(as.numeric(params$vol_id))
 rmarkdown::render("volume-report.Rmd", params = list(databrary_login = "account@email.com"))
 ```
 
-# [563 : LEGO](https://databrary.org/volume/563)
+# 563 : LEGO
 
 ## Summary data
 
-### Owners
+### Owner(s)
 
 
 ```r
-as.character(vol_data$owners)
+cat(stringr::str_replace_all(string = as.character(vol_data$owners), replacement = "/n", pattern ="; "))
 ```
 
 ```
-## [1] "Adolph, Karen; Tamis-LeMonda, Catherine"
+## Adolph, Karen/nTamis-LeMonda, Catherine
 ```
 
 ### DOI
@@ -212,7 +212,7 @@ sessions_filtered %>%
 gender_race <- sessions_filtered %>%
   select(group.name, participant.gender, participant.race)
 
-levels(gender_race$participant.race) <- c(NA, "Asian", "Mult", "Unk", "Wht")
+#levels(gender_race$participant.race) <- c(NA, "Asian", "Mult", "Unk", "Wht")
 age_gender_table <- xtabs(formula = ~ group.name + participant.gender, data = sessions_filtered)
 
 age_gender_table %>%
@@ -231,19 +231,26 @@ age_gender_table %>%
   vcd::mosaic(.)
 ```
 
-![](vol-563-report_files/figure-html/participant-summary-1.png)<!-- -->
+![](/Users/rick/github/PLAY-behaviorome/workflow/vol_reports/volume-report-563_files/figure-html/participant-summary-1.png)<!-- -->
 
-## Videos uploaded
+## Files by type {.tabset}
+
+### Videos
 
 
 ```r
-videos <- databraryapi::list_assets_by_type(as.numeric(params$vol_id))
+video_files <- databraryapi::list_assets_by_type(as.numeric(params$vol_id))
 
-videos_filtered <- videos %>%
-  dplyr::select(vol_id, session_id, name, asset_id, duration, segment)
-
-videos_filtered %>%
-  knitr::kable(.)
+if (is.null(video_files)) {
+  cat("No video files in volume.")
+} else {
+  opf_filtered <- video_files %>%
+    dplyr::select(vol_id, session_id, name, 
+                  asset_id, duration, segment)
+  
+  opf_filtered %>%
+    knitr::kable(.)  
+}
 ```
 
 
@@ -537,307 +544,46 @@ videos_filtered %>%
     563        40817  LEGO_S#055_Visit1 2-Hour                                         201388    7262379  c(0, 7262379)         
     563        40817  LEGO_S#055_Visit1 Questionnaires                                 201390    2046166  c(7263288, 9309454)   
 
-## All uploaded files
+### Datavyu (.opf)
 
 
 ```r
-all_files <- databraryapi::list_assets_in_volume(as.numeric(params$vol_id))
+opf_files <- databraryapi::list_assets_by_type(as.numeric(params$vol_id), type = "datavyu")
 
-all_files_filtered <- all_files %>%
-  dplyr::select(vol_id, session_id, name, asset_id, asset_type) %>%
-  dplyr::arrange(session_id, asset_type, name)
-
-all_files_filtered %>%
-  knitr::kable(.)
+if (is.null(opf_files)) {
+  cat("No Datavyu (.opf) files in volume.")
+} else {
+  opf_filtered <- opf_files %>%
+    dplyr::select(vol_id, session_id, name, 
+                  asset_id, duration, segment)
+  
+  opf_filtered %>%
+    knitr::kable(.)  
+}
 ```
 
+```
+## No Datavyu (.opf) files in volume.
+```
+
+### Text
 
 
- vol_id   session_id  name                                                           asset_id  asset_type   
--------  -----------  ------------------------------------------------------------  ---------  -------------
-    563        24098  LEGO_S#002_Visit1 2-Hour.mov                                     139959  MPEG-4 video 
-    563        24098  LEGO_S#002_Visit1 Housemap.mov                                   139947  MPEG-4 video 
-    563        24098  LEGO_S#002_Visit1 Intake, locomotor & MCDI (first part).mov      139949  MPEG-4 video 
-    563        24098  LEGO_S#002_Visit1 MCDI (second part).mov                         139951  MPEG-4 video 
-    563        24099  LEGO_S#002_Visit2 2-Hour                                         106322  MPEG-4 video 
-    563        24099  LEGO_S#002_Visit2 Questionnaire 1                                139953  MPEG-4 video 
-    563        24099  LEGO_S#002_Visit2 Questionnaire 2                                139955  MPEG-4 video 
-    563        24192  LEGO_S#003_Visit1 2-hour (part)                                  106314  MPEG-4 video 
-    563        24192  LEGO_S#003_Visit1 Consent                                        106316  MPEG-4 video 
-    563        24192  LEGO_S#003_Visit1 Housemap                                       106318  MPEG-4 video 
-    563        24192  LEGO_S#003_Visit1 Questionnaires LOC - MCDI                      106320  MPEG-4 video 
-    563        24362  LEGO_S#005_Visit1 2-Hour                                         106891  MPEG-4 video 
-    563        24362  LEGO_S#005_Visit1 Questionnaires                                 106893  MPEG-4 video 
-    563        24643  LEGO_S#005_Visit2 Housemap                                       108183  MPEG-4 video 
-    563        24643  LEGO_S#005_Visit2 Questionnaires                                 108185  MPEG-4 video 
-    563        24643  S#005(2) 2-Hour                                                  108181  MPEG-4 video 
-    563        24658  LEGO_S#006_Visit1 2-Hour.mov                                     139979  MPEG-4 video 
-    563        24658  LEGO_S#006_Visit1 Experimenter view.mov                          139983  MPEG-4 video 
-    563        24658  LEGO_S#006_Visit1 Housemap.mov                                   139967  MPEG-4 video 
-    563        24658  LEGO_S#006_Visit1 Questionnaires                                 109041  MPEG-4 video 
-    563        24861  LEGO_S#007_Visit1 2-hour                                         110431  MPEG-4 video 
-    563        24861  LEGO_S#007_Visit1 Introduction                                   110391  MPEG-4 video 
-    563        24861  LEGO_S#007_Visit1 Questionnaires                                 110429  MPEG-4 video 
-    563        24964  LEGO_S#007_Visit2 2-hour                                         111026  MPEG-4 video 
-    563        24964  LEGO_S#007_Visit2 Housemap                                       139975  MPEG-4 video 
-    563        24964  LEGO_S#007_Visit2 Questionnaires                                 139977  MPEG-4 video 
-    563        24967  LEGO_S#004_Visit1 2-Hour                                         111036  MPEG-4 video 
-    563        24967  LEGO_S#004_Visit1 Experimenter 2-hour                            139971  MPEG-4 video 
-    563        24967  LEGO_S#004_Visit1 Experimenter Housemap                          139969  MPEG-4 video 
-    563        24967  LEGO_S#004_Visit1 Housemap                                       139963  MPEG-4 video 
-    563        24967  LEGO_S#004_Visit1 Questionnaires                                 139965  MPEG-4 video 
-    563        24968  LEGO_S#004_Visit2 Questionnaire                                  111040  MPEG-4 video 
-    563        24968  S#004(2) 2-Hour                                                  111038  MPEG-4 video 
-    563        25105  LEGO_S#008_Visit1 2-hour                                         112762  MPEG-4 video 
-    563        25105  LEGO_S#008_Visit1 Questionnaires                                 112766  MPEG-4 video 
-    563        25106  LEGO_S#009_Visit1 2-Hour                                         111407  MPEG-4 video 
-    563        25106  LEGO_S#009_Visit1 Housemap                                       111405  MPEG-4 video 
-    563        25106  LEGO_S#009_Visit1 Questionnaires                                 111409  MPEG-4 video 
-    563        25245  LEGO_S#008_Visit2 2-hour                                         112002  MPEG-4 video 
-    563        25245  LEGO_S#008_Visit2 Databrary                                      112006  MPEG-4 video 
-    563        25245  LEGO_S#008_Visit2 Housemap                                       112008  MPEG-4 video 
-    563        25346  LEGO_S#009_Visit2 2-Hour                                         112675  MPEG-4 video 
-    563        25346  LEGO_S#009_Visit2 Questionnaires                                 112677  MPEG-4 video 
-    563        25541  LEGO_S#010_Visit1 2-Hour                                         113783  MPEG-4 video 
-    563        25541  LEGO_S#010_Visit1 Questionnaires                                 113785  MPEG-4 video 
-    563        25568  LEGO_S#011_Visit1 2-Hour                                         113963  MPEG-4 video 
-    563        25568  LEGO_S#011_Visit1 Questionnaires                                 113965  MPEG-4 video 
-    563        25624  LEGO_S#010_Visit2 2-Hour                                         114661  MPEG-4 video 
-    563        25624  LEGO_S#010_Visit2 Housemap                                       114659  MPEG-4 video 
-    563        25624  LEGO_S#010_Visit2 Questionnaires                                 114657  MPEG-4 video 
-    563        25627  LEGO_S#012_Visit1 2-Hour                                         114709  MPEG-4 video 
-    563        25627  LEGO_S#012_Visit1 Housemap                                       114701  MPEG-4 video 
-    563        25627  LEGO_S#012_Visit1 Questionnaires                                 114703  MPEG-4 video 
-    563        25654  LEGO_S#012_Visit2 2-Hour                                         116051  MPEG-4 video 
-    563        25654  LEGO_S#012_Visit2 Questionnaires                                 114786  MPEG-4 video 
-    563        25655  LEGO_S#006_Visit2 Questionnaires.mov                             139987  MPEG-4 video 
-    563        25661  LEGO_S#011_Visit2 2-Hour                                         114846  MPEG-4 video 
-    563        25661  LEGO_S#011_Visit2 Housemap                                       114848  MPEG-4 video 
-    563        25661  LEGO_S#011_Visit2 Questionnaires                                 116634  MPEG-4 video 
-    563        25711  LEGO_S#013_Visit1 2-Hour                                         115112  MPEG-4 video 
-    563        25711  LEGO_S#013_Visit1 Databrary                                      115106  MPEG-4 video 
-    563        25711  LEGO_S#013_Visit1 Questionnaires                                 115108  MPEG-4 video 
-    563        25817  LEGO_S#014_Visit1 2-Hour                                         115404  MPEG-4 video 
-    563        25817  LEGO_S#014_Visit1 Housemap                                       115359  MPEG-4 video 
-    563        25817  LEGO_S#014_Visit1 Questionnaires                                 115363  MPEG-4 video 
-    563        25818  LEGO_S#014_Visit2 2-Hour                                         115418  MPEG-4 video 
-    563        25818  LEGO_S#014_Visit2 Questionnaires                                 115394  MPEG-4 video 
-    563        25945  LEGO_S#013_Visit2 2-Hour                                         115658  MPEG-4 video 
-    563        25945  LEGO_S#013_Visit2 Housemap                                       115654  MPEG-4 video 
-    563        25945  LEGO_S#013_Visit2 Questionnaires                                 115656  MPEG-4 video 
-    563        25973  LEGO_S#015_Visit1 2-Hour.mov                                     115923  MPEG-4 video 
-    563        25973  LEGO_S#015_Visit1 Housemap                                       115925  MPEG-4 video 
-    563        25973  LEGO_S#015_Visit1 Questionnaires                                 115927  MPEG-4 video 
-    563        25974  LEGO_S#015_Visit2 2-Hour                                         115929  MPEG-4 video 
-    563        25974  LEGO_S#015_Visit2 Questionnaires                                 115931  MPEG-4 video 
-    563        26340  LEGO_S#016_Visit1 2-Hour                                         117096  MPEG-4 video 
-    563        26340  LEGO_S#016_Visit1 Housemap                                       117098  MPEG-4 video 
-    563        26340  LEGO_S#016_Visit1 Intro and Consent                              117100  MPEG-4 video 
-    563        26340  LEGO_S#016_Visit1 Questionnaires                                 117102  MPEG-4 video 
-    563        26343  LEGO_S#017_Visit1 2-Hour                                         118347  MPEG-4 video 
-    563        26343  LEGO_S#017_Visit1 Questionnaires                                 118355  MPEG-4 video 
-    563        26344  LEGO_S#017_Visit1 2-Hour.mov                                     140015  MPEG-4 video 
-    563        26344  LEGO_S#017_Visit2 Housemap                                       140001  MPEG-4 video 
-    563        26344  LEGO_S#017_Visit2 Questionnaires                                 118343  MPEG-4 video 
-    563        26890  LEGO_S#018_Visit1 2-Hour.mov                                     120738  MPEG-4 video 
-    563        26890  LEGO_S#018_Visit1 Questionnaires.mov                             121241  MPEG-4 video 
-    563        27064  LEGO_S#019_Visit1 2-Hour                                         119817  MPEG-4 video 
-    563        27064  LEGO_S#019_Visit1 Housemap                                       119819  MPEG-4 video 
-    563        27064  LEGO_S#019_Visit1 Questionnaires                                 119829  MPEG-4 video 
-    563        27109  LEGO_S#018_Visit2 2-Hour                                         120046  MPEG-4 video 
-    563        27109  LEGO_S#018_Visit2 Databrary                                      120151  MPEG-4 video 
-    563        27109  LEGO_S#018_Visit2 Housemap                                       120528  MPEG-4 video 
-    563        27109  LEGO_S#018_Visit2 Questionnaires                                 120038  MPEG-4 video 
-    563        27457  LEGO_S#020_Visit1 2-Hour                                         122063  MPEG-4 video 
-    563        27457  LEGO_S#020_Visit1 Questionnaires                                 122093  MPEG-4 video 
-    563        27920  LEGO_S#021_Visit1 2-Hour                                         126775  MPEG-4 video 
-    563        27920  LEGO_S#021_Visit1 Questionnaires I- Locomotor                    126767  MPEG-4 video 
-    563        27920  LEGO_S#021_Visit1 Questionnaires II                              126761  MPEG-4 video 
-    563        28159  LEGO_S#021_Visit2 2-Hour                                         127624  MPEG-4 video 
-    563        28159  LEGO_S#021_Visit2 Housemap                                       127626  MPEG-4 video 
-    563        28159  LEGO_S#021_Visit2 Questionnaires                                 127631  MPEG-4 video 
-    563        28159  LEGO_S#021_Visit2 Questionnaires 2 & Databrary                   127628  MPEG-4 video 
-    563        28959  LEGO_S#022_Visit1 2-Hour                                         130244  MPEG-4 video 
-    563        28959  LEGO_S#022_Visit1 Housemap                                       139993  MPEG-4 video 
-    563        28959  LEGO_S#022_Visit1 Questionnaires                                 130246  MPEG-4 video 
-    563        29302  LEGO_S#022_Visit2 2-Hour                                         132592  MPEG-4 video 
-    563        29302  LEGO_S#022_Visit2 Questionnaires                                 132594  MPEG-4 video 
-    563        29347  LEGO_S#023_Visit1 2-Hour                                         132915  MPEG-4 video 
-    563        29347  LEGO_S#023_Visit1 Questionnaires                                 132917  MPEG-4 video 
-    563        29464  LEGO_S#024_Visit1 2-Hour                                         133781  MPEG-4 video 
-    563        29464  LEGO_S#024_Visit1 Questionnaires                                 133791  MPEG-4 video 
-    563        29543  LEGO_S#024_Visit2 Housemap                                       139989  MPEG-4 video 
-    563        29543  LEGO_S#024_Visit2 Questionnaires                                 139985  MPEG-4 video 
-    563        29543  LEGO_S#024_Visit2 Questionnaires.mov                             139991  MPEG-4 video 
-    563        29595  LEGO_S#023_Visit2 2-Hour                                         134600  MPEG-4 video 
-    563        29595  LEGO_S#023_Visit2 Housemap                                       134606  MPEG-4 video 
-    563        29595  LEGO_S#023_Visit2 Questionnaires                                 134612  MPEG-4 video 
-    563        29895  LEGO_S#025_Visit1 2-Hour                                         136644  MPEG-4 video 
-    563        29895  LEGO_S#025_Visit1 Questionnaires                                 136646  MPEG-4 video 
-    563        29906  LEGO_S#025_Visit2 2-Hour                                         136677  MPEG-4 video 
-    563        29906  LEGO_S#025_Visit2 Decibel meter location                         136681  MPEG-4 video 
-    563        29906  LEGO_S#025_Visit2 Housemap                                       136679  MPEG-4 video 
-    563        29906  LEGO_S#025_Visit2 Questionnaires                                 136673  MPEG-4 video 
-    563        29971  LEGO_S#026_Visit1 2-Hour                                         137012  MPEG-4 video 
-    563        29971  LEGO_S#026_Visit1 Housemap                                       137014  MPEG-4 video 
-    563        29971  LEGO_S#026_Visit1 Questionnaires                                 137016  MPEG-4 video 
-    563        30156  LEGO_S#027_Visit1 2-Hour                                         137406  MPEG-4 video 
-    563        30156  LEGO_S#027_Visit1 Questionnaires                                 139981  MPEG-4 video 
-    563        30240  LEGO_S#026_Visit2 2-Hour                                         137935  MPEG-4 video 
-    563        30240  LEGO_S#026_Visit2 Questionnaires                                 137937  MPEG-4 video 
-    563        30240  LEGO_S#026_Visit2 Solitary Play                                  137939  MPEG-4 video 
-    563        30242  LEGO_S#028_Visit1 2-Hour                                         137563  MPEG-4 video 
-    563        30242  LEGO_S#028_Visit1 Questionnaires                                 137565  MPEG-4 video 
-    563        30290  LEGO_S#028_Visit2 2-Hour                                         139973  MPEG-4 video 
-    563        30290  LEGO_S#028_Visit2 Dyadic Play                                    138042  MPEG-4 video 
-    563        30290  LEGO_S#028_Visit2 Housemap                                       138050  MPEG-4 video 
-    563        30290  LEGO_S#028_Visit2 Questionnaires                                 138052  MPEG-4 video 
-    563        30290  LEGO_S#028_Visit2 Solitary Play                                  138044  MPEG-4 video 
-    563        30453  LEGO_S#029_Visit1 2-Hour                                         138945  MPEG-4 video 
-    563        30453  LEGO_S#029_Visit1 Questionnaires                                 138947  MPEG-4 video 
-    563        30453  LEGO_S#029_Visit1 Tablet Location                                139961  MPEG-4 video 
-    563        30487  LEGO_S#030_Visit1 2-Hour                                         139631  MPEG-4 video 
-    563        30487  LEGO_S#030_Visit1 Questionnaires                                 139633  MPEG-4 video 
-    563        30487  LEGO_S#030_Visit1 Tablet location                                139957  MPEG-4 video 
-    563        30494  LEGO_S#029_Visit2 2-Hour                                         139677  MPEG-4 video 
-    563        30494  LEGO_S#029_Visit2 Databrary                                      139659  MPEG-4 video 
-    563        30494  LEGO_S#029_Visit2 Housemap                                       139661  MPEG-4 video 
-    563        30494  LEGO_S#029_Visit2 Questionnaires                                 139671  MPEG-4 video 
-    563        30494  LEGO_S#029_Visit2 Solitary Play                                  139673  MPEG-4 video 
-    563        30494  LEGO_S#029_Visit2 Tablet location                                139669  MPEG-4 video 
-    563        30511  LEGO_S#030_Visit2 Housemap                                       139855  MPEG-4 video 
-    563        30511  LEGO_S#030_Visit2 Questionnaires                                 139857  MPEG-4 video 
-    563        30511  LEGO_S#030_Visit2 Solitary Play                                  139859  MPEG-4 video 
-    563        30524  LEGO_S#020_Visit2 2-Hour.mov                                     140009  MPEG-4 video 
-    563        30524  LEGO_S#020_Visit2 Housemap.mov                                   140005  MPEG-4 video 
-    563        30524  LEGO_S#020_Visit2 Questionnaires.mov                             140007  MPEG-4 video 
-    563        30525  LEGO_S#016_Visit2 2-Hour.mov                                     140013  MPEG-4 video 
-    563        30525  LEGO_S#016_Visit2 Databrary                                      139995  MPEG-4 video 
-    563        30525  LEGO_S#016_Visit2 Questionnaires.mov                             139997  MPEG-4 video 
-    563        30526  LEGO_S#019_Visit2 2-Hour.mov                                     140003  MPEG-4 video 
-    563        30526  LEGO_S#019_Visit2 Questionnaires.mov                             140011  MPEG-4 video 
-    563        31726  LEGO_S#031_Visit1 2-Hour                                         146632  MPEG-4 video 
-    563        31726  LEGO_S#031_Visit1 Housemap                                       146628  MPEG-4 video 
-    563        31726  LEGO_S#031_Visit1 Quesitonnaires                                 146630  MPEG-4 video 
-    563        31749  LEGO_S#032_Visit1 2-Hour                                         146782  MPEG-4 video 
-    563        31749  LEGO_S#032_Visit1 Housemap                                       146778  MPEG-4 video 
-    563        31749  LEGO_S#032_Visit1 Questionnaires                                 146780  MPEG-4 video 
-    563        31801  LEGO_S#031_Visit2 2-Hour                                         147013  MPEG-4 video 
-    563        31801  LEGO_S#031_Visit2 Questionnaires                                 147015  MPEG-4 video 
-    563        31805  LEGO_S#032_Visit2 2-Hour                                         147111  MPEG-4 video 
-    563        31805  LEGO_S#032_Visit2 Databrary                                      147113  MPEG-4 video 
-    563        31805  LEGO_S#032_Visit2 Dyadic Play                                    147115  MPEG-4 video 
-    563        31805  LEGO_S#032_Visit2 Solitary Play                                  147117  MPEG-4 video 
-    563        31895  LEGO_S#033_Visit1  2-Hour                                        147507  MPEG-4 video 
-    563        31895  LEGO_S#033_Visit1 Housemap                                       147497  MPEG-4 video 
-    563        31895  LEGO_S#033_Visit1 Questionnaires                                 147499  MPEG-4 video 
-    563        32142  LEGO_S#032_Visit2 Outfit                                         148318  MPEG-4 video 
-    563        32142  LEGO_S#033_Visit2  2-Hour                                        148320  MPEG-4 video 
-    563        32142  LEGO_S#033_Visit2 Databrary                                      148322  MPEG-4 video 
-    563        32142  LEGO_S#033_Visit2 Questionnaires                                 148324  MPEG-4 video 
-    563        32454  LEGO_S#034_Visit1  2-Hour                                        149351  MPEG-4 video 
-    563        32454  LEGO_S#034_Visit1 Housemap                                       149348  MPEG-4 video 
-    563        32454  LEGO_S#034_Visit1 Questionnaires                                 149384  MPEG-4 video 
-    563        32463  LEGO_S#034_Visit2 2-Hour                                         149594  MPEG-4 video 
-    563        32463  LEGO_S#034_Visit2 Dyadic Play                                    149516  MPEG-4 video 
-    563        32463  LEGO_S#034_Visit2 Questionnaires                                 149518  MPEG-4 video 
-    563        32463  LEGO_S#034_Visit2 Solitary Play                                  149520  MPEG-4 video 
-    563        32807  LEGO_S#035_Visit1 2-Hour                                         151206  MPEG-4 video 
-    563        32807  LEGO_S#035_Visit1 Databrary                                      151194  MPEG-4 video 
-    563        32807  LEGO_S#035_Visit1 Questionnaires                                 151200  MPEG-4 video 
-    563        32827  LEGO_S#036_Visit 1 2-Hour                                        151323  MPEG-4 video 
-    563        32827  LEGO_S#036_Visit1 Questionnaires                                 151966  MPEG-4 video 
-    563        32866  LEGO_S#035_Visit2 2-Hour                                         151675  MPEG-4 video 
-    563        32866  LEGO_S#035_Visit2 House map                                      151673  MPEG-4 video 
-    563        32866  LEGO_S#035_Visit2 Questionnaires                                 151677  MPEG-4 video 
-    563        32974  LEGO_S#037_Visit1 2-Hours                                        151918  MPEG-4 video 
-    563        32974  LEGO_S#037_Visit1 Questionnaires                                 151916  MPEG-4 video 
-    563        32990  LEGO_S#037_Visit2 2-Hour                                         151964  MPEG-4 video 
-    563        32990  LEGO_S#037_Visit2 Dyadic Play                                    151956  MPEG-4 video 
-    563        32990  LEGO_S#037_Visit2 House map                                      151960  MPEG-4 video 
-    563        32990  LEGO_S#037_Visit2 Outfit                                         151958  MPEG-4 video 
-    563        32990  LEGO_S#037_Visit2 Questionnaires                                 151962  MPEG-4 video 
-    563        33000  LEGO_S#036_Visit2 2-hour                                         151988  MPEG-4 video 
-    563        33000  LEGO_S#036_Visit2 DyadicPlay                                     151980  MPEG-4 video 
-    563        33000  LEGO_S#036_Visit2 Outfit                                         151982  MPEG-4 video 
-    563        33000  LEGO_S#036_Visit2 Questionnaires                                 151984  MPEG-4 video 
-    563        33000  LEGO_S#036_Visit2 SolitaryPlay                                   151986  MPEG-4 video 
-    563        33008  LEGO_S#038_Visit1 2-Hour                                         152006  MPEG-4 video 
-    563        33008  LEGO_S#038_Visit1 Questionnaires                                 152017  MPEG-4 video 
-    563        33459  LEGO_S#040_Visit1 2-Hour                                         154691  MPEG-4 video 
-    563        33459  LEGO_S#040_Visit1 Housemap                                       154689  MPEG-4 video 
-    563        33459  LEGO_S#040_Visit1 Questionnaires                                 154693  MPEG-4 video 
-    563        34133  LEGO_S#041_Visit1 2-Hour                                         159201  MPEG-4 video 
-    563        34133  LEGO_S#041_Visit1 Housemap                                       159199  MPEG-4 video 
-    563        34133  LEGO_S#041_Visit1 Questionnaires1                                159203  MPEG-4 video 
-    563        34133  LEGO_S#041_Visit1 Questionnaires2                                159205  MPEG-4 video 
-    563        34439  LEGO_S#041 2-Hour                                                160294  MPEG-4 video 
-    563        34439  LEGO_S#041_Visit2 Questionnaires                                 160292  MPEG-4 video 
-    563        34870  LEGO_S#042_Visit1 2-Hour                                         161572  MPEG-4 video 
-    563        34870  LEGO_S#042_Visit1 Housemap                                       162143  MPEG-4 video 
-    563        34870  LEGO_S#042_Visit1 Questionnaires                                 161566  MPEG-4 video 
-    563        34961  LEGO_S#038_Visit2 2-hour                                         161824  MPEG-4 video 
-    563        34961  LEGO_S#038_Visit2 Housemap                                       161818  MPEG-4 video 
-    563        34961  LEGO_S#038_Visit2 Questionnaires                                 161822  MPEG-4 video 
-    563        34961  LEGO_S#038_Visit2 Shoes                                          161816  MPEG-4 video 
-    563        35063  LEGO_S#042_Visit2 Dyadic Play.mov                                162141  MPEG-4 video 
-    563        35063  LEGO_S#042_Visit2 Questionnaires                                 162139  MPEG-4 video 
-    563        35095  LEGO_S#043_Visit1 2-Hour                                         162270  MPEG-4 video 
-    563        35095  LEGO_S#043_Visit1 Housemap                                       162272  MPEG-4 video 
-    563        35095  LEGO_S#043_Visit1 Questionnaires                                 162276  MPEG-4 video 
-    563        35172  LEGO_S#043_Visit2 2-Hour                                         190823  MPEG-4 video 
-    563        35172  LEGO_S#043_Visit2 Questionnaires                                 190825  MPEG-4 video 
-    563        36221  LEGO_S#044_Visit1 2-hrs                                          170461  MPEG-4 video 
-    563        36221  LEGO_S#044_Visit1 Questionnaires                                 170463  MPEG-4 video 
-    563        36745  LEGO_S#045_Visit1 2-Hour                                         190821  MPEG-4 video 
-    563        36745  LEGO_S#045_Visit1 Housemap                                       190819  MPEG-4 video 
-    563        36926  LEGO_S#045_Visit2 2-hour                                         174982  MPEG-4 video 
-    563        36926  LEGO_S#045_Visit2 Questionnaires                                 174984  MPEG-4 video 
-    563        38271  LEGO_S#046_Visit 1 Questionnaires                                183469  MPEG-4 video 
-    563        38271  LEGO_S#046_Visit1 2-hour                                         183459  MPEG-4 video 
-    563        38271  LEGO_S#046_Visit1 Housemap                                       183471  MPEG-4 video 
-    563        38306  LEGO_S#046_Visit 2 Questionnaires                                183559  MPEG-4 video 
-    563        38306  LEGO_S#046_Visit2 2-hour                                         183561  MPEG-4 video 
-    563        38934  LEGO_S#047_Visit1 2-hour                                         188729  MPEG-4 video 
-    563        38934  LEGO_S#047_Visit1 Housemap_1                                     188723  MPEG-4 video 
-    563        38934  LEGO_S#047_Visit1 Housemap_2                                     188735  MPEG-4 video 
-    563        38934  LEGO_S#047_Visit1 Questionnaire                                  188712  MPEG-4 video 
-    563        38934  LEGO_S#047_Visit1 Questionnaires_2                               188715  MPEG-4 video 
-    563        39246  LEGO_S#048_Visit1 2-Hour                                         189770  MPEG-4 video 
-    563        39246  LEGO_S#048_Visit1 Questionnaires                                 189772  MPEG-4 video 
-    563        39375  LEGO_S#048_Visit2 2-hour                                         190335  MPEG-4 video 
-    563        39375  LEGO_S#048_Visit2 Housemap                                       190337  MPEG-4 video 
-    563        39375  LEGO_S#048_Visit2 Questionnaires                                 190339  MPEG-4 video 
-    563        39474  LEGO_S#049_Visit1 2-Hour_1                                       190784  MPEG-4 video 
-    563        39474  LEGO_S#049_Visit1 2-Hour_2                                       190788  MPEG-4 video 
-    563        39474  LEGO_S#049_Visit1 Housemap                                       190782  MPEG-4 video 
-    563        39478  LEGO_S#047_Visit2 2-Hour                                         190815  MPEG-4 video 
-    563        39478  LEGO_S#047_Visit2 Questionnaires                                 190817  MPEG-4 video 
-    563        39554  LEGO_S#050_Visit1 2-Hour                                         192500  MPEG-4 video 
-    563        39554  LEGO_S#050_Visit1 Questionnaires                                 192502  MPEG-4 video 
-    563        39597  LEGO_S#050_Visit2 2-Hour                                         192791  MPEG-4 video 
-    563        39597  LEGO_S#050_Visit2 Housemap                                       192789  MPEG-4 video 
-    563        39597  LEGO_S#050_Visit2 Questionnaires                                 192793  MPEG-4 video 
-    563        39646  LEGO_S#051_Visit1 2-Hour                                         193287  MPEG-4 video 
-    563        39646  LEGO_S#051_Visit1 Questionnaires                                 193289  MPEG-4 video 
-    563        39882  LEGO_S#052_Visit1 2-Hour                                         193757  MPEG-4 video 
-    563        39882  LEGO_S#052_Visit1 Housemap                                       193755  MPEG-4 video 
-    563        39882  LEGO_S#052_Visit1 Questionnaires                                 193759  MPEG-4 video 
-    563        39890  LEGO_S#051_Visit2 2-Hour                                         193974  MPEG-4 video 
-    563        39890  LEGO_S#051_Visit2 Housemap                                       193976  MPEG-4 video 
-    563        39890  LEGO_S#051_Visit2 Questionnaires                                 193980  MPEG-4 video 
-    563        39939  LEGO_S#052_Visit2 2-Hour                                         194157  MPEG-4 video 
-    563        39939  LEGO_S#052_Visit2 Questionnaires                                 194159  MPEG-4 video 
-    563        40267  LEGO_S#053_Visit1 2-Hour                                         194693  MPEG-4 video 
-    563        40267  LEGO_S#053_Visit1 Housemap                                       194691  MPEG-4 video 
-    563        40267  LEGO_S#053_Visit1 Questionnaires                                 194695  MPEG-4 video 
-    563        40267  LEGO_S#053_Visit1 Questionnaires (part 2)                        194697  MPEG-4 video 
-    563        40428  LEGO_S#053_Visit2 2-Hour                                         199468  MPEG-4 video 
-    563        40428  LEGO_S#053_Visit2 Questionnaire                                  199466  MPEG-4 video 
-    563        40456  LEGO_S#054_Visit1 2-Hour                                         199738  MPEG-4 video 
-    563        40456  LEGO_S#054_Visit1 Questionnaires                                 199740  MPEG-4 video 
-    563        40518  LEGO_S#054_Visit1 2-Hour                                         200267  MPEG-4 video 
-    563        40518  LEGO_S#054_Visit2 Housemap                                       200265  MPEG-4 video 
-    563        40518  LEGO_S#054_Visit2 Questionnaires                                 200269  MPEG-4 video 
-    563        40817  LEGO_S#055_Visit1 2-Hour                                         201388  MPEG-4 video 
-    563        40817  LEGO_S#055_Visit1 Questionnaires                                 201390  MPEG-4 video 
+```r
+text_files <- databraryapi::list_assets_by_type(as.numeric(params$vol_id), type = "text")
+
+if (is.null(text_files)) {
+  cat("No text files in volume.")
+} else {
+  text_filtered <- text_files %>%
+    dplyr::select(vol_id, session_id, name, 
+                  asset_id, duration, segment)
+  
+  opf_filtered %>%
+    knitr::kable(.)  
+}
+```
+
+```
+## No text files in volume.
+```

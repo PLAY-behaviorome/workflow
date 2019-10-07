@@ -18,9 +18,11 @@ The following describes the people and their roles in carrying out the PLAY proj
 
 ### PLAY staff
 
-*PLAY staff*
+*PLAY staff* or *PLAY staff member*
 
 ### Data collection site
+
+*Data Collection Site Staff* = *Data Collection Site PI* or *Data Collection Site RA*
 
 *Data Collection Site PI*
 
@@ -37,6 +39,8 @@ The following describes the people and their roles in carrying out the PLAY proj
 [Datavyu](https://datavyu.org)
 
 [KoBoToolbox](https://www.kobotoolbox.org)
+
+[Box](https://box.com)
 
 ### Desktop software
 

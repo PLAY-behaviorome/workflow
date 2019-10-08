@@ -25,7 +25,7 @@ This document provides information about the requirements and specifications for
 
 2. As a *PLAY staff member*, I want the *data collection site status reports* to be available on the web so that other *PLAY staff members* or *PLAY PIs* can review them. I may also want the reports to be available to *data collection site staff*.
 
-#### Gather and process survey data from KoBoToolbox
+### Gather and process survey data from KoBoToolbox
 
 1. As a *PLAY staff member*, I want to be able to download completed surveys from completed data collection sessions from the KoBoToolbox server. 
 
@@ -37,7 +37,7 @@ This document provides information about the requirements and specifications for
 
 5. As a *PLAY staff member*, I want to generate machine and human readable *survey code book (variable) summaries*.
 
-#### Gather and process video and audio data from Databrary
+### Gather and process video and audio data from Databrary
 
 1. As a *PLAY staff member*, I want to be able to create a specific set of directories to manage the QA, coding assignment, coding reliability, and final curation back to Databrary of PLAY project video, audio, and survey data files.
 

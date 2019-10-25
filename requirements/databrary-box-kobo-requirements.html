@@ -1644,7 +1644,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">PLAY workflow requirements &amp; specs</h1>
 <h4 class="author">Rick Gilmore</h4>
-<h4 class="date">2019-10-08 09:08:11</h4>
+<h4 class="date">2019-10-25 09:19:24</h4>
 
 </div>
 
@@ -1665,9 +1665,18 @@ div.tocify {
 <div id="gather-and-process-survey-data-from-kobotoolbox" class="section level3">
 <h3>Gather and process survey data from KoBoToolbox</h3>
 <ol style="list-style-type: decimal">
-<li><p>As a <em>PLAY staff member</em>, I want to be able to download completed surveys from completed data collection sessions from the KoBoToolbox server.</p></li>
-<li><p>As a <em>PLAY staff member</em>, I want to separate the survey files into distinct CSV files by survey and participant, and I want to upload the CSV files to participant’s Databrary volume and session.</p></li>
-<li><p>As a <em>PLAY staff member</em>, I want to compare the data from KoBoToolbox with that hand-entered by <em>data collection site staff</em> and flag inconsistencies for correction.</p></li>
+<li>As a <em>PLAY staff member</em>, I want to be able to download completed surveys from completed data collection sessions from the KoBoToolbox server.</li>
+</ol>
+<p>A possible location for these files would be a <code>gather/kobotoolbox</code> directory on Box.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>As a <em>PLAY staff member</em>, I want to separate the survey files into distinct CSV files by participant and survey, and I want to upload the CSV files to participant’s Databrary volume and session.</li>
+</ol>
+<p>A possible instantiation of this would be working files on Box, possibly in some sort of <code>cleaned_data/</code> folder on Box.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>As a <em>PLAY staff member</em>, I want to compare the data from KoBoToolbox with that hand-entered by <em>data collection site staff</em> and flag inconsistencies for correction.</li>
+</ol>
+<p>A possible instantiation of this would involve extracting data from the Databrary session spreadsheet and comparing it to the processed data from KoBoToolbox.</p>
+<ol start="4" style="list-style-type: decimal">
 <li><p>As a <em>PLAY staff member</em>, I want to generate aggregate CSV data files combining survey data across participants in a site with other relevant subject-specific metadata. The aggregate (grouped across participants) survey-specific data files should be uploaded to the data collection site’s Databrary volume in a separate materials session/folder.</p></li>
 <li><p>As a <em>PLAY staff member</em>, I want to generate machine and human readable <em>survey code book (variable) summaries</em>.</p></li>
 </ol>
@@ -1675,9 +1684,15 @@ div.tocify {
 <div id="gather-and-process-video-and-audio-data-from-databrary" class="section level3">
 <h3>Gather and process video and audio data from Databrary</h3>
 <ol style="list-style-type: decimal">
-<li><p>As a <em>PLAY staff member</em>, I want to be able to create a specific set of directories to manage the QA, coding assignment, coding reliability, and final curation back to Databrary of PLAY project video, audio, and survey data files.</p></li>
-<li><p>As a <em>PLAY staff member</em>, I want to be able to transfer uploaded videos and audio files from data collection site volumes and sessions to associated video and audio QA folders on Box.</p></li>
-<li><p>As a <em>PLAY staff member</em>, I want to be able to query the QA, coding assignment, coding reliability, and final curation directories on Box to determine statistics about which videos need to be assigned to QA review, which have passed QA review, which have been assigned to what coding passes, which have been assigned to what coding reliability passes, and so forth.</p></li>
+<li>As a <em>PLAY staff member</em>, I want to be able to create a specific set of directories to manage the QA, coding assignment, coding reliability, and final curation back to Databrary of PLAY project video, audio, and survey data files.</li>
+</ol>
+<p>These directories could be located on Box under a directory scheme similar to that used for the KoBoToolbox data, e.g., <code>gather/video</code>. An open question is whether to have subdirectories here, for example, by site, or if the video file names have site IDs and participant IDs, just use those.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>As a <em>PLAY staff member</em>, I want to be able to transfer uploaded videos and audio files from data collection site volumes and sessions to associated video and audio QA folders on Box.</li>
+</ol>
+<p>Again, a file structure on Box could consist of something like <code>qa/video</code> with subdirectories for <code>to_review</code>, <code>under_review</code>, and <code>passed_review</code>, etc.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>As a <em>PLAY staff member</em>, I want to be able to query the QA, coding assignment, coding reliability, and final curation directories on Box to determine statistics about which videos need to be assigned to QA review, which have passed QA review, which have been assigned to what coding passes, which have been assigned to what coding reliability passes, and so forth.</li>
 </ol>
 </div>
 </div>

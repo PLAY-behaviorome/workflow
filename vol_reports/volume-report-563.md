@@ -1,7 +1,7 @@
 ---
 title: "volume-report"
 author: "Rick Gilmore"
-date: "2019-10-07 18:01:07"
+date: "2019-10-31 14:22:57"
 output: 
   html_document:
     keep_md: true
@@ -146,6 +146,7 @@ sessions_filtered %>%
              50  13 mos Walkers   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39554/- 
              50  13 mos Walkers   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/39597/- 
              55  13 mos Walkers   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/40817/- 
+             55  13 mos Walkers   Male                 More than one               Hispanic or Latino       https://databrary.org/volume/563/slot/41637/- 
              14  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25817/- 
              14  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25818/- 
              15  18 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25973/- 
@@ -174,6 +175,8 @@ sessions_filtered %>%
              46  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/38306/- 
              53  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/40267/- 
              53  18 mos           Male                 White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/40428/- 
+             56  18 mos           Male                 Asian                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/41504/- 
+             56  18 mos           Male                 Asian                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/41554/- 
               6  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/24658/- 
               6  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/25655/- 
              16  23 mos           Female               White                       Not Hispanic or Latino   https://databrary.org/volume/563/slot/26340/- 
@@ -222,8 +225,8 @@ age_gender_table %>%
                   Female   Male
 ---------------  -------  -----
 13 mos Crawler         8      8
-13 mos Walkers        10     16
-18 mos                15     13
+13 mos Walkers        10     17
+18 mos                15     15
 23 mos                13     17
 
 ```r
@@ -543,6 +546,15 @@ if (is.null(video_files)) {
     563        40518  LEGO_S#054_Visit2 Questionnaires                                 200269    1534656  c(7222247, 8756903)   
     563        40817  LEGO_S#055_Visit1 2-Hour                                         201388    7262379  c(0, 7262379)         
     563        40817  LEGO_S#055_Visit1 Questionnaires                                 201390    2046166  c(7263288, 9309454)   
+    563        41504  LEGO_S#056_Visit1 Housemap                                       205398     381014  c(0, 381014)          
+    563        41504  LEGO_S#056_Visit1 2-Hour                                         205400    7205824  c(0, 7205824)         
+    563        41504  LEGO_S#056_Visit1 Questionnaires                                 205402     821462  c(381913, 1203375)    
+    563        41554  LEGO_S#056_Visit2 Questionnaires                                 205983    1488619  c(0, 1488619)         
+    563        41554  LEGO_S#056_Visit2 2-Hour                                         205987    7241856  c(1489520, 8731376)   
+    563        41637  LEGO_S#055_Visit2 Housemap1                                      206372      50688  c(0, 50688)           
+    563        41637  LEGO_S#055_Visit2 2-Hour                                         206374    5953088  c(0, 5953088)         
+    563        41637  LEGO_S#055_Visit2 Housemap2                                      206376    1237867  c(5953980, 7191847)   
+    563        41637  LEGO_S#055_Visit2 Questionnaires                                 206378    1691819  c(7192749, 8884568)   
 
 ### Datavyu (.opf)
 
@@ -562,9 +574,11 @@ if (is.null(opf_files)) {
 }
 ```
 
-```
-## No Datavyu (.opf) files in volume.
-```
+
+
+ vol_id   session_id  name                                           asset_id   duration  segment 
+-------  -----------  --------------------------------------------  ---------  ---------  --------
+    563        32807  LEGO_S#035_Visit1_Transcription (Temporary)      205389         NA  NULL    
 
 ### Text
 

@@ -1644,7 +1644,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">site-report-template</h1>
 <h4 class="author">Rick Gilmore</h4>
-<h4 class="date">2019-10-01 17:21:53</h4>
+<h4 class="date">2019-10-31 14:33:38</h4>
 
 </div>
 
@@ -1693,11 +1693,11 @@ if (!is.null(vol_data)) {
 <p>If we have <code>read</code> privileges on the volume, we can see details about any sessions that have been created.</p>
 <pre class="r"><code>these_sessions &lt;- databraryapi::list_sessions(as.numeric(params$vol_id))
 these_sessions %&gt;%
+  dplyr::arrange(desc(date)) %&gt;%
   knitr::kable(.)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th></th>
 <th align="right">session_id</th>
 <th align="left">top</th>
 <th align="left">date</th>
@@ -1707,7 +1707,6 @@ these_sessions %&gt;%
 </thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
 <td align="right">35578</td>
 <td align="left">NA</td>
 <td align="left">2019-04-08</td>
@@ -1715,7 +1714,6 @@ these_sessions %&gt;%
 <td align="right">881</td>
 </tr>
 <tr class="even">
-<td>3</td>
 <td align="right">35579</td>
 <td align="left">NA</td>
 <td align="left">2019-03-31</td>
@@ -1723,7 +1721,6 @@ these_sessions %&gt;%
 <td align="right">881</td>
 </tr>
 <tr class="odd">
-<td>4</td>
 <td align="right">35580</td>
 <td align="left">NA</td>
 <td align="left">2018-02-01</td>

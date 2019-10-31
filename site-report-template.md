@@ -1,7 +1,7 @@
 ---
 title: "site-report-template"
 author: "Rick Gilmore"
-date: "2019-10-01 17:21:53"
+date: "2019-10-31 14:33:38"
 output: 
   html_document:
     keep_md: true
@@ -54,7 +54,6 @@ if (databraryapi::login_db(params$databrary_login)) {
 ## Authenticated to Databrary
 ```
 
-
 ### Get basic data about the volume
 
 
@@ -94,14 +93,17 @@ If we have `read` privileges on the volume, we can see details about any session
 ```r
 these_sessions <- databraryapi::list_sessions(as.numeric(params$vol_id))
 these_sessions %>%
+  dplyr::arrange(desc(date)) %>%
   knitr::kable(.)
 ```
 
-      session_id  top   date          release   vol_id
----  -----------  ----  -----------  --------  -------
-2          35578  NA    2019-04-08          2      881
-3          35579  NA    2019-03-31          2      881
-4          35580  NA    2018-02-01         NA      881
+
+
+ session_id  top   date          release   vol_id
+-----------  ----  -----------  --------  -------
+      35578  NA    2019-04-08          2      881
+      35579  NA    2019-03-31          2      881
+      35580  NA    2018-02-01         NA      881
 
 ## Spreadsheet data
 

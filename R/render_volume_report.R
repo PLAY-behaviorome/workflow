@@ -2,6 +2,7 @@ render_volume_report <- function(vol_id = 444,
                                  databrary_login = "email@provider.com",
                                  output_dir = ".") {
   
+  start_time <- Sys.time()
   if (is.null(vol_id)) {
     stop("Volume ID not specified.")
   }
@@ -32,4 +33,7 @@ render_volume_report <- function(vol_id = 444,
                                   databrary_login = databrary_login),
                     output_dir = output_dir,
                     output_file = paste0("volume-report-", vol_id, ".html"))
+  
+  end_time <- Sys.time()
+  message(paste0("Execution time: ", end_time-start_time))
 }

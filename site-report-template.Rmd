@@ -30,6 +30,9 @@ if (!require(databraryapi)) {
 }
 
 library(tidyverse)
+
+# Measure execution time
+
 ```
 
 ## Purpose
@@ -60,7 +63,6 @@ if (databraryapi::login_db(params$databrary_login)) {
 }
 ```
 
-
 ### Get basic data about the volume
 
 ```{r}
@@ -86,6 +88,7 @@ If we have `read` privileges on the volume, we can see details about any session
 ```{r}
 these_sessions <- databraryapi::list_sessions(as.numeric(params$vol_id))
 these_sessions %>%
+  dplyr::arrange(desc(date)) %>%
   knitr::kable(.)
 ```
 

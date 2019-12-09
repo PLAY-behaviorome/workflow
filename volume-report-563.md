@@ -1,7 +1,7 @@
 ---
 title: "volume-report"
 author: "Rick Gilmore"
-date: "2019-10-31 15:10:10"
+date: "2019-10-31 14:59:22"
 output: 
   html_document:
     keep_md: true
@@ -240,7 +240,7 @@ age_gender_table %>%
   vcd::mosaic(.)
 ```
 
-![](/Users/rick/github/PLAY-behaviorome/workflow/vol_reports/volume-report-563_files/figure-html/participant-summary-1.png)<!-- -->
+![](/Users/rick/github/PLAY-behaviorome/workflow/volume-report-563_files/figure-html/participant-summary-1.png)<!-- -->
 
 ## Files by type {.tabset}
 

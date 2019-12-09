@@ -10,4 +10,5 @@ Files related to the data workflows (collection, QA, and coding) for PLAY.
 - An exploration of the [Box API](https://PLAY-behaviorome.github.io/workflow/api_explorations/api-explorations-box.html).
 - An exploration of the [KoBoToolbox API](https://PLAY-behaviorome.github.io/workflow/api-explorations/api-explorations-kobotoolbox.html)
 - A template [report](https://PLAY-behaviorome.github.io/workflow/site-report-template.html) for data collection sites.
-- A second type of report for the [PLAY pilot data](https://PLAY-behaviorome.github.io/workflow/vol_reports/vol-444-report.html) and the [LEGO project](https://PLAY-behaviorome.github.io/workflow/vol-reports/vol-563-report.html).
+- A second type of report for the [PLAY pilot data](https://PLAY-behaviorome.github.io/workflow/vol_reports/volume-report-444.html) and the [LEGO project](https://PLAY-behaviorome.github.io/workflow/vol_reports/volume-report-563.html).
+- A session-level [QA report template](https://PLAY-behaviorome.github.io/workflow/session-qa-prototype.nb.html)

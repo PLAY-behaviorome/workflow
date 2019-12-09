@@ -1,0 +1,204 @@
+---
+title: "Session QA Prototyping Notebook"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: html_notebook
+---
+
+# Purpose
+
+This document describes the process of prototyping and planning for the PLAY project session-level QA process based on files stored in Databrary.
+The goal is to generate a session-specific report.
+
+# Requirements
+
+1. Given a Databrary volume, extract session info.
+    - We will test with `https://nyu.databrary.org/volume/899`.
+2. For each session, check the following:
+    - Does the session folder name conform to the naming convention?
+    - Is the sharing release level 'Authorized Users' or 'Learning Audiences'?
+    - Are the following fields completed:
+        - `birthdate`, `testdate`, `age`, `gender`, `race`, `ethnicity`, `language`, `disability`, `pilot`, `exclusion`, `group`, `setting`, `country`, `state`
+    - Are there videos uploaded?
+    - Do the videos conform to the file naming conventions?
+    - Is the Natural Play video at least 1 hr long?
+    - Is the Structured Play video at least X min long?
+    
+# Implementation steps
+
+## Set-up details
+
+```{r install-databraryapi}
+if (!require(databraryapi)) {
+  if (!require(devtools)) {
+    install.packages("devtools")
+  }
+  devtools::install_github("PLAY-behaviorome/databraryapi")
+}
+```
+
+```{r load-packages}
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+library(tidyverse) # so we can use the '%>%' pipe operator
+```
+
+## Authenticate to Databrary
+
+```{r}
+databraryapi::login_db("rogilmore@psu.edu")
+```
+
+## Download spreadsheet for the test volume
+
+```{r}
+this_vol_id = 899
+
+this_db_ss <- databraryapi::download_session_csv(vol_id = this_vol_id)
+
+this_db_ss %>%
+  knitr::kable(.)
+```
+
+## Session folder names follow naming convention
+
+The session folder names should follow this format:
+
+PLAY_\<SITE_CODE\>_\<SUB_ID\>-\<UNIQUE_CODE\>-\{HouseWalkthrough,NaturalPlay,StructuredPlay,DatabraryConsent,Questionnaires\}
+
+Where \<SITE_CODE\> is one of the following:
+
+```{r get-official-site-codes}
+# Code to extract site codes from Google sheet
+
+
+# Temporarily use a manual list of acceptable codes
+site_codes <- c("NYU", "GTU", "PSU")
+```
+
+The \<SUB_ID\> is a 3 digit number that is equal to the`participant.ID` field from the spreadsheet.
+
+The \<UNIQUE_CODE\> is generated according to the following algorithm:
+
+**DESCRIBE ALGORITHM**
+
+And the individual videos are labeled with one of the following labels: HouseWalkthrough, NaturalPlay, StructuredPlay, DatabraryConsent, Questionnaires.
+
+### Functions to detect these elements
+
+#### Session name format
+
+```{r}
+name_starts_with_PLAY_site_code <- function(session_nm, this_site_code) {
+  stringr::str_detect(session_nm, paste0("PLAY_", this_site_code, "_"))
+}
+
+# This should fail
+name_starts_with_PLAY_site_code(this_db_ss$session_name[1], "NYU")
+
+# This should succeed
+name_starts_with_PLAY_site_code(this_db_ss$session_name[12], "NYU")
+```
+
+```{r}
+name_contains_sub_id <- function(session_nm, sub_id) {
+  # Pad sub_id with leading zeros
+  sub_id <- stringr::str_pad(sub_id, 3, pad = "0")
+  stringr::str_detect(session_nm, sub_id)
+}
+
+name_contains_sub_id(this_db_ss$session_name[1], this_db_ss$participant.ID[1])
+
+name_contains_sub_id(this_db_ss$session_name[12], this_db_ss$participant.ID[12])
+```
+
+```{r}
+name_contains_site_sub_id <- function(session_nm, this_site_code, sub_id) {
+  stringr::str_detect(session_nm, paste0("PLAY_", this_site_code, "_", stringr::str_pad(sub_id, 3, pad = "0"), "-"))
+}
+
+name_contains_site_sub_id(this_db_ss$session_name[12], "NYU", this_db_ss$participant.ID[12])
+```
+
+```{r}
+name_contains_site_sub_id(this_db_ss$session_name[13], "NYU", this_db_ss$participant.ID[13])
+
+name_contains_site_sub_id(this_db_ss$session_name[14], "NYU", this_db_ss$participant.ID[14])
+
+name_contains_site_sub_id(this_db_ss$session_name[15], "NYU", this_db_ss$participant.ID[15])
+
+name_contains_site_sub_id(this_db_ss$session_name[16], "NYU", this_db_ss$participant.ID[16])
+
+name_contains_site_sub_id(this_db_ss$session_name[17], "NYU", this_db_ss$participant.ID[17])
+
+name_contains_site_sub_id(this_db_ss$session_name[18], "NYU", this_db_ss$participant.ID[18])
+
+name_contains_site_sub_id(this_db_ss$session_name[19], "NYU", this_db_ss$participant.ID[19])
+```
+
+Let's make this function more easily callable as an index into the session data frame.
+
+```{r}
+session_name_has_PLAY <- function(i, df) {
+  first_four <- stringr::str_sub(df$session_name[i], 1, 4)
+  stringr::str_detect(first_four, "PLAY")
+}
+
+session_name_has_site_id <- function(i, df, site_id) {
+  site_id_from_name <- stringr::str_sub(df$session_name[i], 6, 8)
+  site_id_from_name == site_id
+}
+
+session_name_has_sub_id <- function(i, df) {
+  sub_id_from_name <- stringr::str_sub(df$session_name[i], 10, 12)
+  sub_id_from_participant.id <- stringr::str_pad(df$participant.ID[i], 3, pad = "0")
+  sub_id_from_name == sub_id_from_participant.id
+}
+
+session_name_has_correct_separators <- function(i, df) {
+  has_first_underscore <- stringr::str_sub(df$session_name[i], 5, 5) == "_"
+  has_second_underscore <- stringr::str_sub(df$session_name[i], 9, 9) == "_"
+  has_first_dash <- stringr::str_sub(df$session_name[i], 13, 13) == "-"
+    
+  has_first_underscore && has_second_underscore && has_first_dash
+}
+
+session_name_has_PLAY(12, this_db_ss)
+session_name_has_site_id(12, this_db_ss, "NYU")
+session_name_has_sub_id(12, this_db_ss)
+session_name_has_correct_separators(12, this_db_ss)
+```
+
+```{r}
+check_session_name <- function(i, df, site_id) {
+  out_df <- dplyr::tibble(session_name = df$session_name[i],
+                          name_has_PLAY = session_name_has_PLAY(i, df),
+                          name_has_site_id = session_name_has_site_id(i, df, site_id),
+                          name_has_sub_id = session_name_has_sub_id(i, df),
+                          name_has_corr_seps = session_name_has_correct_separators(i, df))
+  out_df
+}
+
+check_session_name(12, this_db_ss, "NYU")
+check_session_name(13, this_db_ss, "NYU")
+check_session_name(14, this_db_ss, "NYU")
+```
+
+```{r listify-check_session_name}
+sess_checks_l <- lapply(12:14, check_session_name, this_db_ss, "NYU")
+sess_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), sess_checks_l)
+sess_checks %>%
+  knitr::kable(.)
+```
+
+
+```{r check-all-names}
+these_sessions <- 1:dim(this_db_ss)[1]
+all_checks_l <- lapply(these_sessions, check_session_name, this_db_ss, "NYU")
+
+all_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), all_checks_l)
+all_checks %>%
+  knitr::kable(.)
+```
+

@@ -1,7 +1,7 @@
 ---
 title: "site-report-template"
 author: "Rick Gilmore"
-date: "2019-10-31 14:33:38"
+date: "2019-10-31 14:51:42"
 output: 
   html_document:
     keep_md: true
@@ -30,8 +30,8 @@ For this to work, you need to have entered your Databrary credentials into your 
 On Mac OS, this is called Keychain.
 If you have installed the `databraryapi` package, running `databraryapi::config_passwd()` will accept and store your credentials properly.
 
-Once you have done that, you may render this file securely by executing the following code from the R consol
-You will need to substitute your actual Databrary login ID for "myemail\@email.com".
+Once you have done that, you may render this file securely by executing the following code from the R console.
+You will need to substitute your actual Databrary login ID for `myemail\@email.com`.
 
 ```
 rmarkdown::render("site-report-template.Rmd", params = list(databrary_login = "myemail@email.com")

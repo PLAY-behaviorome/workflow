@@ -1644,7 +1644,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">volume-report</h1>
 <h4 class="author">Rick Gilmore</h4>
-<h4 class="date">2019-10-31 14:22:57</h4>
+<h4 class="date">2019-10-31 15:10:10</h4>
 
 </div>
 
@@ -1678,14 +1678,20 @@ rmarkdown::render(&quot;volume-report.Rmd&quot;, params = list(databrary_login =
 <div id="materials" class="section level3">
 <h3>Materials</h3>
 <pre class="r"><code>these_sessions &lt;- databraryapi::download_session_csv(as.numeric(params$vol_id))
+
 materials &lt;- these_sessions %&gt;%
   dplyr::filter(session_date == &quot;materials&quot;) %&gt;%
   dplyr::mutate(url = paste0(&quot;https://databrary.org/volume/&quot;, 
-                             params$vol_id, &quot;/slot/&quot;, session_id, &quot;/-&quot;)) %&gt;%
+                             params$vol_id, &quot;/slot/&quot;, 
+                             session_id, &quot;/-&quot;)) %&gt;%
   dplyr::select(session_name, url)
 
-materials %&gt;%
-  knitr::kable(.)</code></pre>
+if (is.null(materials)) {
+  cat(&quot;No materials files in volume.&quot;)
+} else {
+  materials %&gt;%
+    knitr::kable(.)    
+}</code></pre>
 <table>
 <thead>
 <tr class="header">

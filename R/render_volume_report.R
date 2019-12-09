@@ -1,8 +1,8 @@
 render_volume_report <- function(vol_id = 444, 
                                  databrary_login = "email@provider.com",
                                  output_dir = ".") {
-  
   start_time <- Sys.time()
+  # check parameters
   if (is.null(vol_id)) {
     stop("Volume ID not specified.")
   }

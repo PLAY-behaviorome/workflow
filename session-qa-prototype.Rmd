@@ -164,11 +164,25 @@ session_name_has_correct_separators <- function(i, df) {
   has_first_underscore && has_second_underscore && has_first_dash
 }
 
+session_name_play_id_valid <- function(i, df) {
+  play_id <- stringr::str_sub(df$session_name[i], 14, 22)
+  stringr::str_detect(play_id, "[:alnum:]+")
+}
+
+session_name_length_ok <- function(i, df, name_length = 23) {
+  stringr::str_length(df$session_name[i]) == name_length
+}
+
 session_name_has_PLAY(12, this_db_ss)
 session_name_has_site_id(12, this_db_ss, "NYU")
 session_name_has_sub_id(12, this_db_ss)
 session_name_has_correct_separators(12, this_db_ss)
+session_name_play_id_valid(12, this_db_ss)
+session_name_length_ok(12, this_db_ss)
 ```
+
+Note that the `session_name_length_ok` fails because these names do not include a 23rd character.
+In this case, ROG believes that is the initial 'S' in front of the subject ID.
 
 ```{r}
 check_session_name <- function(i, df, site_id) {
@@ -176,7 +190,10 @@ check_session_name <- function(i, df, site_id) {
                           name_has_PLAY = session_name_has_PLAY(i, df),
                           name_has_site_id = session_name_has_site_id(i, df, site_id),
                           name_has_sub_id = session_name_has_sub_id(i, df),
-                          name_has_corr_seps = session_name_has_correct_separators(i, df))
+                          name_has_corr_seps = session_name_has_correct_separators(i, df),
+                          name_play_id_valid = session_name_play_id_valid(i, df),
+                          name_length_ok = session_name_length_ok(i, df))
+  
   out_df
 }
 
@@ -200,5 +217,271 @@ all_checks_l <- lapply(these_sessions, check_session_name, this_db_ss, "NYU")
 all_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), all_checks_l)
 all_checks %>%
   knitr::kable(.)
+```
+
+#### Release level
+
+The Databrary release level is stored in the `session_release` variable.
+The allowable release levels are \{SHARED, EXCERPTS, PUBLIC\}.
+We may want to flag any PUBLIC releases, though.
+For now, I'm going to include "PUBLIC" in the `ok_levels` parameter.
+
+```{r}
+release_level_ok <- function(i, df, ok_levels = c("SHARED", "EXCERPTS", "PUBLIC")) {
+  this_release_level <- df$session_release[i]
+  this_release_level %in% ok_levels
+}
+
+release_level_public <- function(i, df) {
+  df$session_release[i] == "PUBLIC"
+}
+
+release_level_ok(12, this_db_ss)
+release_level_public(12, this_db_ss)
+```
+
+#### Birthdate & testdate
+
+The specification says birthdates should be after test dates and after 2018-12-15.
+I've made the 'after' date a parameter.
+
+```{r}
+birthdate_not_NA <- function(i, df) {
+  !is.na(df$participant.birthdate[i])
+}
+
+testdate_not_NA <- function(i, df) {
+  !is.na(df$session_date[i])
+}
+
+birthdate_not_blank <- function(i, df) {
+  df$participant.birthdate[i] != ""
+}
+
+testdate_not_blank <- function(i, df) {
+  df$session_date[i] != ""
+}
+
+birthdate_is.Date <- function(i, df) {
+  if (birthdate_not_NA(i, df) && birthdate_not_blank(i, df)) {
+    lubridate::is.Date(lubridate::as_date(df$participant.birthdate[i]))
+  } else {
+    FALSE
+  }
+}
+
+testdate_is.Date <- function(i, df) {
+  if (testdate_not_NA(i, df) && testdate_not_blank(i, df)) {
+    lubridate::is.Date(lubridate::as_date(df$session_date[i]))
+  } else {
+    FALSE
+  }
+}
+
+birth_before_test <- function(i, df) {
+  if (birthdate_is.Date(i,df) && testdate_is.Date(i,df)) {
+    bdate <- lubridate::as_date(df$participant.birthdate[i])
+    tdate <- lubridate::as_date(df$session_date[i])
+    bdate < tdate    
+  } else {
+    NA    
+  }
+}
+
+test_after_start <- function(i, df, start_date = "2018-12-15") {
+  if (testdate_not_NA(i, df) && testdate_is.Date(i,df)) {
+    tdate <- lubridate::as_date(df$session_date[i])
+    start_date <- lubridate::as_date(start_date)
+    tdate > start_date    
+  } else {
+    NA    
+  }
+}
+
+birth_before_test(12, this_db_ss)
+test_after_start(12, this_db_ss)
+```
+
+#### Age
+
+The age reported in the Databrary spreadsheet is calculated from the birth and test dates.
+The 12-month-old range is [11.75-12.25]; the 18-month-old range is [17.75-18.25]; the 24-month-old range is [23.75,24.25] months.
+
+```{r}
+age_in_mos <- function(i, df) {
+  if (birthdate_is.Date(i,df) && testdate_is.Date(i,df)) {
+    bdate <- lubridate::as_date(df$participant.birthdate[i])
+    tdate <- lubridate::as_date(df$session_date[i])
+    as.numeric(lubridate::as.duration(tdate - bdate), "months")    
+  } else {
+    NA
+  }
+}
+
+age_in_mos(12, this_db_ss)
+```
+
+
+```{r}
+age_valid <- function(age, min_age, max_age) {
+  gte_min_age <- age >= min_age
+  lte_max_age <- age <= max_age
+  gte_min_age && lte_max_age && !is.na(age)
+}
+
+mos_12 <- function(age) {
+  age_valid(age, 11.75, 12.25)
+}
+
+mos_18 <- function(age) {
+  age_valid(age, 17.75, 18.25)
+}
+
+mos_24 <- function(age) {
+  age_valid(age, 23.75, 24.25)
+}
+
+age_group_valid <- function(i, df) {
+  this_age <- age_in_mos(i, df)
+  mos_12(this_age) || mos_18(this_age) || mos_24(this_age)
+}
+
+mos_12(age_in_mos(12, this_db_ss))
+mos_18(age_in_mos(12, this_db_ss))
+mos_24(age_in_mos(12, this_db_ss))
+
+age_group_valid(12, this_db_ss)
+```
+
+#### Gender
+
+```{r}
+gender_ok <- function(i, df) {
+  df$participant.gender[i] %in% c("Male", "Female")
+}
+
+gender_ok(12, this_db_ss)
+```
+
+#### Race
+
+```{r}
+race_ok <- function(i, df) {
+  race_categories <- c(
+    "American Indian or Alaskan Native",
+    "Asian",
+    "Native Hawaiian or other Pacific Islander",
+    "Black or African American",
+    "White",
+    "More than one",
+    "Other",
+    "Refused"
+  )
+  df$participant.race[i] %in% race_categories
+}
+
+race_ok(12, this_db_ss)
+```
+
+#### Ethnicity
+
+```{r}
+ethnicity_ok <- function(i, df) {
+  ethnicity_categories <- c("Hispanic or Latino",
+                            "Not Hispanic or Latino",
+                            "Refused")
+  
+  df$participant.ethnicity[i] %in% ethnicity_categories
+}
+
+ethnicity_ok(12, this_db_ss)
+```
+
+#### Disability
+
+```{r}
+disability_ok <- function(i, df) {
+  df$participant.disability[i] != "Typical"
+}
+
+disability_ok(12, this_db_ss)
+```
+
+#### Language
+
+```{r}
+language_ok <- function(i, df) {
+  language_categories <- c("English",
+                           "Spanish",
+                           "English, Spanish",
+                           "Spanish, English")
+  
+  df$participant.language[i] %in% language_categories
+}
+
+language_ok(12, this_db_ss)
+```
+
+### Assembling spreadsheet QA tests
+
+```{r}
+check_session_ss <- function(i, df, site_id) {
+  out_df <- dplyr::tibble(
+    session_name = df$session_name[i],
+    name_has_PLAY = session_name_has_PLAY(i, df),
+    name_has_site_id = session_name_has_site_id(i, df, site_id),
+    name_has_sub_id = session_name_has_sub_id(i, df),
+    name_has_corr_seps = session_name_has_correct_separators(i, df),
+    name_play_id_valid = session_name_play_id_valid(i, df),
+    name_length_ok = session_name_length_ok(i, df),
+    release_level_ok = release_level_ok(i, df),
+    release_level_public = release_level_public(i, df),
+    birth_before_test = birth_before_test(i, df),
+    test_after_start = test_after_start(i, df),
+    age_group_valid = age_group_valid(i, df),
+    gender_ok = gender_ok(i, df),
+    race_ok = race_ok(i, df),
+    ethnicity_ok = ethnicity_ok(i, df),
+    disability_ok = disability_ok(i, df),
+    language_ok = language_ok(i, df)
+  )
+  
+  out_df
+}
+
+check_session_ss(1, this_db_ss, "NYU")
+check_session_ss(2, this_db_ss, "NYU")
+check_session_ss(3, this_db_ss, "NYU")
+check_session_ss(4, this_db_ss, "NYU")
+check_session_ss(5, this_db_ss, "NYU")
+check_session_ss(6, this_db_ss, "NYU")
+check_session_ss(7, this_db_ss, "NYU")
+check_session_ss(8, this_db_ss, "NYU")
+check_session_ss(9, this_db_ss, "NYU")
+check_session_ss(10, this_db_ss, "NYU")
+check_session_ss(11, this_db_ss, "NYU")
+check_session_ss(12, this_db_ss, "NYU")
+check_session_ss(13, this_db_ss, "NYU")
+check_session_ss(14, this_db_ss, "NYU")
+check_session_ss(15, this_db_ss, "NYU")
+check_session_ss(16, this_db_ss, "NYU")
+check_session_ss(17, this_db_ss, "NYU")
+check_session_ss(18, this_db_ss, "NYU")
+check_session_ss(19, this_db_ss, "NYU")
+check_session_ss(20, this_db_ss, "NYU")
+```
+
+```{r}
+these_sessions <- 1:dim(this_db_ss)[1]
+for (i in these_sessions) {
+  cat("session ", i, "\n")
+  check_session_ss(i, this_db_ss, "NYU")
+}
+
+check_all_l <- lapply(these_sessions, check_session_ss, this_db_ss, "NYU")
+
+check_all_df <- Reduce(function(x,y) merge(x,y, all=TRUE), check_all_l)
+check_all_df %>%
+knitr::kable(.)
 ```
 

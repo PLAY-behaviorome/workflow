@@ -676,3 +676,34 @@ check_videos_df %>%
 **Note**: NYU001 has `.mov` in the name and thus fails the test, while NYU002 does not have `.mov` and passes.
 
 **TODO(ROG):** Check to see that first part of video file names matches the session name.
+
+```{r}
+check_videos_df %>%
+  dplyr::mutate(NaturalPlay_exists = kableExtra::cell_spec(
+    NaturalPlay_exists,
+    "html",
+    color = ifelse(NaturalPlay_exists == TRUE, "green", "red")
+  ),
+  HouseWalkthrough_exists = kableExtra::cell_spec(
+    HouseWalkthrough_exists,
+    "html",
+    color = ifelse(HouseWalkthrough_exists == TRUE, "green", "red")
+  ),
+  StructuredPlay_exists = kableExtra::cell_spec(
+    StructuredPlay_exists,
+    "html",
+    color = ifelse(StructuredPlay_exists == TRUE, "green", "red")
+  ),
+  Questionnaires_exists = kableExtra::cell_spec(
+    Questionnaires_exists,
+    "html",
+    color = ifelse(Questionnaires_exists == TRUE, "green", "red")
+  ),
+  four_or_more_videos = kableExtra::cell_spec(
+    four_or_more_videos,
+    "html",
+    color = ifelse(four_or_more_videos == TRUE, "green", "red")
+  )) %>%
+  knitr::kable(., format = "html", escape = FALSE)
+```
+

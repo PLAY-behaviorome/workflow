@@ -57,7 +57,7 @@ databraryapi::config_passwd()
 
 You may test to see that you are able to login to Databrary by running the following.
 
-```{r}
+```{r eval=FALSE}
 databraryapi::login_db()
 ```
 
@@ -673,4 +673,6 @@ check_videos_df %>%
   knitr::kable(.)
 ```
 
-**Note**: NYU001 has `.mov` in the name and thus fails the test, while NYU001 does not have `.mov` and passes.
+**Note**: NYU001 has `.mov` in the name and thus fails the test, while NYU002 does not have `.mov` and passes.
+
+**TODO(ROG):** Check to see that first part of video file names matches the session name.

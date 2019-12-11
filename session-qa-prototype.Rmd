@@ -66,13 +66,15 @@ Since you have just securely stored your credentials, you should get a `Login su
 
 #### Install other packages
 
-Install and load `tidyverse` package.
-
 ```{r load-packages}
 if (!require(tidyverse)) {
   install.packages("tidyverse")
 }
 library(tidyverse) # so we can use the '%>%' pipe operator
+
+if (!require(kableExtra)) {
+  install.packages("kableExtra")
+}
 ```
 
 ## Authenticate to Databrary
@@ -647,7 +649,7 @@ four_or_more_videos(sess_12$name)
 Now, run across set of sessions.
 
 ```{r}
-check_videos_in_session <- function(i, df) {
+check_videos_in_session <- function(i, df, this_vol_id) {
   sess_assets <- this_session_assets(i, df, this_vol_id)
   out_df <- dplyr::tibble(
     session_name = df$session_name[i],

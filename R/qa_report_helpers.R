@@ -182,6 +182,10 @@ language_ok <- function(i, df) {
   df$participant.language[i] %in% language_categories
 }
 
+not_excluded <- function(i, df) {
+  df$exclusion.reason[i] == ""
+}
+
 exclusion_ok <- function(i, df, accepted_vals = c("pilot", "other", "language not English or Spanish", "")) {
   df$exclusion.reason[i] %in% accepted_vals
 }
@@ -209,6 +213,7 @@ check_session_ss <- function(i, df, site_id) {
     gender_ok = gender_ok(i, df),
     race_ok = race_ok(i, df),
     ethnicity_ok = ethnicity_ok(i, df),
+    not_excluded = not_excluded(i, df),
     disability_ok = disability_ok(i, df),
     language_ok = language_ok(i, df),
     exclusion_ok = exclusion_ok(i, df),
@@ -255,11 +260,17 @@ four_or_more_videos <- function(sess_assets_df) {
   ifelse(sum(mp4s) >= 4, TRUE, FALSE)
 }
 
+generate_session_url <- function(i, df, this_vol_id) {
+  this_sess_id <- df$session_id[i]
+  url <- paste0("https://databrary.org/volume/", this_vol_id, "/slot/", this_sess_id, "/-")
+  url
+}
+
 check_videos_in_session <- function(i, df, this_vol_id) {
   sess_assets <- this_session_assets(i, df, this_vol_id)
   out_df <- dplyr::tibble(
     session_name = df$session_name[i],
-    session_id = df$session_id[i],
+    url = generate_session_url(i, df, this_vol_id),
     NaturalPlay_exists = NaturalPlay_exists(sess_assets$name),
     HouseWalkthrough_exists = HouseWalkthrough_exists(sess_assets$name),
     StructuredPlay_exists = StructuredPlay_exists(sess_assets$name),

@@ -2,6 +2,24 @@
 # 
 # Helper functions for the PLAY QA report
 
+# Package installations
+
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+if (!require(kableExtra)) {
+  install.packages("kableExtra")
+}
+if (!require(lubridate)) {
+  install.packages("lubridate")
+}
+if (!require(devtools)) {
+  install.packages("devtools")
+}
+if (!require(databraryapi)) {
+  devtools::install_github("PLAY-behaviorome/databraryapi")
+}
+
 # Session name checks
 session_name_has_PLAY <- function(i, df) {
   first_four <- stringr::str_sub(df$session_name[i], 1, 4)
@@ -320,5 +338,5 @@ render_qa_report <- function(vol_id = 899, site_code = "NYU",
                                          site_code, "-", format(Sys.time(), "%Y-%m-%d-%H%M"), ".html"))
   
   end_time <- Sys.time()
-  message(paste0("Execution time: ", end_time-start_time))
+  message(paste0("Execution time: ", end_time-start_time, " secs"))
 }

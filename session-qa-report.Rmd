@@ -20,12 +20,14 @@ params:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+# Includes code to install dependencies
+source("R/qa_report_helpers.R")
+
+# Login to Databrary
 db_login_ok <- databraryapi::login_db(params$databrary_login)
 if(db_login_ok) {
   message("Databrary authentication successful.")
 }
-
-source("R/qa_report_helpers.R")
 
 library(tidyverse)
 ```
@@ -36,7 +38,7 @@ Site data collection volume: <`r paste0("https://databrary.org/volume/", params$
 
 ## Session name checks
 
-```{r}
+```{r session-name-checks}
 this_vol_df <- databraryapi::download_session_csv(params$vol_id)
 
 this_vol_df <- this_vol_df %>%
@@ -46,7 +48,7 @@ name_checks_l <- lapply(1:dim(this_vol_df)[1], check_session_name, this_vol_df, 
 name_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), name_checks_l)
 ```
 
-```{r}
+```{r fancy-format-name-checks}
 name_checks_fmt <- name_checks %>%
   dplyr::mutate(., 
   has_PLAY = kableExtra::cell_spec(
@@ -76,13 +78,13 @@ name_checks_fmt <- name_checks %>%
     )
 ```
 
-```{r}
+```{r write-name-checks1}
 name_checks_fmt[,1:5] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-```{r}
+```{r write-name-checks2}
 name_checks_fmt[,c(1, 6:dim(name_checks)[2])] %>%
    knitr::kable(., format = "html", escape = FALSE) %>%
    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
@@ -90,12 +92,12 @@ name_checks_fmt[,c(1, 6:dim(name_checks)[2])] %>%
 
 ## Session spreadsheet variable checks
 
-```{r}
+```{r session-variable-checks}
 ss_checks_l <- lapply(1:dim(this_vol_df)[1], check_session_ss, this_vol_df, params$site_code)
 ss_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), ss_checks_l)
 ```
 
-```{r}
+```{r fancy-format-spreadsheet-checks}
 ss_checks_fmt <- ss_checks %>%
   dplyr::mutate(.,
                 release_level_ok = kableExtra::cell_spec(
@@ -178,19 +180,19 @@ ss_checks_fmt <- ss_checks %>%
                 color = ifelse(state_ok == TRUE, "green", "red")))
 ```
 
-```{r}
+```{r print-spreadsheet-checks1}
 ss_checks_fmt[, 1:5] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-```{r}
+```{r print-spreadsheet-checks2}
 ss_checks_fmt[, c(1, 6:10)] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-```{r}
+```{r print-spreadsheet-checks3}
 ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
@@ -198,12 +200,12 @@ ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %>%
 
 ## Video file-level checks
 
-```{r}
+```{r video-file-checks}
 check_videos_l <- lapply(1:dim(this_vol_df)[1], check_videos_in_session, this_vol_df, params$vol_id)
 check_videos_df <- Reduce(function(x,y) merge(x,y, all=TRUE), check_videos_l)
 ```
 
-```{r}
+```{r fancy-format-video-file-checks}
 check_videos_fmt <- check_videos_df %>%
   dplyr::mutate(NaturalPlay_exists = kableExtra::cell_spec(
     NaturalPlay_exists,
@@ -232,13 +234,13 @@ check_videos_fmt <- check_videos_df %>%
   ))
 ```
 
-```{r}
+```{r print-video-file-checks1}
 check_videos_fmt[, 1:4] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-```{r}
+```{r print-video-file-checks2}
 check_videos_fmt[, c(1, 5:dim(check_videos_fmt)[2])] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))

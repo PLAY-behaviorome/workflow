@@ -1653,7 +1653,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">PLAY Session Spreadsheet QA</h1>
 <h4 class="author">Rick Gilmore</h4>
-<h4 class="date">2019-12-11 11:10:46</h4>
+<h4 class="date">2019-12-12 10:22:12</h4>
 
 </div>
 
@@ -2339,12 +2339,14 @@ ss_checks &lt;- Reduce(function(x,y) merge(x,y, all=TRUE), ss_checks_l)</code></
                   &quot;html&quot;,
                   color = ifelse(age_group_valid == TRUE, &quot;green&quot;, &quot;red&quot;)
                 )) %&gt;%
-  dplyr::mutate(.,   gender_ok = kableExtra::cell_spec(gender_ok,
-                                                       &quot;html&quot;,
-                                                       color = ifelse(gender_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
-  dplyr::mutate(., race_ok = kableExtra::cell_spec(race_ok,
-                                                   &quot;html&quot;,
-                                                   color = ifelse(race_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
+  dplyr::mutate(.,
+                gender_ok = kableExtra::cell_spec(gender_ok,
+                &quot;html&quot;,
+                color = ifelse(gender_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
+  dplyr::mutate(., 
+                race_ok = kableExtra::cell_spec(race_ok,
+                &quot;html&quot;,
+                color = ifelse(race_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
   dplyr::mutate(.,
                 ethnicity_ok = kableExtra::cell_spec(
                   ethnicity_ok,
@@ -2360,24 +2362,33 @@ ss_checks &lt;- Reduce(function(x,y) merge(x,y, all=TRUE), ss_checks_l)</code></
   dplyr::mutate(.,
                 language_ok = kableExtra::cell_spec(
                   language_ok,
-                                                    &quot;html&quot;,
-                                                    color = ifelse(language_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
+                  &quot;html&quot;,
+                  color = ifelse(language_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
   dplyr::mutate(.,
                 exclusion_ok = kableExtra::cell_spec(
                   exclusion_ok,
                   &quot;html&quot;,
                   color = ifelse(exclusion_ok == TRUE, &quot;green&quot;, &quot;red&quot;)
                 )) %&gt;%
-  dplyr::mutate(., home_ok = kableExtra::cell_spec(home_ok,
-                                                   &quot;html&quot;,
-                                                   color = ifelse(home_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
-  dplyr::mutate(., country_ok = kableExtra::cell_spec(country_ok,
-                                                      &quot;html&quot;,
-                                                      color = ifelse(country_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
-  dplyr::mutate(., state_ok = kableExtra::cell_spec(state_ok,
-                                                    &quot;html&quot;,
-                                                    color = ifelse(state_ok == TRUE, &quot;green&quot;, &quot;red&quot;)))</code></pre>
-<pre class="r"><code>ss_checks_fmt[,1:5] %&gt;%
+  dplyr::mutate(.,
+                not_excluded = kableExtra::cell_spec(
+                  not_excluded,
+                  &quot;html&quot;,
+                  color = ifelse(not_excluded == TRUE, &quot;green&quot;, &quot;red&quot;)
+                )) %&gt;%
+  dplyr::mutate(., 
+                home_ok = kableExtra::cell_spec(home_ok,
+                &quot;html&quot;,
+                 color = ifelse(home_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
+  dplyr::mutate(., 
+                country_ok = kableExtra::cell_spec(country_ok,
+                &quot;html&quot;,
+                color = ifelse(country_ok == TRUE, &quot;green&quot;, &quot;red&quot;))) %&gt;%
+  dplyr::mutate(., 
+                state_ok = kableExtra::cell_spec(state_ok,
+                &quot;html&quot;,
+                color = ifelse(state_ok == TRUE, &quot;green&quot;, &quot;red&quot;)))</code></pre>
+<pre class="r"><code>ss_checks_fmt[, 1:5] %&gt;%
   knitr::kable(., format = &quot;html&quot;, escape = FALSE) %&gt;%
   kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))</code></pre>
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
@@ -2743,7 +2754,7 @@ PlayPilot_S#033
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>ss_checks_fmt[,c(1, 6:10)] %&gt;%
+<pre class="r"><code>ss_checks_fmt[, c(1, 6:10)] %&gt;%
   knitr::kable(., format = &quot;html&quot;, escape = FALSE) %&gt;%
   kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))</code></pre>
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
@@ -2765,7 +2776,7 @@ race_ok
 ethnicity_ok
 </th>
 <th style="text-align:left;">
-disability_ok
+not_excluded
 </th>
 </tr>
 </thead>
@@ -2807,7 +2818,7 @@ PLAY_NYU_002-e9N1A7F2A
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -2927,7 +2938,7 @@ PlayPilot_S#021
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -2947,7 +2958,7 @@ PlayPilot_S#022
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -2967,7 +2978,7 @@ PlayPilot_S#023
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -2987,7 +2998,7 @@ PlayPilot_S#024
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3007,7 +3018,7 @@ PlayPilot_S#025
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3027,7 +3038,7 @@ PlayPilot_S#026
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3047,7 +3058,7 @@ PlayPilot_S#027
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3067,7 +3078,7 @@ PlayPilot_S#028
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3087,7 +3098,7 @@ PlayPilot_S#029
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3107,7 +3118,7 @@ PlayPilot_S#030
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3127,7 +3138,7 @@ PlayPilot_S#031
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3147,7 +3158,7 @@ PlayPilot_S#032
 <span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
-<span style="     color: green !important;">TRUE</span>
+<span style="     color: red !important;">FALSE</span>
 </td>
 </tr>
 <tr>
@@ -3172,7 +3183,7 @@ PlayPilot_S#033
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>ss_checks_fmt[,c(1,dim(ss_checks_fmt)[2])] %&gt;%
+<pre class="r"><code>ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %&gt;%
   knitr::kable(., format = &quot;html&quot;, escape = FALSE) %&gt;%
   kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))</code></pre>
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
@@ -3180,6 +3191,21 @@ PlayPilot_S#033
 <tr>
 <th style="text-align:left;">
 session_name
+</th>
+<th style="text-align:left;">
+disability_ok
+</th>
+<th style="text-align:left;">
+language_ok
+</th>
+<th style="text-align:left;">
+exclusion_ok
+</th>
+<th style="text-align:left;">
+home_ok
+</th>
+<th style="text-align:left;">
+country_ok
 </th>
 <th style="text-align:left;">
 state_ok
@@ -3194,10 +3220,40 @@ PLAY_NYU_001-e9N8O8B0A
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PLAY_NYU_002-e9N1A7F2A
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: red !important;">FALSE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3210,10 +3266,40 @@ PLAY_NYU_003-e0N2N8S1A
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PLAY_NYU_004-e4N0S8E1A
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3226,10 +3312,40 @@ PLAY_NYU_005-e0N4H8O2A
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PLAY_NYU_006-e1N9E7S0A
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3242,10 +3358,40 @@ PLAY_NYU_007-e1N1S8M1A
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PlayPilot_S#021
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3258,10 +3404,40 @@ PlayPilot_S#022
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PlayPilot_S#023
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3274,10 +3450,40 @@ PlayPilot_S#024
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PlayPilot_S#025
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3290,10 +3496,40 @@ PlayPilot_S#026
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PlayPilot_S#027
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3306,10 +3542,40 @@ PlayPilot_S#028
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PlayPilot_S#029
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3322,10 +3588,40 @@ PlayPilot_S#030
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PlayPilot_S#031
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3338,10 +3634,40 @@ PlayPilot_S#032
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
 </td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 PlayPilot_S#033
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
+</td>
+<td style="text-align:left;">
+<span style="     color: green !important;">TRUE</span>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3389,8 +3715,8 @@ check_videos_df &lt;- Reduce(function(x,y) merge(x,y, all=TRUE), check_videos_l)
 <th style="text-align:left;">
 session_name
 </th>
-<th style="text-align:right;">
-session_id
+<th style="text-align:left;">
+url
 </th>
 <th style="text-align:left;">
 NaturalPlay_exists
@@ -3414,8 +3740,8 @@ four_or_more_videos
 <td style="text-align:left;">
 PLAY_NYU_001-e9N8O8B0A
 </td>
-<td style="text-align:right;">
-41534
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41534/-" class="uri">https://databrary.org/volume/899/slot/41534/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: red !important;">FALSE</span>
@@ -3437,8 +3763,8 @@ PLAY_NYU_001-e9N8O8B0A
 <td style="text-align:left;">
 PLAY_NYU_002-e9N1A7F2A
 </td>
-<td style="text-align:right;">
-41800
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41800/-" class="uri">https://databrary.org/volume/899/slot/41800/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3460,8 +3786,8 @@ PLAY_NYU_002-e9N1A7F2A
 <td style="text-align:left;">
 PLAY_NYU_003-e0N2N8S1A
 </td>
-<td style="text-align:right;">
-41455
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41455/-" class="uri">https://databrary.org/volume/899/slot/41455/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3483,8 +3809,8 @@ PLAY_NYU_003-e0N2N8S1A
 <td style="text-align:left;">
 PLAY_NYU_004-e4N0S8E1A
 </td>
-<td style="text-align:right;">
-41535
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41535/-" class="uri">https://databrary.org/volume/899/slot/41535/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3506,8 +3832,8 @@ PLAY_NYU_004-e4N0S8E1A
 <td style="text-align:left;">
 PLAY_NYU_005-e0N4H8O2A
 </td>
-<td style="text-align:right;">
-41608
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41608/-" class="uri">https://databrary.org/volume/899/slot/41608/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3529,8 +3855,8 @@ PLAY_NYU_005-e0N4H8O2A
 <td style="text-align:left;">
 PLAY_NYU_006-e1N9E7S0A
 </td>
-<td style="text-align:right;">
-41808
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41808/-" class="uri">https://databrary.org/volume/899/slot/41808/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3552,8 +3878,8 @@ PLAY_NYU_006-e1N9E7S0A
 <td style="text-align:left;">
 PLAY_NYU_007-e1N1S8M1A
 </td>
-<td style="text-align:right;">
-41894
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41894/-" class="uri">https://databrary.org/volume/899/slot/41894/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3575,8 +3901,8 @@ PLAY_NYU_007-e1N1S8M1A
 <td style="text-align:left;">
 PlayPilot_S#021
 </td>
-<td style="text-align:right;">
-38198
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/38198/-" class="uri">https://databrary.org/volume/899/slot/38198/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: red !important;">FALSE</span>
@@ -3598,8 +3924,8 @@ PlayPilot_S#021
 <td style="text-align:left;">
 PlayPilot_S#022
 </td>
-<td style="text-align:right;">
-36876
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/36876/-" class="uri">https://databrary.org/volume/899/slot/36876/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3621,8 +3947,8 @@ PlayPilot_S#022
 <td style="text-align:left;">
 PlayPilot_S#023
 </td>
-<td style="text-align:right;">
-37417
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/37417/-" class="uri">https://databrary.org/volume/899/slot/37417/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: red !important;">FALSE</span>
@@ -3644,8 +3970,8 @@ PlayPilot_S#023
 <td style="text-align:left;">
 PlayPilot_S#024
 </td>
-<td style="text-align:right;">
-37450
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/37450/-" class="uri">https://databrary.org/volume/899/slot/37450/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: red !important;">FALSE</span>
@@ -3667,8 +3993,8 @@ PlayPilot_S#024
 <td style="text-align:left;">
 PlayPilot_S#025
 </td>
-<td style="text-align:right;">
-37982
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/37982/-" class="uri">https://databrary.org/volume/899/slot/37982/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: red !important;">FALSE</span>
@@ -3690,8 +4016,8 @@ PlayPilot_S#025
 <td style="text-align:left;">
 PlayPilot_S#026
 </td>
-<td style="text-align:right;">
-38195
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/38195/-" class="uri">https://databrary.org/volume/899/slot/38195/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3713,8 +4039,8 @@ PlayPilot_S#026
 <td style="text-align:left;">
 PlayPilot_S#027
 </td>
-<td style="text-align:right;">
-38196
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/38196/-" class="uri">https://databrary.org/volume/899/slot/38196/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3736,8 +4062,8 @@ PlayPilot_S#027
 <td style="text-align:left;">
 PlayPilot_S#028
 </td>
-<td style="text-align:right;">
-38197
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/38197/-" class="uri">https://databrary.org/volume/899/slot/38197/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: red !important;">FALSE</span>
@@ -3759,8 +4085,8 @@ PlayPilot_S#028
 <td style="text-align:left;">
 PlayPilot_S#029
 </td>
-<td style="text-align:right;">
-38215
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/38215/-" class="uri">https://databrary.org/volume/899/slot/38215/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3782,8 +4108,8 @@ PlayPilot_S#029
 <td style="text-align:left;">
 PlayPilot_S#030
 </td>
-<td style="text-align:right;">
-38236
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/38236/-" class="uri">https://databrary.org/volume/899/slot/38236/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3805,8 +4131,8 @@ PlayPilot_S#030
 <td style="text-align:left;">
 PlayPilot_S#031
 </td>
-<td style="text-align:right;">
-38485
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/38485/-" class="uri">https://databrary.org/volume/899/slot/38485/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3828,8 +4154,8 @@ PlayPilot_S#031
 <td style="text-align:left;">
 PlayPilot_S#032
 </td>
-<td style="text-align:right;">
-41754
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/41754/-" class="uri">https://databrary.org/volume/899/slot/41754/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>
@@ -3851,8 +4177,8 @@ PlayPilot_S#032
 <td style="text-align:left;">
 PlayPilot_S#033
 </td>
-<td style="text-align:right;">
-42112
+<td style="text-align:left;">
+<a href="https://databrary.org/volume/899/slot/42112/-" class="uri">https://databrary.org/volume/899/slot/42112/-</a>
 </td>
 <td style="text-align:left;">
 <span style="     color: green !important;">TRUE</span>

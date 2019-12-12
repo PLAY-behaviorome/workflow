@@ -14,6 +14,7 @@ params:
   vol_id: 899
   databrary_login: account@email.com
   site_code: NYU
+  only_show_included: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -126,12 +127,14 @@ ss_checks_fmt <- ss_checks %>%
                   "html",
                   color = ifelse(age_group_valid == TRUE, "green", "red")
                 )) %>%
-  dplyr::mutate(.,   gender_ok = kableExtra::cell_spec(gender_ok,
-                                                       "html",
-                                                       color = ifelse(gender_ok == TRUE, "green", "red"))) %>%
-  dplyr::mutate(., race_ok = kableExtra::cell_spec(race_ok,
-                                                   "html",
-                                                   color = ifelse(race_ok == TRUE, "green", "red"))) %>%
+  dplyr::mutate(.,
+                gender_ok = kableExtra::cell_spec(gender_ok,
+                "html",
+                color = ifelse(gender_ok == TRUE, "green", "red"))) %>%
+  dplyr::mutate(., 
+                race_ok = kableExtra::cell_spec(race_ok,
+                "html",
+                color = ifelse(race_ok == TRUE, "green", "red"))) %>%
   dplyr::mutate(.,
                 ethnicity_ok = kableExtra::cell_spec(
                   ethnicity_ok,
@@ -147,39 +150,48 @@ ss_checks_fmt <- ss_checks %>%
   dplyr::mutate(.,
                 language_ok = kableExtra::cell_spec(
                   language_ok,
-                                                    "html",
-                                                    color = ifelse(language_ok == TRUE, "green", "red"))) %>%
+                  "html",
+                  color = ifelse(language_ok == TRUE, "green", "red"))) %>%
   dplyr::mutate(.,
                 exclusion_ok = kableExtra::cell_spec(
                   exclusion_ok,
                   "html",
                   color = ifelse(exclusion_ok == TRUE, "green", "red")
                 )) %>%
-  dplyr::mutate(., home_ok = kableExtra::cell_spec(home_ok,
-                                                   "html",
-                                                   color = ifelse(home_ok == TRUE, "green", "red"))) %>%
-  dplyr::mutate(., country_ok = kableExtra::cell_spec(country_ok,
-                                                      "html",
-                                                      color = ifelse(country_ok == TRUE, "green", "red"))) %>%
-  dplyr::mutate(., state_ok = kableExtra::cell_spec(state_ok,
-                                                    "html",
-                                                    color = ifelse(state_ok == TRUE, "green", "red")))
+  dplyr::mutate(.,
+                not_excluded = kableExtra::cell_spec(
+                  not_excluded,
+                  "html",
+                  color = ifelse(not_excluded == TRUE, "green", "red")
+                )) %>%
+  dplyr::mutate(., 
+                home_ok = kableExtra::cell_spec(home_ok,
+                "html",
+                 color = ifelse(home_ok == TRUE, "green", "red"))) %>%
+  dplyr::mutate(., 
+                country_ok = kableExtra::cell_spec(country_ok,
+                "html",
+                color = ifelse(country_ok == TRUE, "green", "red"))) %>%
+  dplyr::mutate(., 
+                state_ok = kableExtra::cell_spec(state_ok,
+                "html",
+                color = ifelse(state_ok == TRUE, "green", "red")))
 ```
 
 ```{r}
-ss_checks_fmt[,1:5] %>%
+ss_checks_fmt[, 1:5] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
 ```{r}
-ss_checks_fmt[,c(1, 6:10)] %>%
+ss_checks_fmt[, c(1, 6:10)] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
 ```{r}
-ss_checks_fmt[,c(1,dim(ss_checks_fmt)[2])] %>%
+ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
@@ -221,8 +233,13 @@ check_videos_fmt <- check_videos_df %>%
 ```
 
 ```{r}
-check_videos_fmt %>%
+check_videos_fmt[, 1:4] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
+```{r}
+check_videos_fmt[, c(1, 5:dim(check_videos_fmt)[2])] %>%
+  knitr::kable(., format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```

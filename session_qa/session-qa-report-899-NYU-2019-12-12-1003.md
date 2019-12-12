@@ -1,7 +1,7 @@
 ---
 title: "PLAY Session Spreadsheet QA"
 author: "Rick Gilmore"
-date: "2019-12-11 11:05:32"
+date: "2019-12-12 10:03:07"
 output: 
   html_document:
     keep_md: true
@@ -14,6 +14,7 @@ params:
   vol_id: 899
   databrary_login: account@email.com
   site_code: NYU
+  only_show_included: TRUE
 ---
 
 
@@ -772,7 +773,7 @@ ss_checks_fmt[,c(1, 6:10)] %>%
 
 
 ```r
-ss_checks_fmt[,c(1,dim(ss_checks_fmt)[2])] %>%
+ss_checks_fmt[,c(1,11:dim(ss_checks_fmt)[2])] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
@@ -781,6 +782,10 @@ ss_checks_fmt[,c(1,dim(ss_checks_fmt)[2])] %>%
  <thead>
   <tr>
    <th style="text-align:left;"> session_name </th>
+   <th style="text-align:left;"> language_ok </th>
+   <th style="text-align:left;"> exclusion_ok </th>
+   <th style="text-align:left;"> home_ok </th>
+   <th style="text-align:left;"> country_ok </th>
    <th style="text-align:left;"> state_ok </th>
   </tr>
  </thead>
@@ -788,81 +793,161 @@ ss_checks_fmt[,c(1,dim(ss_checks_fmt)[2])] %>%
   <tr>
    <td style="text-align:left;"> PLAY_NYU_001-e9N8O8B0A </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PLAY_NYU_002-e9N1A7F2A </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">FALSE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PLAY_NYU_003-e0N2N8S1A </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PLAY_NYU_004-e4N0S8E1A </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PLAY_NYU_005-e0N4H8O2A </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PLAY_NYU_006-e1N9E7S0A </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PLAY_NYU_007-e1N1S8M1A </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#021 </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#022 </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#023 </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#024 </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#025 </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#026 </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#027 </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#028 </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#029 </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#030 </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#031 </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#032 </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
   <tr>
    <td style="text-align:left;"> PlayPilot_S#033 </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
+   <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
    <td style="text-align:left;"> <span style="     color: green !important;">TRUE</span> </td>
   </tr>
 </tbody>

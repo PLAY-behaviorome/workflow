@@ -19,6 +19,9 @@ if (!require(devtools)) {
 if (!require(databraryapi)) {
   devtools::install_github("PLAY-behaviorome/databraryapi")
 }
+if (!require(assertthat)) {
+  install.packages("assertthat")
+}
 
 # Session name checks
 session_name_has_PLAY <- function(i, df) {
@@ -284,6 +287,16 @@ generate_session_url <- function(i, df, this_vol_id) {
   url
 }
 
+generate_vol_url <- function(vol_id=899, site_code="NYU", markdown=TRUE) {
+  assertthat::is.number(vol_id)
+  assertthat::is.string(site_code)
+  if (markdown) {
+    paste0("[", site_code, " collection volume ", vol_id, "](", "https://databrary.org/volume/", vol_id, ")")
+  } else {
+    paste0("https://databrary.org/volume/", vol_id)
+  }
+}
+
 check_videos_in_session <- function(i, df, this_vol_id) {
   sess_assets <- this_session_assets(i, df, this_vol_id)
   out_df <- dplyr::tibble(
@@ -332,7 +345,8 @@ render_qa_report <- function(vol_id = 899, site_code = "NYU",
   
   rmarkdown::render("session-qa-report.Rmd", 
                     params = list(vol_id = vol_id, 
-                                  databrary_login = databrary_login),
+                                  databrary_login = databrary_login,
+                                  set_title = generate_vol_url(vol_id, site_code)),
                     output_dir = output_dir,
                     output_file = paste0("session-qa-report-", vol_id, "-", 
                                          site_code, "-", format(Sys.time(), "%Y-%m-%d-%H%M"), ".html"))

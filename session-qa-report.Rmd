@@ -1,42 +1,44 @@
 ---
-title: "PLAY Session Spreadsheet QA"
-author: "Rick Gilmore"
 date: "`r Sys.time()`"
 output: 
   html_document:
-    keep_md: true
     theme: lumen
-    toc: true
-    toc_depth: 4
-    toc_float: true
-    code_folding: hide
 params:
   vol_id: 899
   databrary_login: account@email.com
   site_code: NYU
   only_show_included: TRUE
+  set_title: "QA Report Template"
+title: "`r params$set_title`" 
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 
 # Includes code to install dependencies
 source("R/qa_report_helpers.R")
+
+# Validate input parameters
+assertthat::has_name(params, c("vol_id", "databrary_login", "site_code", "only_show_included"))
+assertthat::is.number(params$vol_id)
+assertthat::is.string(params$databrary_login)
+assertthat::noNA(params$databrary_login)
+assertthat::is.string(params$site_code)
 
 # Login to Databrary
 db_login_ok <- databraryapi::login_db(params$databrary_login)
 if(db_login_ok) {
   message("Databrary authentication successful.")
+} else {
+  stop(paste0("Unable to authenticate to Databrary using '", params$databrary_login, "'.", "\n 'databrary_login' parameter must be a valid Databrary account ID."))
 }
 
+# Put tidyverse in local environment for pipe '%>%' operator
 library(tidyverse)
 ```
+# Spreadsheet & Video Checks {.tabset .tabset-fade .tabset-pills}
 
-# PLAY Site `r params$site_code` QA Report
-
-Site data collection volume: <`r paste0("https://databrary.org/volume/", params$vol_id)`>
-
-## Session name checks
+## Name checks
 
 ```{r session-name-checks}
 this_vol_df <- databraryapi::download_session_csv(params$vol_id)
@@ -90,7 +92,7 @@ name_checks_fmt[,c(1, 6:dim(name_checks)[2])] %>%
    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-## Session spreadsheet variable checks
+## Spreadsheet variable checks
 
 ```{r session-variable-checks}
 ss_checks_l <- lapply(1:dim(this_vol_df)[1], check_session_ss, this_vol_df, params$site_code)
@@ -198,7 +200,7 @@ ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-## Video file-level checks
+## Video checks
 
 ```{r video-file-checks}
 check_videos_l <- lapply(1:dim(this_vol_df)[1], check_videos_in_session, this_vol_df, params$vol_id)

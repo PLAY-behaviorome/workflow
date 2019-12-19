@@ -5,7 +5,7 @@ output:
     theme: lumen
 params:
   vol_id: 899
-  databrary_login: account@email.com
+  databrary_login: email@provider.com
   site_code: NYU
   only_show_included: TRUE
   set_title: "QA Report Template"
@@ -36,6 +36,7 @@ if(db_login_ok) {
 # Put tidyverse in local environment for pipe '%>%' operator
 library(tidyverse)
 ```
+
 # Spreadsheet & Video Checks {.tabset .tabset-fade .tabset-pills}
 
 ## Name checks

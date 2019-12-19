@@ -252,27 +252,50 @@ this_session_assets <- function(i, df, this_vol_id) {
 }
 
 NaturalPlay_exists <- function(fnames) {
-  result <- stringr::str_detect(fnames, "NaturalPlay$")
+  result <- stringr::str_detect(fnames, "NaturalPlay")
   as.logical(sum(result))
 }
 
 HouseWalkthrough_exists <- function(fnames) {
-  result <- stringr::str_detect(fnames, "HouseWalkthrough$")
+  result <- stringr::str_detect(fnames, "HouseWalkthrough")
   as.logical(sum(result))
 }
 
 StructuredPlay_exists <- function(fnames) {
-  result <- stringr::str_detect(fnames, "StructuredPlay$")
+  result <- stringr::str_detect(fnames, "StructuredPlay")
   as.logical(sum(result))
+}
+
+dot_mov_in_filenames <- function(fnames) {
+  assertthat::is.string(fnames)
+  result <- stringr::str_detect(fnames, ".mov$")
+  sum(result)
 }
 
 Questionnaires_exists <- function(fnames) {
-  result <- stringr::str_detect(fnames, "Questionnaires$")
+  result <- stringr::str_detect(fnames, "Questionnaires")
   as.logical(sum(result))
 }
 
+bad_video_names <- function(fnames) {
+  np <- NaturalPlay_exists(fnames)
+  hw <- HouseWalkthrough_exists(fnames)
+  sp <- StructuredPlay_exists(fnames)
+  qs <- Questionnaires_exists(fnames)
+  
+  bad_names = ""
+  if ((!np) || (!hw) || (!sp) || (!qs)) {
+    bad_names = fnames
+  }
+  bad_names
+}
+
 four_or_more_files <- function(fnames) {
-  length(fnames) >= 4
+  if (is.null(fnames)) {
+    FALSE
+  } else {
+    length(fnames) >= 4
+  }
 }
 
 four_or_more_videos <- function(sess_assets_df) {
@@ -299,6 +322,17 @@ generate_vol_url <- function(vol_id=899, site_code="NYU", markdown=TRUE) {
 
 check_videos_in_session <- function(i, df, this_vol_id) {
   sess_assets <- this_session_assets(i, df, this_vol_id)
+  if (is.null(sess_assets)) {
+    out_df <- dplyr::tibble(
+      session_name = df$session_name[i],
+      url = generate_session_url(i, df, this_vol_id),
+      NaturalPlay_exists = FALSE,
+      HouseWalkthrough_exists = FALSE,
+      StructuredPlay_exists = FALSE,
+      Questionnaires_exists = FALSE,
+      four_or_more_videos = FALSE
+    )
+  } else {
   out_df <- dplyr::tibble(
     session_name = df$session_name[i],
     url = generate_session_url(i, df, this_vol_id),
@@ -308,7 +342,8 @@ check_videos_in_session <- function(i, df, this_vol_id) {
     Questionnaires_exists = Questionnaires_exists(sess_assets$name),
     four_or_more_videos = four_or_more_videos(sess_assets)
   )
-  
+  }
+
   out_df
 }
 
@@ -353,4 +388,16 @@ render_qa_report <- function(vol_id = 899, site_code = "NYU",
   
   end_time <- Sys.time()
   message(paste0("Execution time: ", end_time-start_time, " secs"))
+}
+
+generate_nyu_qa <- function() {
+  render_qa_report(899, "NYU")
+}
+generate_gtu_qa <- function() {
+  render_qa_report(954, "GTU")
+}
+
+generate_all_qa <- function() {
+  generate_nyu_qa()
+  generate_gtu_qa()
 }

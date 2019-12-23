@@ -1,0 +1,137 @@
+---
+title: "workflow-1.0"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: hide
+---
+
+# PLAY 1.0 Workflow
+
+The following figure depicts the PLAY project workflow as of `r Sys.Date()`.
+
+```{r, fig.cap="Source: https://www.play-project.org/overview.html"}
+knitr::include_graphics("https://www.play-project.org/img/overview-project.png")
+```
+
+## Pre-collection training
+
+### Overview (1.5 hrs)
+
+#### Discussion
+
+- How is the play-project.org website used to support training?
+
+### Training 2
+
+### Training 3
+
+### Training 4
+
+## Data collection
+
+See steps described in <https://www.play-project.org/collection.html>
+
+### Post-visit data upload
+
+1. *Data Collection Site RA* creates a session within the site-specific volume and completes Databrary spreadsheet data.
+1. *Data Collection Site RA* uploads video to the site-specific Databrary volume.
+1. *Data Collection Site RA* uploads ambient sound recording to data session on site-specific Databrary volume.
+1. *KoboToolbox application* uploads data file to Kobotoolbox server.
+
+#### Discussion
+
+- *Launch Group PIs* will 'co-own' data with PLAY PIs, so uploading to site-specific Databrary volumes makes sense for initial upload.
+This also ensures that session-specific metadata is entered in a consistent fashion and makes it possible to create automated workflows down the line.
+- *How does KoBoToolbox questionnaire data get from KoBoToolbox server to the proper volume and session?*
+
+## Quality Assurance (QA)
+
+### Data retrieval
+
+#### Survey data from KoboToolbox server
+
+1. *PLAY staff* download KoBoToolbox file from KoBoToolbox server to <WORKING DIRECTORY UNSPECIFIED>.
+
+#### Session metadata from Databrary
+
+1. *PLAY staff* rrtrieve session metadata from Databrary volume
+
+#### Video and audio files from Databrary
+
+### Data evaluation
+
+#### KoBoToolbox-derived data
+
+1. *PLAY staff* generate NDAR GUID using NYU server.
+1. *PLAY staff* add NDAR GUID to appropriate Databrary session and volume.
+
+#### Comparing KoBoToolbox data with Databrary session
+
+1. *PLAY staff* compare participant demographic data from KoBoToolbox to that entered into the Databrary spreadsheet.
+1. *PLAY staff* reconcile discrepancies.
+
+#### Video
+
+#### Audio file
+
+### Discussion
+
+- There is an API for KoboToolbox.
+  - *Could we script the transfer of KoboToolbox files to Box?*
+- *PLAY staff* must retrieve video and audio files from site-specific volumes and sessions. 
+  - *How do PLAY staff know when there are files for them to process?*
+  - *Can Databrary's notifications feature provide information about uploaded files that are ready for QA?*
+- *PLAY staff* must download video files from site-specific volumes to i) play videos and ii) generate QA Datavyu file.
+  - *What is the QA coding protocol?*
+  - *What is an example QA Datavyu file?*
+  - *Could we use Box as working file server for QA and coding assignments?*
+    - Box would be more flexible than creating new Databrary volumes.
+    - Box has an API that we might be able to access via scripts.
+    - There is an R package for the Box API: <https://cran.r-project.org/web/packages/boxr/vignettes/boxr.html>
+- *Do audio files undergo QA?*
+- *How does questionnaire data undergo QA?*
+
+## Coding
+
+### Pre-coding training
+
+1. *PLAY staff* ship coding equipment to coding labs.
+1. *PLAY staff* conduct training.
+
+### Assigning videos to coding labs
+
+1. *PLAY staff* assign videos to coding labs based on source of video and the coding pass a lab is trained to provide.
+1. *PLAY staff* generate a *Template Datavyu Coding File* associated with the assigned coding pass.
+
+#### Discussion
+
+- *Template Datavyu Coding File* must contain the code and code definitions.
+- *Template Datavyu Coding File* must have an initial ID column with metadata about the participant and the video file name to which it is linked.
+- *Template Datavyu Coding File* must have a file name that matches the video.
+
+### Coding labs acquire videos
+
+1. *Coding Site RA* downloads assigned video for coding.
+
+### Coding
+
+Coding protocols for each pass are described in <https://www.play-project.org/coding.html>
+
+### Coding files get returned
+
+1. *Coding Site RA* copies completed *Template Datavyu Coding File* to <FILE DIRECTORY NOT YET ASSIGNED>.
+
+## Coding Quality Assurance (QA)
+
+### Coding QA
+
+### Reliability
+
+## Merge coded data
+
+## Clean and upload

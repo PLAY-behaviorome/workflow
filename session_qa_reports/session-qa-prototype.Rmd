@@ -1,0 +1,711 @@
+---
+title: "Session QA Prototyping Notebook"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: html_notebook
+---
+
+# Purpose
+
+This document describes the process of prototyping and planning for the PLAY project session-level QA process based on files stored in Databrary.
+The goal is to generate a session-specific report.
+
+# Requirements
+
+Specific requirements for conducting QA on the Databrary data elements are described in `requirements/xlsx/Databrary_QA_checks.xlsx`.
+
+## Implementation steps
+
+1. Given a Databrary volume, extract session info.
+    - We will test with `https://nyu.databrary.org/volume/899`.
+2. For each session, check the following:
+    - Does the session folder name conform to the naming convention?
+    - Is the sharing release level 'Authorized Users' or 'Learning Audiences'?
+    - Are the following fields completed:
+        - `birthdate`, `testdate`, `age`, `gender`, `race`, `ethnicity`, `language`, `disability`, `pilot`, `exclusion`, `group`, `setting`, `country`, `state`
+    - Are there videos uploaded?
+    - Do the videos conform to the file naming conventions?
+    - Is the Natural Play video at least 1 hr long?
+    - Is the Structured Play video at least X min long?
+    
+# Implementation exploration
+
+## Set-up details
+
+#### `databraryapi` package
+
+Some of the functions require authentication to Databrary.
+
+Install `databraryapi` package from GitHub.
+
+```{r install-databraryapi}
+if (!require(databraryapi)) {
+  if (!require(devtools)) {
+    install.packages("devtools")
+  }
+  devtools::install_github("PLAY-behaviorome/databraryapi")
+}
+```
+
+Next, you need to enter your Databrary credentials into your own computer's credentials file.
+On Mac OS, this is called Keychain.
+Run `databraryapi::config_passwd()` from the console to store your credentials properly.
+
+```{r eval=FALSE}
+databraryapi::config_passwd()
+```
+
+You may test to see that you are able to login to Databrary by running the following.
+
+```{r eval=FALSE}
+databraryapi::login_db()
+```
+
+You will be asked to provide your Databrary user ID (email).
+Since you have just securely stored your credentials, you should get a `Login successful.` message and a `TRUE` result at the console.
+
+#### Install other packages
+
+```{r load-packages}
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+library(tidyverse) # so we can use the '%>%' pipe operator
+
+if (!require(kableExtra)) {
+  install.packages("kableExtra")
+}
+```
+
+## Authenticate to Databrary
+
+```{r}
+databraryapi::login_db("rogilmore@psu.edu")
+```
+
+## Download spreadsheet for the test volume
+
+```{r}
+this_vol_id = 899
+
+this_db_ss <- databraryapi::download_session_csv(vol_id = this_vol_id)
+
+this_db_ss %>%
+  knitr::kable(.)
+```
+
+## Implementing tests
+
+### Session name format
+
+#### Specifications
+
+The session folder names should follow this format:
+
+PLAY_\<SITE_CODE\>_\<SUB_ID\>-\<UNIQUE_CODE\>-\{HouseWalkthrough,NaturalPlay,StructuredPlay,DatabraryConsent,Questionnaires\}
+
+Where \<SITE_CODE\> is one of the following:
+
+```{r get-official-site-codes}
+# Code to extract site codes from Google sheet
+
+
+# Temporarily use a manual list of acceptable codes
+site_codes <- c("NYU", "GTU", "PSU")
+```
+
+The \<SUB_ID\> is a 3 digit number that is equal to the`participant.ID` field from the spreadsheet, but padded with zeros.
+
+The \<UNIQUE_CODE\> is generated according to the following algorithm:
+
+**DESCRIBE ALGORITHM**
+
+And the individual videos are labeled with one of the following labels: HouseWalkthrough, NaturalPlay, StructuredPlay, DatabraryConsent, Questionnaires.
+
+### Functional implementation
+
+```{r}
+name_starts_with_PLAY_site_code <- function(session_nm, this_site_code) {
+  stringr::str_detect(session_nm, paste0("PLAY_", this_site_code, "_"))
+}
+
+# This should fail
+name_starts_with_PLAY_site_code(this_db_ss$session_name[1], "NYU")
+
+# This should succeed
+name_starts_with_PLAY_site_code(this_db_ss$session_name[12], "NYU")
+```
+
+```{r}
+name_contains_sub_id <- function(session_nm, sub_id) {
+  # Pad sub_id with leading zeros
+  sub_id <- stringr::str_pad(sub_id, 3, pad = "0")
+  stringr::str_detect(session_nm, sub_id)
+}
+
+name_contains_sub_id(this_db_ss$session_name[1], this_db_ss$participant.ID[1])
+
+name_contains_sub_id(this_db_ss$session_name[12], this_db_ss$participant.ID[12])
+```
+
+```{r}
+name_contains_site_sub_id <- function(session_nm, this_site_code, sub_id) {
+  stringr::str_detect(session_nm, paste0("PLAY_", this_site_code, "_", stringr::str_pad(sub_id, 3, pad = "0"), "-"))
+}
+
+name_contains_site_sub_id(this_db_ss$session_name[12], "NYU", this_db_ss$participant.ID[12])
+```
+
+```{r}
+name_contains_site_sub_id(this_db_ss$session_name[13], "NYU", this_db_ss$participant.ID[13])
+
+name_contains_site_sub_id(this_db_ss$session_name[14], "NYU", this_db_ss$participant.ID[14])
+
+name_contains_site_sub_id(this_db_ss$session_name[15], "NYU", this_db_ss$participant.ID[15])
+
+name_contains_site_sub_id(this_db_ss$session_name[16], "NYU", this_db_ss$participant.ID[16])
+
+name_contains_site_sub_id(this_db_ss$session_name[17], "NYU", this_db_ss$participant.ID[17])
+
+name_contains_site_sub_id(this_db_ss$session_name[18], "NYU", this_db_ss$participant.ID[18])
+
+name_contains_site_sub_id(this_db_ss$session_name[19], "NYU", this_db_ss$participant.ID[19])
+```
+
+Let's make this function more easily callable as an index into the session data frame.
+
+```{r}
+session_name_has_PLAY <- function(i, df) {
+  first_four <- stringr::str_sub(df$session_name[i], 1, 4)
+  stringr::str_detect(first_four, "PLAY")
+}
+
+session_name_has_site_id <- function(i, df, site_id) {
+  site_id_from_name <- stringr::str_sub(df$session_name[i], 6, 8)
+  site_id_from_name == site_id
+}
+
+session_name_has_sub_id <- function(i, df) {
+  sub_id_from_name <- stringr::str_sub(df$session_name[i], 10, 12)
+  sub_id_from_participant.id <- stringr::str_pad(df$participant.ID[i], 3, pad = "0")
+  sub_id_from_name == sub_id_from_participant.id
+}
+
+session_name_has_correct_separators <- function(i, df) {
+  has_first_underscore <- stringr::str_sub(df$session_name[i], 5, 5) == "_"
+  has_second_underscore <- stringr::str_sub(df$session_name[i], 9, 9) == "_"
+  has_first_dash <- stringr::str_sub(df$session_name[i], 13, 13) == "-"
+    
+  has_first_underscore && has_second_underscore && has_first_dash
+}
+
+session_name_play_id_valid <- function(i, df) {
+  play_id <- stringr::str_sub(df$session_name[i], 14, 22)
+  stringr::str_detect(play_id, "[:alnum:]+")
+}
+
+session_name_length_ok <- function(i, df, name_length = 23) {
+  stringr::str_length(df$session_name[i]) == name_length
+}
+
+session_name_has_PLAY(12, this_db_ss)
+session_name_has_site_id(12, this_db_ss, "NYU")
+session_name_has_sub_id(12, this_db_ss)
+session_name_has_correct_separators(12, this_db_ss)
+session_name_play_id_valid(12, this_db_ss)
+session_name_length_ok(12, this_db_ss)
+```
+
+Note that the `session_name_length_ok` fails because these names do not include a 23rd character.
+In this case, ROG believes that is the initial 'S' in front of the subject ID.
+
+```{r}
+check_session_name <- function(i, df, site_id) {
+  out_df <- dplyr::tibble(session_name = df$session_name[i],
+                          name_has_PLAY = session_name_has_PLAY(i, df),
+                          name_has_site_id = session_name_has_site_id(i, df, site_id),
+                          name_has_sub_id = session_name_has_sub_id(i, df),
+                          name_has_corr_seps = session_name_has_correct_separators(i, df),
+                          name_play_id_valid = session_name_play_id_valid(i, df),
+                          name_length_ok = session_name_length_ok(i, df))
+  
+  out_df
+}
+
+check_session_name(12, this_db_ss, "NYU")
+check_session_name(13, this_db_ss, "NYU")
+check_session_name(14, this_db_ss, "NYU")
+```
+
+```{r listify-check_session_name}
+sess_checks_l <- lapply(12:14, check_session_name, this_db_ss, "NYU")
+sess_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), sess_checks_l)
+sess_checks %>%
+  knitr::kable(.)
+```
+
+
+```{r check-all-names}
+these_sessions <- 1:dim(this_db_ss)[1]
+all_checks_l <- lapply(these_sessions, check_session_name, this_db_ss, "NYU")
+
+all_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), all_checks_l)
+all_checks %>%
+  knitr::kable(.)
+```
+
+#### Release level
+
+The Databrary release level is stored in the `session_release` variable.
+The allowable release levels are \{SHARED, EXCERPTS, PUBLIC\}.
+We may want to flag any PUBLIC releases, though.
+For now, I'm going to include "PUBLIC" in the `ok_levels` parameter.
+
+```{r}
+release_level_ok <- function(i, df, ok_levels = c("SHARED", "EXCERPTS", "PUBLIC")) {
+  this_release_level <- df$session_release[i]
+  this_release_level %in% ok_levels
+}
+
+release_level_public <- function(i, df) {
+  df$session_release[i] == "PUBLIC"
+}
+
+release_level_ok(12, this_db_ss)
+release_level_public(12, this_db_ss)
+```
+
+#### Birthdate & testdate
+
+The specification says birthdates should be after test dates and after 2018-12-15.
+I've made the 'after' date a parameter.
+
+```{r}
+birthdate_not_NA <- function(i, df) {
+  !is.na(df$participant.birthdate[i])
+}
+
+testdate_not_NA <- function(i, df) {
+  !is.na(df$session_date[i])
+}
+
+birthdate_not_blank <- function(i, df) {
+  df$participant.birthdate[i] != ""
+}
+
+testdate_not_blank <- function(i, df) {
+  df$session_date[i] != ""
+}
+
+birthdate_is.Date <- function(i, df) {
+  if (birthdate_not_NA(i, df) && birthdate_not_blank(i, df)) {
+    lubridate::is.Date(lubridate::as_date(df$participant.birthdate[i]))
+  } else {
+    FALSE
+  }
+}
+
+testdate_is.Date <- function(i, df) {
+  if (testdate_not_NA(i, df) && testdate_not_blank(i, df)) {
+    lubridate::is.Date(lubridate::as_date(df$session_date[i]))
+  } else {
+    FALSE
+  }
+}
+
+birth_before_test <- function(i, df) {
+  if (birthdate_is.Date(i,df) && testdate_is.Date(i,df)) {
+    bdate <- lubridate::as_date(df$participant.birthdate[i])
+    tdate <- lubridate::as_date(df$session_date[i])
+    bdate < tdate    
+  } else {
+    NA    
+  }
+}
+
+test_after_start <- function(i, df, start_date = "2018-12-15") {
+  if (testdate_not_NA(i, df) && testdate_is.Date(i,df)) {
+    tdate <- lubridate::as_date(df$session_date[i])
+    start_date <- lubridate::as_date(start_date)
+    tdate > start_date    
+  } else {
+    NA    
+  }
+}
+
+birth_before_test(12, this_db_ss)
+test_after_start(12, this_db_ss)
+```
+
+#### Age
+
+The age reported in the Databrary spreadsheet is calculated from the birth and test dates.
+The 12-month-old range is [11.75-12.25]; the 18-month-old range is [17.75-18.25]; the 24-month-old range is [23.75,24.25] months.
+
+```{r}
+age_in_mos <- function(i, df) {
+  if (birthdate_is.Date(i,df) && testdate_is.Date(i,df)) {
+    bdate <- lubridate::as_date(df$participant.birthdate[i])
+    tdate <- lubridate::as_date(df$session_date[i])
+    as.numeric(lubridate::as.duration(tdate - bdate), "months")    
+  } else {
+    NA
+  }
+}
+
+age_in_mos(12, this_db_ss)
+```
+
+
+```{r}
+age_valid <- function(age, min_age, max_age) {
+  gte_min_age <- age >= min_age
+  lte_max_age <- age <= max_age
+  gte_min_age && lte_max_age && !is.na(age)
+}
+
+mos_12 <- function(age) {
+  age_valid(age, 11.75, 12.25)
+}
+
+mos_18 <- function(age) {
+  age_valid(age, 17.75, 18.25)
+}
+
+mos_24 <- function(age) {
+  age_valid(age, 23.75, 24.25)
+}
+
+age_group_valid <- function(i, df) {
+  this_age <- age_in_mos(i, df)
+  mos_12(this_age) || mos_18(this_age) || mos_24(this_age)
+}
+
+mos_12(age_in_mos(12, this_db_ss))
+mos_18(age_in_mos(12, this_db_ss))
+mos_24(age_in_mos(12, this_db_ss))
+
+age_group_valid(12, this_db_ss)
+```
+
+#### Gender
+
+```{r}
+gender_ok <- function(i, df) {
+  df$participant.gender[i] %in% c("Male", "Female")
+}
+
+gender_ok(12, this_db_ss)
+```
+
+#### Race
+
+```{r}
+race_ok <- function(i, df) {
+  race_categories <- c(
+    "American Indian or Alaskan Native",
+    "Asian",
+    "Native Hawaiian or other Pacific Islander",
+    "Black or African American",
+    "White",
+    "More than one",
+    "Other",
+    "Refused"
+  )
+  df$participant.race[i] %in% race_categories
+}
+
+race_ok(12, this_db_ss)
+```
+
+#### Ethnicity
+
+```{r}
+ethnicity_ok <- function(i, df) {
+  ethnicity_categories <- c("Hispanic or Latino",
+                            "Not Hispanic or Latino",
+                            "Refused")
+  
+  df$participant.ethnicity[i] %in% ethnicity_categories
+}
+
+ethnicity_ok(12, this_db_ss)
+```
+
+#### Disability
+
+```{r}
+disability_ok <- function(i, df) {
+  df$participant.disability[i] != "Typical"
+}
+
+disability_ok(12, this_db_ss)
+```
+
+#### Language
+
+```{r}
+language_ok <- function(i, df) {
+  language_categories <- c("English",
+                           "Spanish",
+                           "English, Spanish",
+                           "Spanish, English")
+  
+  df$participant.language[i] %in% language_categories
+}
+
+language_ok(12, this_db_ss)
+```
+
+
+
+
+#### Pilot
+
+Acceptable values: 'pilot' or blank.
+
+**Note**: As of 2019-12-10, the `Pilot` variable is not exported. It might be dropped by the `databraryapi` command.
+
+#### Exclusion
+
+Acceptable values: \{'pilot', 'other', 'language not English or Spanish', ""\}.
+
+```{r}
+exclusion_ok <- function(i, df, accepted_vals = c("pilot", "other", "language note English or Spanish", "")) {
+  df$exclusion.reason[i] %in% accepted_vals
+}
+
+exclusion_ok(12, this_db_ss)
+```
+
+#### Setting
+
+Acceptable value: 'Home'
+
+```{r}
+home_ok <- function(i, df) {
+  df$context.setting[i] == "Home"
+}
+
+home_ok(12, this_db_ss)
+```
+
+
+#### Country
+
+Acceptable value: 'US'
+
+```{r}
+country_ok <- function(i, df) {
+  df$context.country[i] == "US"
+}
+
+country_ok(12, this_db_ss)
+```
+
+#### State
+
+Acceptable value: A two-letter U.S. state string.
+Note: the `state.abb` contains just what we need.
+
+```{r}
+state_ok <- function(i, df) {
+  df$context.state[i] %in% state.abb
+}
+
+state_ok(12, this_db_ss)
+```
+
+## Assembling spreadsheet QA tests
+
+```{r}
+check_session_ss <- function(i, df, site_id) {
+  out_df <- dplyr::tibble(
+    session_name = df$session_name[i],
+    name_has_PLAY = session_name_has_PLAY(i, df),
+    name_has_site_id = session_name_has_site_id(i, df, site_id),
+    name_has_sub_id = session_name_has_sub_id(i, df),
+    name_has_corr_seps = session_name_has_correct_separators(i, df),
+    name_play_id_valid = session_name_play_id_valid(i, df),
+    name_length_ok = session_name_length_ok(i, df),
+    release_level_ok = release_level_ok(i, df),
+    release_level_public = release_level_public(i, df),
+    birth_before_test = birth_before_test(i, df),
+    test_after_start = test_after_start(i, df),
+    age_group_valid = age_group_valid(i, df),
+    gender_ok = gender_ok(i, df),
+    race_ok = race_ok(i, df),
+    ethnicity_ok = ethnicity_ok(i, df),
+    disability_ok = disability_ok(i, df),
+    language_ok = language_ok(i, df),
+    exclusion_ok = exclusion_ok(i, df),
+    home_ok = home_ok(i, df),
+    country_ok = country_ok(i, df),
+    state_ok = state_ok(i, df)
+  )
+  
+  out_df
+}
+
+check_session_ss(1, this_db_ss, "NYU")
+# check_session_ss(2, this_db_ss, "NYU")
+# check_session_ss(3, this_db_ss, "NYU")
+# check_session_ss(4, this_db_ss, "NYU")
+# check_session_ss(5, this_db_ss, "NYU")
+# check_session_ss(6, this_db_ss, "NYU")
+# check_session_ss(7, this_db_ss, "NYU")
+# check_session_ss(8, this_db_ss, "NYU")
+# check_session_ss(9, this_db_ss, "NYU")
+# check_session_ss(10, this_db_ss, "NYU")
+# check_session_ss(11, this_db_ss, "NYU")
+# check_session_ss(12, this_db_ss, "NYU")
+# check_session_ss(13, this_db_ss, "NYU")
+# check_session_ss(14, this_db_ss, "NYU")
+# check_session_ss(15, this_db_ss, "NYU")
+# check_session_ss(16, this_db_ss, "NYU")
+# check_session_ss(17, this_db_ss, "NYU")
+# check_session_ss(18, this_db_ss, "NYU")
+# check_session_ss(19, this_db_ss, "NYU")
+# check_session_ss(20, this_db_ss, "NYU")
+```
+
+```{r}
+these_sessions <- 1:dim(this_db_ss)[1]
+for (i in these_sessions) {
+  cat("session ", i, "\n")
+  check_session_ss(i, this_db_ss, "NYU")
+}
+
+check_all_l <- lapply(these_sessions, check_session_ss, this_db_ss, "NYU")
+
+check_all_df <- Reduce(function(x,y) merge(x,y, all=TRUE), check_all_l)
+check_all_df %>%
+knitr::kable(.)
+```
+
+## File-level tests
+
+### Specifications
+
+1. For each session in the volume...
+  - How many videos are there?
+  - Do the video file names meet the naming criteria?
+      - First part matches session name
+      - Last part one of \{'NaturalPlay', 'HouseWalkthrough', 'StructuredPlay', 'Questionnaires'\}.
+  - Are the videos the right length?
+      
+### Implementation
+
+#### Videos in a session
+
+`databraryapi::list_assets_in_volume()` lists assets in a volume and `databraryapi::list_assets_in_session()` lists assets in a specific session.
+
+```{r}
+this_session_assets <- function(i, df, this_vol_id) {
+  databraryapi::list_assets_in_session(this_vol_id, df$session_id[i])
+}
+
+sess_12 <- this_session_assets(12, this_db_ss, this_vol_id)
+sess_12 %>%
+  knitr::kable(.)
+```
+
+#### Segment names are correctly formatted
+
+Since the segment names are at the end of the file name, they are fairly easy to check.
+
+```{r}
+NaturalPlay_exists <- function(fnames) {
+  result <- stringr::str_detect(fnames, "NaturalPlay$")
+  as.logical(sum(result))
+}
+
+HouseWalkthrough_exists <- function(fnames) {
+  result <- stringr::str_detect(fnames, "HouseWalkthrough$")
+  as.logical(sum(result))
+}
+
+StructuredPlay_exists <- function(fnames) {
+  result <- stringr::str_detect(fnames, "StructuredPlay$")
+  as.logical(sum(result))
+}
+
+Questionnaires_exists <- function(fnames) {
+  result <- stringr::str_detect(fnames, "Questionnaires$")
+  as.logical(sum(result))
+}
+
+four_or_more_videos <- function(fnames) {
+  length(fnames) >= 4
+}
+
+NaturalPlay_exists(sess_12$name)
+HouseWalkthrough_exists(sess_12$name)
+StructuredPlay_exists(sess_12$name)
+Questionnaires_exists(sess_12$name)
+four_or_more_videos(sess_12$name)
+```
+
+Now, run across set of sessions.
+
+```{r}
+check_videos_in_session <- function(i, df, this_vol_id) {
+  sess_assets <- this_session_assets(i, df, this_vol_id)
+  out_df <- dplyr::tibble(
+    session_name = df$session_name[i],
+    session_id = df$session_id[i],
+    NaturalPlay_exists = NaturalPlay_exists(sess_assets$name),
+    HouseWalkthrough_exists = HouseWalkthrough_exists(sess_assets$name),
+    StructuredPlay_exists = StructuredPlay_exists(sess_assets$name),
+    Questionnaires_exists = Questionnaires_exists(sess_assets$name),
+    four_or_more_videos = four_or_more_videos(sess_12$name)
+  )
+  
+  out_df
+}
+
+check_videos_in_session(12, this_db_ss)
+```
+
+```{r}
+check_videos_l <- lapply(these_sessions, check_videos_in_session, this_db_ss)
+
+check_videos_df <- Reduce(function(x,y) merge(x,y, all=TRUE), check_videos_l)
+check_videos_df %>%
+  knitr::kable(.)
+```
+
+**Note**: NYU001 has `.mov` in the name and thus fails the test, while NYU002 does not have `.mov` and passes.
+
+**TODO(ROG):** Check to see that first part of video file names matches the session name.
+
+```{r}
+check_videos_df %>%
+  dplyr::mutate(NaturalPlay_exists = kableExtra::cell_spec(
+    NaturalPlay_exists,
+    "html",
+    color = ifelse(NaturalPlay_exists == TRUE, "green", "red")
+  ),
+  HouseWalkthrough_exists = kableExtra::cell_spec(
+    HouseWalkthrough_exists,
+    "html",
+    color = ifelse(HouseWalkthrough_exists == TRUE, "green", "red")
+  ),
+  StructuredPlay_exists = kableExtra::cell_spec(
+    StructuredPlay_exists,
+    "html",
+    color = ifelse(StructuredPlay_exists == TRUE, "green", "red")
+  ),
+  Questionnaires_exists = kableExtra::cell_spec(
+    Questionnaires_exists,
+    "html",
+    color = ifelse(Questionnaires_exists == TRUE, "green", "red")
+  ),
+  four_or_more_videos = kableExtra::cell_spec(
+    four_or_more_videos,
+    "html",
+    color = ifelse(four_or_more_videos == TRUE, "green", "red")
+  )) %>%
+  knitr::kable(., format = "html", escape = FALSE)
+```
+

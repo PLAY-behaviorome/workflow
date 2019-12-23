@@ -1,0 +1,151 @@
+---
+title: "api-explorations-kobotoolbox"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: 
+  html_document:
+    keep_md: true
+    theme: lumen
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: show
+params:
+  kobo_token: abcdefg
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      out.width = "600px")
+
+# Install packages
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+if (!require(httr)) {
+  install.packages("httr")
+}
+
+library(tidyverse) # so pipe %>% operator is available
+```
+
+## Purpose
+
+This document explores the utility of using the KoBoToolbox.org API for file management of the PLAY Project survey data.
+
+## Set-up
+
+I used the KoBoToolbox.org support site, especially this page -- <http://support.kobotoolbox.org/en/articles/1559346-pulling-your-data-into-excel-power-query> -- for insights here.
+
+1. I set up a new account on the server to test functionality.
+2. I created a silly project called "Rick's Excellent Survey" with a small survey.
+  - Here is the URL I sent to my lab's Discord: <https://ee.kobotoolbox.org/x/#jTDIfW5t>.
+
+3. While logged in, I followed the instructions on this page
+
+<http://support.kobotoolbox.org/en/articles/592398-api-and-rest-services>
+
+to get my access token.
+Specifically, I entered ` https://kf.kobotooltoolbox.org/token/?format=json` into a browser.
+
+4. Then, I tested the token using this command in Terminal.app:
+
+```
+curl -X GET https://[kpi-url]/assets/?format=json -H "Authorization: Token [your_token_goes_here]"
+```
+
+Since I get a 200 success code, I am ready to do substantive things with the API.
+
+## Accessing data
+
+Following the instructions in
+
+<http://support.kobotoolbox.org/en/articles/1559346-pulling-your-data-into-excel-power-query>,
+
+I decided to try to get the data my lab group had entered into the test survey.
+
+```{bash, eval = FALSE}
+curl -X GET https://kc.kobotoolbox.org/api/v1/data.csv -H "Authorization: Token MY_TOKEN_HERE"
+```
+
+That command (with the appropriate token) returns a CSV with data about the surveys that have data for me.
+
+Let's do this in R.
+
+```{r}
+r <- httr::GET(url = "https://kc.kobotoolbox.org/api/v1/data.csv", httr::add_headers("Authorization" = paste0("Token ", params$kobo_token)))
+#status(r)
+content(r, as = "parsed") %>%
+  knitr::kable(.)
+```
+
+Note that to render this R Markdown document, I need to run the following command in the R console: `rmarkdown::render("api-explorations-kobotoolbox.Rmd", params=list(kobo_token="MY_TOKEN_HERE"))` substituting my actual token for `MY_TOKEN_HERE`.
+The token is a string, so it needs to be surrounded by quotation marks, single or double.
+This is messy, but it works, so we'll proceed.
+
+### Getting specific individual-level responses
+
+The prior set of commands gave us data about the survey data, but it didn't download the results.
+Let's do that now.
+First, I'm just going to copy and paste the `id` value for the file into the URL.
+This should return JSON.
+
+```{r}
+r <- httr::GET(url = "https://kc.kobotoolbox.org/api/v1/data/341165", httr::add_headers("Authorization" = paste0("Token ", params$kobo_token)))
+jsonlite::fromJSON(content(r, as = "text"))
+```
+
+So, that seems to work.
+Let's clean it up a bit.
+First, we'll save the output as a data frame so we can pull the survey ID as a parameter.
+
+```{r}
+surveys_r <- httr::GET(url = "https://kc.kobotoolbox.org/api/v1/data.csv", httr::add_headers("Authorization" = paste0("Token ", params$kobo_token)))
+surveys_df <- content(surveys_r, as = "parsed")
+```
+
+Then, we'll use the `id` for the survey we want to build the next API call.
+
+```{r}
+silly_survey <- surveys_df %>%
+  dplyr::filter(title == "Rick's Excellent Survey")
+
+results_url <- paste0("https://kc.kobotoolbox.org/api/v1/data/", silly_survey$id)
+
+data_r <- httr::GET(url = results_url, httr::add_headers("Authorization" = paste0("Token ", params$kobo_token)))
+
+if (httr::status_code(data_r) == 200) {
+  jsonlite::fromJSON(content(data_r, as = "text"))
+} else {
+  message(paste0("Status code: ", httr::status_code(data_r)))
+}
+```
+
+Better, but let's see if grabbing a CSV reduces the post-download data-munging.
+
+```{r}
+results_url <- paste0("https://kc.kobotoolbox.org/api/v1/data/", silly_survey$id, ".csv")
+
+data_r <- httr::GET(url = results_url, httr::add_headers("Authorization" = paste0("Token ", params$kobo_token)))
+
+if (httr::status_code(data_r) == 200) {
+  (responses_df <- readr::read_csv(content(data_r, as = "text")))
+} else {
+  message(paste0("Status code: ", httr::status_code(data_r)))
+}
+```
+
+Ok, that's workable.
+Let's extract the respondent's names.
+
+```{r}
+responses_df$What_is_your_name
+```
+
+This is going to work.
+
+## Next steps
+
+1. We should try extracting/exporting the PLAY survey data.
+2. We could consider scripting/automating the generation of the PLAY surveys.
+3. We'll need to think carefully about what post-download processing we need to do on the surveys.

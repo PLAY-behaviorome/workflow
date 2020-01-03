@@ -1,0 +1,52 @@
+---
+title: "terminology"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: hide
+---
+
+# Terminology
+
+The following describes the people and their roles in carrying out the PLAY project workflow along with the tools and technologies used in that workflow.
+
+## People & roles
+
+### PLAY staff
+
+*PLAY staff* or *PLAY staff member*
+
+### Data collection site
+
+*Data Collection Site Staff* = *Data Collection Site PI* or *Data Collection Site RA*
+
+*Data Collection Site PI*
+
+*Data Collection Site RA*
+
+### Data coding site
+
+## Technologies and tools
+
+### Websites & servers
+
+[Databrary](https://databrary.org)
+
+[Datavyu](https://datavyu.org)
+
+[KoBoToolbox](https://www.kobotoolbox.org)
+
+[Box](https://box.com)
+
+### Desktop software
+
+[Datavyu](https://datavyu.org)
+
+[RStudio](https://rstudio.com)
+
+#### R packages
+

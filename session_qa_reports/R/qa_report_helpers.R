@@ -452,6 +452,7 @@ generate_nyu_qa <- function(db_login) {
                    site_code = "NYU",
                    databrary_login = db_login)
 }
+
 generate_gtu_qa <- function(db_login) {
   assertthat::is.string(db_login)
   render_qa_report(vol_id = 954,

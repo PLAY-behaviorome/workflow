@@ -48,18 +48,18 @@ session_name_has_sub_id <- function(df) {
   ID_assigned <- participant_ID_assigned(df)
   detect_ID_in_name <- stringr::str_detect(df$session_name, stringr::str_pad(df$participant.ID, 3, pad = "0"))
   
-  ID_assigned & detect_ID_in_name
+  sub_id_from_name <- stringr::str_sub(df$session_name, -3)
+  sub_id_from_participant.id <-
+    stringr::str_pad(df$participant.ID, 3, pad = "0")
+  sub_id_from_name == sub_id_from_participant.id
 }
 
 session_name_has_correct_separators <- function(df) {
   has_first_underscore <-
     stringr::str_sub(df$session_name, 5, 5) == "_"
   has_second_underscore <-
-    stringr::str_sub(df$session_name, 9, 9) == "_"
-  has_first_dash <-
-    stringr::str_sub(df$session_name, 13, 13) == "-"
-  
-  has_first_underscore & has_second_underscore & has_first_dash
+    stringr::str_sub(df$session_name[i], 11, 11) == "_"
+  has_first_underscore && has_second_underscore
 }
 
 session_name_play_id_valid <- function(df) {
@@ -67,8 +67,8 @@ session_name_play_id_valid <- function(df) {
   stringr::str_detect(play_id, "[:alnum:]+")
 }
 
-session_name_length_ok <- function(df, name_length = 23) {
-  stringr::str_length(df$session_name) == name_length
+session_name_length_ok <- function(i, df, name_length = 14) {
+  stringr::str_length(df$session_name[i]) == name_length
 }
 
 check_session_name <- function(df, site_id) {

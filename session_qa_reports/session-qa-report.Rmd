@@ -6,7 +6,7 @@ output:
 params:
   vol_id: 899
   databrary_login: email@provider.com
-  site_code: NYU
+  site_code: NYUNI
   only_show_included: TRUE
   set_title: "QA Report Template"
 title: "`r params$set_title`" 
@@ -39,20 +39,58 @@ library(tidyverse)
 
 # Spreadsheet & Video Checks {.tabset .tabset-fade .tabset-pills}
 
-## Name checks
-
-```{r session-name-checks}
+```{r}
 this_vol_df <- databraryapi::download_session_csv(params$vol_id)
 
 this_vol_df <- this_vol_df %>%
   dplyr::arrange(., desc(session_date))
+```
 
+## Spreadsheet data
+
+Scroll left/right or up/down to view more data.
+
+```{r}
+this_vol_df %>%
+  knitr::kable(., format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width="800px")
+```
+
+## Name checks
+
+```{r session-name-checks}
 name_checks <- check_session_name(this_vol_df, params$site_code)
+
+name_checks <- name_checks %>%
+  dplyr::select(
+    .,
+    session_name,
+    participant.ID,
+    has_PLAY,
+    has_site_id,
+    has_sub_id,
+    has_corr_seps,
+    play_id_valid,
+    length_ok
+  ) %>%
+  dplyr::mutate(
+    .,
+    pass_all_name_checks =
+      has_PLAY &
+      has_site_id &
+      has_sub_id & has_corr_seps & play_id_valid & length_ok
+  )
 ```
 
 ```{r fancy-format-name-checks}
 name_checks_fmt <- name_checks %>%
-  dplyr::mutate(., 
+  dplyr::mutate(.,
+  session_name = kableExtra::cell_spec(
+    session_name, 
+    "html",
+    color = ifelse(pass_all_name_checks == TRUE, "green", "red")
+  ),
   has_PLAY = kableExtra::cell_spec(
     has_PLAY,
     "html",
@@ -76,28 +114,27 @@ name_checks_fmt <- name_checks %>%
   length_ok = kableExtra::cell_spec(
     length_ok,
     "html",
-    color = ifelse(length_ok == TRUE, "green", "red"))
+    color = ifelse(length_ok == TRUE, "green", "red")),
+  pass_all_name_checks = kableExtra::cell_spec(
+    pass_all_name_checks,
+    "html",
+    color = ifelse(pass_all_name_checks == TRUE, "green", "red")),
     )
 ```
 
 ```{r write-name-checks1}
-name_checks_fmt[,1:5] %>%
+name_checks_fmt %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
-```
-
-```{r write-name-checks2}
-name_checks_fmt[,c(1, 6:dim(name_checks)[2])] %>%
-   knitr::kable(., format = "html", escape = FALSE) %>%
-   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width="800px")
 ```
 
 ## Spreadsheet variable checks
 
-```{r session-variable-checks}
-ss_checks <- check_session_ss(df)
+Scroll left/right or up/down to view more data.
 
-assertthat::noNA(ss_checks)
+```{r session-variable-checks}
+ss_checks <- check_session_ss(this_vol_df)
 ```
 
 ```{r fancy-format-spreadsheet-checks}
@@ -184,9 +221,29 @@ ss_checks_fmt <- ss_checks %>%
 ```
 
 ```{r print-spreadsheet-checks1}
-ss_checks_fmt[, 1:5] %>%
+ss_checks_fmt <- ss_checks_fmt %>%
+  dplyr::select(., session_name,
+                release_level_ok,
+                release_level_public,
+                birth_before_test,
+                test_after_start,
+                age_group_valid,
+                gender_ok,
+                race_ok,
+                ethnicity_ok,
+                disability_ok,
+                language_ok,
+                exclusion_ok,
+                not_excluded,
+                home_ok,
+                country_ok,
+                state_ok
+  )
+
+ss_checks_fmt %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width="800px")
 ```
 
 ```{r print-spreadsheet-checks2}

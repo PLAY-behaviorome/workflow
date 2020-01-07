@@ -43,23 +43,35 @@ participant_ID_assigned <- function(df) {
   !is.na(df$participant.ID)
 }
 
+session_name_has_site_id <- function(df, site_id) {
+  assertthat::is.string(site_id)
+  stringr::str_detect(df$session_name, site_id)
+}
+
+detect_ID_in_name <- function(df) {
+  stringr::str_detect(df$session_name, stringr::str_pad(df$participant.ID, 3, pad = "0"))
+}
+
 session_name_has_sub_id <- function(df) {
   # Initialize
-  ID_assigned <- participant_ID_assigned(df)
-  detect_ID_in_name <- stringr::str_detect(df$session_name, stringr::str_pad(df$participant.ID, 3, pad = "0"))
+  out <- participant_ID_assigned(df) & detect_ID_in_name(df)
   
-  sub_id_from_name <- stringr::str_sub(df$session_name, -3)
-  sub_id_from_participant.id <-
-    stringr::str_pad(df$participant.ID, 3, pad = "0")
-  sub_id_from_name == sub_id_from_participant.id
+  if (sum(out) < dim(df)[1]) {
+    return(out)
+  } else {
+    sub_id_from_name <- stringr::str_sub(df$session_name, -3)
+    sub_id_from_participant.id <-
+      stringr::str_pad(df$participant.ID, 3, pad = "0")
+    (sub_id_from_name == sub_id_from_participant.id) && out
+  }
 }
 
 session_name_has_correct_separators <- function(df) {
   has_first_underscore <-
     stringr::str_sub(df$session_name, 5, 5) == "_"
   has_second_underscore <-
-    stringr::str_sub(df$session_name[i], 11, 11) == "_"
-  has_first_underscore && has_second_underscore
+    stringr::str_sub(df$session_name, 11, 11) == "_"
+  has_first_underscore & has_second_underscore
 }
 
 session_name_play_id_valid <- function(df) {
@@ -67,8 +79,8 @@ session_name_play_id_valid <- function(df) {
   stringr::str_detect(play_id, "[:alnum:]+")
 }
 
-session_name_length_ok <- function(i, df, name_length = 14) {
-  stringr::str_length(df$session_name[i]) == name_length
+session_name_length_ok <- function(df, name_length = 14) {
+  stringr::str_length(df$session_name) == name_length
 }
 
 check_session_name <- function(df, site_id) {
@@ -114,42 +126,67 @@ testdate_not_blank <- function(df) {
 }
 
 birthdate_is.Date <- function(df) {
-  bd_is.Date <- lubridate::is.Date(lubridate::as_date(df$participant.birthdate))
+  # Screen blanks and NAs
+  out <- birthdate_not_blank(df) & birthdate_not_NA(df)
   
-  bd_is.Date & birthdate_not_NA(df) & birthdate_not_blank(df)
+  # If 1 bad apple...
+  if (sum(out) < dim(df)[1]) {
+    return(out)
+  } else {
+    bd_is.Date <- lubridate::is.Date(lubridate::as_date(df$participant.birthdate))
+    bd_is.Date & out
+  }
 }
 
 testdate_is.Date <- function(df) {
-  td_is.Date <- lubridate::is.Date(lubridate::as_date(df$session_date))
+  out <- testdate_not_NA(df) & testdate_not_blank(df)
   
-  td_is.Date & testdate_not_NA(df) & testdate_not_blank(df)
+  # If 1 bad apple...
+  if (sum(out) < dim(df)[1]) {
+    return(out)
+  } else {
+    td_is.Date <- lubridate::is.Date(lubridate::as_date(df$session_date))
+    td_is.Date & out
+  }
 }
 
 birth_before_test <- function(df) {
   bd_is.Date <- birthdate_is.Date(df)
   td_is.Date <- testdate_is.Date(df)
-  bdate <- lubridate::as_date(df$participant.birthdate)
-  tdate <- lubridate::as_date(df$session_date)
   
-  bd_is.Date & td_is.Date & (bdate < tdate)
+  out <- bd_is.Date & td_is.Date
+  
+  if (sum(out) < dim(df)[1]) {
+    return(out)
+  } else {
+    bdate <- lubridate::as_date(df$participant.birthdate)
+    tdate <- lubridate::as_date(df$session_date)
+    (bdate < tdate) & out
+  }
 }
 
 test_after_start <- function(df, start_date = "2018-12-15") {
   td_notNA <- testdate_not_NA(df)
   td_is.Date <- testdate_is.Date(df)
-  tdate <- lubridate::as_date(df$session_date)
-  start_date <- lubridate::as_date(start_date)
   
-  td_notNA & td_is.Date & (tdate > start_date)
+  out <- td_notNA & td_is.Date
+  if (sum(out) < dim(df)[1]) {
+    return(out)
+  } else {
+    tdate <- lubridate::as_date(df$session_date)
+    start_date <- lubridate::as_date(start_date)
+    
+    (tdate > start_date) & out
+  }
 }
 
 age_in_mos <- function(df) {
   out <- rep(NA, dim(df)[1])
   
   valid <- birthdate_is.Date(df) & testdate_is.Date(df)
-  bdate <- lubridate::as_date(df$participant.birthdate)
-  tdate <- lubridate::as_date(df$session_date)
-  out[valid] <- as.numeric(lubridate::as.duration(tdate[valid] - bdate[valid]), "months")
+  bdate <- lubridate::as_date(df$participant.birthdate[valid])
+  tdate <- lubridate::as_date(df$session_date[valid])
+  out[valid] <- as.numeric(lubridate::as.duration(tdate - bdate), "months")
   
   out
 }
@@ -238,27 +275,50 @@ state_ok <- function(df) {
 }
 
 check_session_ss <- function(df, site_id) {
-  out_df <- df
-  out_df <- dplyr::mutate(out_df,
-    release_level_ok = release_level_ok(df),
-    release_level_public = release_level_public(df),
-    birth_before_test = birth_before_test(df),
-    test_after_start = test_after_start(df),
-    age_group_valid = age_group_valid(df),
-    gender_ok = gender_ok(df),
-    race_ok = race_ok(df),
-    ethnicity_ok = ethnicity_ok(df),
-    not_excluded = not_excluded(df),
-    disability_ok = disability_ok(df),
-    language_ok = language_ok(df),
-    exclusion_ok = exclusion_ok(df),
-    home_ok = home_ok(df),
-    country_ok = country_ok(df),
-    state_ok = state_ok(df)
+  #out_df <- df
+  df <- dplyr::mutate(df,
+                          release_level_ok = release_level_ok(df),
+                          release_level_public = release_level_public(df),
+                          birth_before_test = birth_before_test(df),
+                          test_after_start = test_after_start(df),
+                          age_group_valid = age_group_valid(df),
+                          gender_ok = gender_ok(df),
+                          race_ok = race_ok(df),
+                          ethnicity_ok = ethnicity_ok(df),
+                          not_excluded = not_excluded(df),
+                          disability_ok = disability_ok(df),
+                          language_ok = language_ok(df),
+                          exclusion_ok = exclusion_ok(df),
+                          home_ok = home_ok(df),
+                          country_ok = country_ok(df),
+                          state_ok = state_ok(df)
   )
   
-  out_df
+  df
 }
+
+# check_session_ss <- function(df, site_id) {
+#   out_df <- df
+#   out_df <- dplyr::mutate(out_df,
+#     release_level_ok = release_level_ok(out_df),
+#     release_level_public = release_level_public(out_df),
+#     birth_before_test = birth_before_test(out_df),
+#     test_after_start = test_after_start(out_df),
+#     age_group_valid = age_group_valid(out_df),
+#     gender_ok = gender_ok(out_df),
+#     race_ok = race_ok(out_df),
+#     ethnicity_ok = ethnicity_ok(out_df),
+#     not_excluded = not_excluded(out_df),
+#     disability_ok = disability_ok(out_df),
+#     language_ok = language_ok(out_df),
+#     exclusion_ok = exclusion_ok(out_df),
+#     home_ok = home_ok(out_df),
+#     country_ok = country_ok(out_df),
+#     state_ok = state_ok(out_df)
+#   )
+#   
+#   out_df
+# }
 
 # Files within sessions
 this_session_assets <- function(i, df, this_vol_id) {

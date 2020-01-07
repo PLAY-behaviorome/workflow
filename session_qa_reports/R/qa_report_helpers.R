@@ -41,7 +41,7 @@ session_name_has_site_id <- function(i, df, site_id) {
 session_name_has_sub_id <- function(i, df) {
   assertthat::is.number(i)
   
-  sub_id_from_name <- stringr::str_sub(df$session_name[i], 10, 12)
+  sub_id_from_name <- stringr::str_sub(df$session_name[i], -3)
   sub_id_from_participant.id <-
     stringr::str_pad(df$participant.ID[i], 3, pad = "0")
   sub_id_from_name == sub_id_from_participant.id
@@ -51,11 +51,11 @@ session_name_has_correct_separators <- function(i, df) {
   has_first_underscore <-
     stringr::str_sub(df$session_name[i], 5, 5) == "_"
   has_second_underscore <-
-    stringr::str_sub(df$session_name[i], 9, 9) == "_"
-  has_first_dash <-
-    stringr::str_sub(df$session_name[i], 13, 13) == "-"
+    stringr::str_sub(df$session_name[i], 11, 11) == "_"
+  # has_first_dash <-
+  #   stringr::str_sub(df$session_name[i], 13, 13) == "-"
   
-  has_first_underscore && has_second_underscore && has_first_dash
+  has_first_underscore && has_second_underscore #&& has_first_dash
 }
 
 session_name_play_id_valid <- function(i, df) {

@@ -63,7 +63,7 @@ session_name_play_id_valid <- function(i, df) {
   stringr::str_detect(play_id, "[:alnum:]+")
 }
 
-session_name_length_ok <- function(i, df, name_length = 23) {
+session_name_length_ok <- function(i, df, name_length = 14) {
   stringr::str_length(df$session_name[i]) == name_length
 }
 

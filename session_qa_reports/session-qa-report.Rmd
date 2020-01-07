@@ -47,8 +47,7 @@ this_vol_df <- databraryapi::download_session_csv(params$vol_id)
 this_vol_df <- this_vol_df %>%
   dplyr::arrange(., desc(session_date))
 
-name_checks_l <- lapply(1:dim(this_vol_df)[1], check_session_name, this_vol_df, params$site_code)
-name_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), name_checks_l)
+name_checks <- check_session_name(this_vol_df, params$site_code)
 ```
 
 ```{r fancy-format-name-checks}
@@ -96,8 +95,9 @@ name_checks_fmt[,c(1, 6:dim(name_checks)[2])] %>%
 ## Spreadsheet variable checks
 
 ```{r session-variable-checks}
-ss_checks_l <- lapply(1:dim(this_vol_df)[1], check_session_ss, this_vol_df, params$site_code)
-ss_checks <- Reduce(function(x,y) merge(x,y, all=TRUE), ss_checks_l)
+ss_checks <- check_session_ss(df)
+
+assertthat::noNA(ss_checks)
 ```
 
 ```{r fancy-format-spreadsheet-checks}
@@ -206,6 +206,8 @@ ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %>%
 ```{r video-file-checks}
 check_videos_l <- lapply(1:dim(this_vol_df)[1], check_videos_in_session, this_vol_df, params$vol_id)
 check_videos_df <- Reduce(function(x,y) merge(x,y, all=TRUE), check_videos_l)
+
+assertthat::noNA(check_videos_df)
 ```
 
 ```{r fancy-format-video-file-checks}

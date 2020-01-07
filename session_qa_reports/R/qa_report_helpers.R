@@ -24,42 +24,46 @@ if (!require(assertthat)) {
 }
 
 # Session name checks
-session_name_has_PLAY <- function(i, df) {
-  assertthat::is.number(i)
-  first_four <- stringr::str_sub(df$session_name[i], 1, 4)
+session_name_has_PLAY <- function(df) {
+  assertthat::noNA(df)
+  assertthat::is.string(df$session_name)
+  
+  stringr::str_detect(df$session_name, "PLAY")
+}
+
+session_name_starts_with_PLAY <- function(df) {
+  assertthat::noNA(df)
+  assertthat::is.string(df$session_name)
+  
+  first_four <- stringr::str_sub(df$session_name, 1, 4)
   stringr::str_detect(first_four, "PLAY")
 }
 
-session_name_has_site_id <- function(i, df, site_id) {
-  assertthat::is.number(i)
-  assertthat::is.string(site_id)
-  
-  site_id_from_name <- stringr::str_sub(df$session_name[i], 6, 8)
-  site_id_from_name == site_id
+participant_ID_assigned <- function(df) {
+  !is.na(df$participant.ID)
 }
 
-session_name_has_sub_id <- function(i, df) {
-  assertthat::is.number(i)
+session_name_has_sub_id <- function(df) {
+  # Initialize
+  ID_assigned <- participant_ID_assigned(df)
+  detect_ID_in_name <- stringr::str_detect(df$session_name, stringr::str_pad(df$participant.ID, 3, pad = "0"))
   
-  sub_id_from_name <- stringr::str_sub(df$session_name[i], -3)
+  sub_id_from_name <- stringr::str_sub(df$session_name, -3)
   sub_id_from_participant.id <-
-    stringr::str_pad(df$participant.ID[i], 3, pad = "0")
+    stringr::str_pad(df$participant.ID, 3, pad = "0")
   sub_id_from_name == sub_id_from_participant.id
 }
 
-session_name_has_correct_separators <- function(i, df) {
+session_name_has_correct_separators <- function(df) {
   has_first_underscore <-
-    stringr::str_sub(df$session_name[i], 5, 5) == "_"
+    stringr::str_sub(df$session_name, 5, 5) == "_"
   has_second_underscore <-
     stringr::str_sub(df$session_name[i], 11, 11) == "_"
-  # has_first_dash <-
-  #   stringr::str_sub(df$session_name[i], 13, 13) == "-"
-  
-  has_first_underscore && has_second_underscore #&& has_first_dash
+  has_first_underscore && has_second_underscore
 }
 
-session_name_play_id_valid <- function(i, df) {
-  play_id <- stringr::str_sub(df$session_name[i], 14, 22)
+session_name_play_id_valid <- function(df) {
+  play_id <- stringr::str_sub(df$session_name, 14, 22)
   stringr::str_detect(play_id, "[:alnum:]+")
 }
 
@@ -67,99 +71,93 @@ session_name_length_ok <- function(i, df, name_length = 14) {
   stringr::str_length(df$session_name[i]) == name_length
 }
 
-check_session_name <- function(i, df, site_id) {
-  out_df <- dplyr::tibble(
-    session_name = df$session_name[i],
-    has_PLAY = session_name_has_PLAY(i, df),
-    has_site_id = session_name_has_site_id(i, df, site_id),
-    has_sub_id = session_name_has_sub_id(i, df),
-    has_corr_seps = session_name_has_correct_separators(i, df),
-    play_id_valid = session_name_play_id_valid(i, df),
-    length_ok = session_name_length_ok(i, df)
+check_session_name <- function(df, site_id) {
+  out_df <- df
+  out_df <- dplyr::mutate(out_df,
+    has_PLAY = session_name_has_PLAY(df),
+    starts_w_PLAY = session_name_starts_with_PLAY(df),
+    has_site_id = session_name_has_site_id(df, site_id),
+    part_id_assigned = participant_ID_assigned(df),
+    has_sub_id = session_name_has_sub_id(df),
+    has_corr_seps = session_name_has_correct_separators(df),
+    play_id_valid = session_name_play_id_valid(df),
+    length_ok = session_name_length_ok(df)
   )
   
   out_df
 }
 
 # Spreadsheet checks
-release_level_ok <-
-  function(i,
-           df,
-           ok_levels = c("SHARED", "EXCERPTS", "PUBLIC")) {
-    this_release_level <- df$session_release[i]
-    this_release_level %in% ok_levels
-  }
-
-release_level_public <- function(i, df) {
-  df$session_release[i] == "PUBLIC"
+release_level_ok <- function(df, 
+                             ok_levels = c("SHARED", "EXCERPTS", "PUBLIC")) {
+  df$session_release %in% ok_levels 
 }
 
-birthdate_not_NA <- function(i, df) {
-  !is.na(df$participant.birthdate[i])
+release_level_public <- function(df) {
+  df$session_release == "PUBLIC"
 }
 
-testdate_not_NA <- function(i, df) {
-  !is.na(df$session_date[i])
+birthdate_not_NA <- function(df) {
+  !is.na(df$participant.birthdate)
 }
 
-birthdate_not_blank <- function(i, df) {
-  df$participant.birthdate[i] != ""
+testdate_not_NA <- function(df) {
+  !is.na(df$session_date)
 }
 
-testdate_not_blank <- function(i, df) {
-  df$session_date[i] != ""
+birthdate_not_blank <- function(df) {
+  df$participant.birthdate != ""
 }
 
-birthdate_is.Date <- function(i, df) {
-  if (birthdate_not_NA(i, df) && birthdate_not_blank(i, df)) {
-    lubridate::is.Date(lubridate::as_date(df$participant.birthdate[i]))
-  } else {
-    FALSE
-  }
+testdate_not_blank <- function(df) {
+  df$session_date != ""
 }
 
-testdate_is.Date <- function(i, df) {
-  if (testdate_not_NA(i, df) && testdate_not_blank(i, df)) {
-    lubridate::is.Date(lubridate::as_date(df$session_date[i]))
-  } else {
-    FALSE
-  }
+birthdate_is.Date <- function(df) {
+  bd_is.Date <- lubridate::is.Date(lubridate::as_date(df$participant.birthdate))
+  
+  bd_is.Date & birthdate_not_NA(df) & birthdate_not_blank(df)
 }
 
-birth_before_test <- function(i, df) {
-  if (birthdate_is.Date(i, df) && testdate_is.Date(i, df)) {
-    bdate <- lubridate::as_date(df$participant.birthdate[i])
-    tdate <- lubridate::as_date(df$session_date[i])
-    bdate < tdate
-  } else {
-    FALSE
-  }
+testdate_is.Date <- function(df) {
+  td_is.Date <- lubridate::is.Date(lubridate::as_date(df$session_date))
+  
+  td_is.Date & testdate_not_NA(df) & testdate_not_blank(df)
 }
 
-test_after_start <- function(i, df, start_date = "2018-12-15") {
-  if (testdate_not_NA(i, df) && testdate_is.Date(i, df)) {
-    tdate <- lubridate::as_date(df$session_date[i])
-    start_date <- lubridate::as_date(start_date)
-    tdate > start_date
-  } else {
-    FALSE
-  }
+birth_before_test <- function(df) {
+  bd_is.Date <- birthdate_is.Date(df)
+  td_is.Date <- testdate_is.Date(df)
+  bdate <- lubridate::as_date(df$participant.birthdate)
+  tdate <- lubridate::as_date(df$session_date)
+  
+  bd_is.Date & td_is.Date & (bdate < tdate)
 }
 
-age_in_mos <- function(i, df) {
-  if (birthdate_is.Date(i, df) && testdate_is.Date(i, df)) {
-    bdate <- lubridate::as_date(df$participant.birthdate[i])
-    tdate <- lubridate::as_date(df$session_date[i])
-    as.numeric(lubridate::as.duration(tdate - bdate), "months")
-  } else {
-    NA
-  }
+test_after_start <- function(df, start_date = "2018-12-15") {
+  td_notNA <- testdate_not_NA(df)
+  td_is.Date <- testdate_is.Date(df)
+  tdate <- lubridate::as_date(df$session_date)
+  start_date <- lubridate::as_date(start_date)
+  
+  td_notNA & td_is.Date & (tdate > start_date)
+}
+
+age_in_mos <- function(df) {
+  out <- rep(NA, dim(df)[1])
+  
+  valid <- birthdate_is.Date(df) & testdate_is.Date(df)
+  bdate <- lubridate::as_date(df$participant.birthdate)
+  tdate <- lubridate::as_date(df$session_date)
+  out[valid] <- as.numeric(lubridate::as.duration(tdate[valid] - bdate[valid]), "months")
+  
+  out
 }
 
 age_valid <- function(age, min_age, max_age) {
   gte_min_age <- age >= min_age
   lte_max_age <- age <= max_age
-  gte_min_age && lte_max_age && !is.na(age)
+  gte_min_age & lte_max_age & !is.na(age)
 }
 
 mos_12 <- function(age) {
@@ -174,16 +172,16 @@ mos_24 <- function(age) {
   age_valid(age, 23.75, 24.25)
 }
 
-age_group_valid <- function(i, df) {
-  this_age <- age_in_mos(i, df)
-  mos_12(this_age) || mos_18(this_age) || mos_24(this_age)
+age_group_valid <- function(df) {
+  this_age <- age_in_mos(df)
+  mos_12(this_age) | mos_18(this_age) | mos_24(this_age)
 }
 
-gender_ok <- function(i, df) {
-  df$participant.gender[i] %in% c("Male", "Female")
+gender_ok <- function(df) {
+  df$participant.gender %in% c("Male", "Female")
 }
 
-race_ok <- function(i, df) {
+race_ok <- function(df) {
   race_categories <- c(
     "American Indian or Alaskan Native",
     "Asian",
@@ -194,71 +192,69 @@ race_ok <- function(i, df) {
     "Other",
     "Refused"
   )
-  df$participant.race[i] %in% race_categories
+  df$participant.race %in% race_categories
 }
 
-ethnicity_ok <- function(i, df) {
+ethnicity_ok <- function(df) {
   ethnicity_categories <- c("Hispanic or Latino",
                             "Not Hispanic or Latino",
                             "Refused")
   
-  df$participant.ethnicity[i] %in% ethnicity_categories
+  df$participant.ethnicity %in% ethnicity_categories
 }
 
-disability_ok <- function(i, df) {
-  df$participant.disability[i] != "Typical"
+disability_ok <- function(df) {
+  df$participant.disability != "Typical"
 }
 
-language_ok <- function(i, df) {
+language_ok <- function(df) {
   language_categories <- c("English",
                            "Spanish",
                            "English, Spanish",
                            "Spanish, English")
   
-  df$participant.language[i] %in% language_categories
+  df$participant.language %in% language_categories
 }
 
-not_excluded <- function(i, df) {
-  df$exclusion.reason[i] == ""
+not_excluded <- function(df) {
+  df$exclusion.reason == ""
 }
 
-exclusion_ok <-
-  function(i,
-           df,
+exclusion_ok <- function(df,
            accepted_vals = c("pilot", "other", "language not English or Spanish", "")) {
-    df$exclusion.reason[i] %in% accepted_vals
-  }
-
-home_ok <- function(i, df) {
-  df$context.setting[i] == "Home"
+    df$exclusion.reason %in% accepted_vals
 }
 
-country_ok <- function(i, df) {
-  df$context.country[i] == "US"
+home_ok <- function(df) {
+  df$context.setting == "Home"
 }
 
-state_ok <- function(i, df) {
-  df$context.state[i] %in% state.abb
+country_ok <- function(df) {
+  df$context.country == "US"
 }
 
-check_session_ss <- function(i, df, site_id) {
-  out_df <- dplyr::tibble(
-    session_name = df$session_name[i],
-    release_level_ok = release_level_ok(i, df),
-    release_level_public = release_level_public(i, df),
-    birth_before_test = birth_before_test(i, df),
-    test_after_start = test_after_start(i, df),
-    age_group_valid = age_group_valid(i, df),
-    gender_ok = gender_ok(i, df),
-    race_ok = race_ok(i, df),
-    ethnicity_ok = ethnicity_ok(i, df),
-    not_excluded = not_excluded(i, df),
-    disability_ok = disability_ok(i, df),
-    language_ok = language_ok(i, df),
-    exclusion_ok = exclusion_ok(i, df),
-    home_ok = home_ok(i, df),
-    country_ok = country_ok(i, df),
-    state_ok = state_ok(i, df)
+state_ok <- function(df) {
+  df$context.state %in% state.abb
+}
+
+check_session_ss <- function(df, site_id) {
+  out_df <- df
+  out_df <- dplyr::mutate(out_df,
+    release_level_ok = release_level_ok(df),
+    release_level_public = release_level_public(df),
+    birth_before_test = birth_before_test(df),
+    test_after_start = test_after_start(df),
+    age_group_valid = age_group_valid(df),
+    gender_ok = gender_ok(df),
+    race_ok = race_ok(df),
+    ethnicity_ok = ethnicity_ok(df),
+    not_excluded = not_excluded(df),
+    disability_ok = disability_ok(df),
+    language_ok = language_ok(df),
+    exclusion_ok = exclusion_ok(df),
+    home_ok = home_ok(df),
+    country_ok = country_ok(df),
+    state_ok = state_ok(df)
   )
   
   out_df
@@ -389,6 +385,7 @@ check_videos_in_session <- function(i, df, this_vol_id) {
   out_df
 }
 
+# Rendering QA reports
 render_qa_report <- function(vol_id = 899,
                              site_code = "NYU",
                              databrary_login = "default@email.com",
@@ -428,6 +425,7 @@ render_qa_report <- function(vol_id = 899,
     params = list(
       vol_id = vol_id,
       databrary_login = databrary_login,
+      site_code = site_code,
       set_title = generate_vol_url(vol_id, site_code)
     ),
     output_dir = output_dir,
@@ -449,14 +447,14 @@ render_qa_report <- function(vol_id = 899,
 generate_nyu_qa <- function(db_login) {
   assertthat::is.string(db_login)
   render_qa_report(vol_id = 899,
-                   site_code = "NYU",
+                   site_code = "NYUNI",
                    databrary_login = db_login)
 }
 
 generate_gtu_qa <- function(db_login) {
   assertthat::is.string(db_login)
   render_qa_report(vol_id = 954,
-                   site_code = "GTU",
+                   site_code = "GEORG",
                    databrary_login = db_login)
 }
 

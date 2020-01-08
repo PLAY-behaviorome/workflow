@@ -254,24 +254,45 @@ language_ok <- function(df) {
 }
 
 not_excluded <- function(df) {
-  df$exclusion.reason == ""
+  if ("exclusion.reason" %in% names(df)) {
+    df$exclusion.reason == ""    
+  } else {
+    rep(FALSE, dim(df)[1])
+  }
 }
 
 exclusion_ok <- function(df,
-           accepted_vals = c("pilot", "other", "language not English or Spanish", "")) {
-    df$exclusion.reason %in% accepted_vals
+    accepted_vals = c("pilot", "other", 
+                      "language not English or Spanish", "")) {
+    if ("exclusion.reason" %in% names(df)) {
+      df$exclusion.reason %in% accepted_vals
+    } else {
+      rep(FALSE, dim(df)[1])
+    }
 }
 
 home_ok <- function(df) {
-  df$context.setting == "Home"
+  if ("context.setting" %in% names(df)) {
+    df$context.setting == "Home"
+  } else {
+    rep(FALSE, dim(df)[1])
+  }
 }
 
 country_ok <- function(df) {
-  df$context.country == "US"
+  if ("context.country" %in% names(df)) {
+    df$context.country == "US"
+  } else {
+    rep(FALSE, dim(df)[1])
+  }
 }
 
 state_ok <- function(df) {
-  df$context.state %in% state.abb
+  if ("context.state" %in% names(df)) {
+    df$context.state %in% state.abb    
+  } else {
+    rep(FALSE, dim(df)[1])
+  }
 }
 
 check_session_ss <- function(df, site_id) {
@@ -518,7 +539,15 @@ generate_gtu_qa <- function(db_login) {
                    databrary_login = db_login)
 }
 
+generate_vcu_qa <- function(db_login) {
+  assertthat::is.string(db_login)
+  render_qa_report(vol_id = 982,
+                   site_code = "VCOMU",
+                   databrary_login = db_login)
+}
+
 generate_all_qa <- function(db_login) {
   generate_nyu_qa(db_login)
   generate_gtu_qa(db_login)
+  generate_vcu_qa(db_login)
 }

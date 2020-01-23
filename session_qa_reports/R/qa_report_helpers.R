@@ -93,7 +93,8 @@ check_session_name <- function(df, site_id) {
     has_sub_id = session_name_has_sub_id(df),
     has_corr_seps = session_name_has_correct_separators(df),
     play_id_valid = session_name_play_id_valid(df),
-    length_ok = session_name_length_ok(df)
+    length_ok = session_name_length_ok(df),
+    qa_pending = qa_pending(df)
   )
   
   out_df
@@ -271,6 +272,24 @@ exclusion_ok <- function(df,
     }
 }
 
+group_ok <- function(df,
+                     accepted_vals = c("PLAY_Gold", "PLAY_Silver",
+                                       "No_Visit", "Pilot", "")) {
+  if ("group.name" %in% names(df)) {
+    df$group.name %in% accepted_vals
+  } else {
+    rep(FALSE, dim(df)[1])
+  }  
+}
+
+qa_pending <- function(df) {
+  if ("group.name" %in% names(df)) {
+    df$group.name %in% c("")
+  } else {
+    rep(FALSE, dim(df)[1])
+  }  
+}
+
 home_ok <- function(df) {
   if ("context.setting" %in% names(df)) {
     df$context.setting == "Home"
@@ -289,14 +308,17 @@ country_ok <- function(df) {
 
 state_ok <- function(df) {
   if ("context.state" %in% names(df)) {
-    df$context.state %in% state.abb    
+    df$context.state %in% c(state.abb, "DC")    
   } else {
     rep(FALSE, dim(df)[1])
   }
 }
 
-check_session_ss <- function(df, site_id) {
-  #out_df <- df
+check_session_ss <- function(df) {
+  if (!is.data.frame(df)) {
+    stop("Data frame is required")
+  }
+  
   df <- dplyr::mutate(df,
                           release_level_ok = release_level_ok(df),
                           release_level_public = release_level_public(df),
@@ -310,6 +332,8 @@ check_session_ss <- function(df, site_id) {
                           disability_ok = disability_ok(df),
                           language_ok = language_ok(df),
                           exclusion_ok = exclusion_ok(df),
+                          group_ok = group_ok(df),
+                          qa_pending = qa_pending(df),
                           home_ok = home_ok(df),
                           country_ok = country_ok(df),
                           state_ok = state_ok(df)
@@ -550,4 +574,5 @@ generate_all_qa <- function(db_login) {
   generate_nyu_qa(db_login)
   generate_gtu_qa(db_login)
   generate_vcu_qa(db_login)
+  databraryapi::logout_db()
 }

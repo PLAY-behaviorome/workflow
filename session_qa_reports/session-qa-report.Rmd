@@ -5,7 +5,7 @@ output:
     theme: lumen
 params:
   vol_id: 899
-  databrary_login: email@provider.com
+  databrary_login: rogilmore@psu.edu
   site_code: NYUNI
   only_show_included: TRUE
   set_title: "QA Report Template"
@@ -39,6 +39,8 @@ library(tidyverse)
 
 # Spreadsheet & Video Checks {.tabset .tabset-fade .tabset-pills}
 
+**Scroll left/right or up/down within tables to view more data.**
+
 ```{r}
 this_vol_df <- databraryapi::download_session_csv(params$vol_id)
 
@@ -47,8 +49,6 @@ this_vol_df <- this_vol_df %>%
 ```
 
 ## Spreadsheet data
-
-Scroll left/right or up/down to view more data.
 
 ```{r}
 this_vol_df %>%
@@ -72,7 +72,8 @@ name_checks <- name_checks %>%
     has_sub_id,
     has_corr_seps,
     play_id_valid,
-    length_ok
+    length_ok,
+    qa_pending
   ) %>%
   dplyr::mutate(
     .,
@@ -122,6 +123,19 @@ name_checks_fmt <- name_checks %>%
     )
 ```
 
+### QA pending only
+
+```{r write-name-checks-qa-pending}
+name_checks_fmt %>%
+  dplyr::filter(., qa_pending == TRUE) %>%
+  dplyr::select(., -qa_pending) %>%
+  knitr::kable(., format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width="800px")
+```
+
+### All
+
 ```{r write-name-checks1}
 name_checks_fmt %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
@@ -130,8 +144,6 @@ name_checks_fmt %>%
 ```
 
 ## Spreadsheet variable checks
-
-Scroll left/right or up/down to view more data.
 
 ```{r session-variable-checks}
 ss_checks <- check_session_ss(this_vol_df)
@@ -206,6 +218,12 @@ ss_checks_fmt <- ss_checks %>%
                   "html",
                   color = ifelse(not_excluded == TRUE, "green", "red")
                 )) %>%
+  dplyr::mutate(.,
+                group_ok = kableExtra::cell_spec(
+                  group_ok,
+                  "html",
+                  color = ifelse(group_ok == TRUE, "green", "red")
+                )) %>%
   dplyr::mutate(., 
                 home_ok = kableExtra::cell_spec(home_ok,
                 "html",
@@ -234,28 +252,34 @@ ss_checks_fmt <- ss_checks_fmt %>%
                 disability_ok,
                 language_ok,
                 exclusion_ok,
+                group_ok,
+                qa_pending,
                 not_excluded,
                 home_ok,
                 country_ok,
                 state_ok
   )
+```
 
+### QA pending only
+
+```{r print-ss-checks-qa-pending}
 ss_checks_fmt %>%
+  dplyr::filter(., qa_pending == TRUE) %>%
+  dplyr::select(., -qa_pending) %>%
+  knitr::kable(., format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width="800px")  
+```
+
+### All
+
+```{r print-ss-checks-all}
+ss_checks_fmt %>%
+  dplyr::select(., -qa_pending) %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
   kableExtra::scroll_box(width="800px")
-```
-
-```{r print-spreadsheet-checks2}
-ss_checks_fmt[, c(1, 6:10)] %>%
-  knitr::kable(., format = "html", escape = FALSE) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
-```
-
-```{r print-spreadsheet-checks3}
-ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %>%
-  knitr::kable(., format = "html", escape = FALSE) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
 ## Video checks
@@ -264,7 +288,7 @@ ss_checks_fmt[,c(1, 11:dim(ss_checks_fmt)[2])] %>%
 check_videos_l <- lapply(1:dim(this_vol_df)[1], check_videos_in_session, this_vol_df, params$vol_id)
 check_videos_df <- Reduce(function(x,y) merge(x,y, all=TRUE), check_videos_l)
 
-assertthat::noNA(check_videos_df)
+#assertthat::noNA(check_videos_df)
 ```
 
 ```{r fancy-format-video-file-checks}
@@ -296,13 +320,33 @@ check_videos_fmt <- check_videos_df %>%
   ))
 ```
 
-```{r print-video-file-checks1}
+### QA pending only
+
+```{r print-video-checks-qa-pending}
+ss_checks_fmt %>%
+  dplyr::filter(., qa_pending == TRUE) %>%
+  dplyr::select(., -qa_pending) %>%
+  knitr::kable(., format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width="800px")  
+```
+
+### All
+
+```{r print-video-checks-all}
+ss_checks_fmt %>%
+  knitr::kable(., format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width="800px")  
+```
+
+```{r print-video-file-checks1, eval=FALSE}
 check_videos_fmt[, 1:4] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-```{r print-video-file-checks2}
+```{r print-video-file-checks2, eval=FALSE}
 check_videos_fmt[, c(1, 5:dim(check_videos_fmt)[2])] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))

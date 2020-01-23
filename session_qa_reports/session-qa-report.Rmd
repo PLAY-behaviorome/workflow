@@ -323,7 +323,7 @@ check_videos_fmt <- check_videos_df %>%
 ### QA pending only
 
 ```{r print-video-checks-qa-pending}
-ss_checks_fmt %>%
+check_videos_fmt %>%
   dplyr::filter(., qa_pending == TRUE) %>%
   dplyr::select(., -qa_pending) %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
@@ -334,7 +334,7 @@ ss_checks_fmt %>%
 ### All
 
 ```{r print-video-checks-all}
-ss_checks_fmt %>%
+check_videos_fmt %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
   kableExtra::scroll_box(width="800px")  

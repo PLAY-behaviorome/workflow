@@ -473,7 +473,8 @@ check_videos_in_session <- function(i, df, this_vol_id) {
       HouseWalkthrough_exists = FALSE,
       StructuredPlay_exists = FALSE,
       Questionnaires_exists = FALSE,
-      four_or_more_videos = FALSE
+      four_or_more_videos = FALSE,
+      qa_pending = qa_pending(df)[i]
     )
   } else {
     out_df <- dplyr::tibble(
@@ -483,7 +484,8 @@ check_videos_in_session <- function(i, df, this_vol_id) {
       HouseWalkthrough_exists = HouseWalkthrough_exists(sess_assets$name),
       StructuredPlay_exists = StructuredPlay_exists(sess_assets$name),
       Questionnaires_exists = Questionnaires_exists(sess_assets$name),
-      four_or_more_videos = four_or_more_videos(sess_assets)
+      four_or_more_videos = four_or_more_videos(sess_assets),
+      qa_pending = qa_pending(df)[i]
     )
   }
   

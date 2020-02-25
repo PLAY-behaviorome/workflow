@@ -60,7 +60,8 @@ this_vol_df %>%
 ## Name checks
 
 ```{r session-name-checks}
-name_checks <- check_session_name(this_vol_df, params$site_code)
+if (dim(this_vol_df)[1] > 0) {
+  name_checks <- check_session_name(this_vol_df, params$site_code)
 
 name_checks <- name_checks %>%
   dplyr::select(
@@ -82,9 +83,13 @@ name_checks <- name_checks %>%
       has_site_id &
       has_sub_id & has_corr_seps & play_id_valid & length_ok
   )
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ```{r fancy-format-name-checks}
+if (dim(this_vol_df)[1] > 0) {
 name_checks_fmt <- name_checks %>%
   dplyr::mutate(.,
   session_name = kableExtra::cell_spec(
@@ -121,35 +126,51 @@ name_checks_fmt <- name_checks %>%
     "html",
     color = ifelse(pass_all_name_checks == TRUE, "green", "red")),
     )
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ### QA pending only
 
 ```{r write-name-checks-qa-pending}
-name_checks_fmt %>%
+if (dim(this_vol_df)[1] > 0) {
+  name_checks_fmt %>%
   dplyr::filter(., qa_pending == TRUE) %>%
   dplyr::select(., -qa_pending) %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
   kableExtra::scroll_box(width="800px")
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ### All
 
 ```{r write-name-checks1}
-name_checks_fmt %>%
+if (dim(this_vol_df)[1] > 0) {
+  name_checks_fmt %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
   kableExtra::scroll_box(width="800px")
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ## Spreadsheet variable checks
 
 ```{r session-variable-checks}
+if (dim(this_vol_df)[1] > 0) {
 ss_checks <- check_session_ss(this_vol_df)
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ```{r fancy-format-spreadsheet-checks}
+if (dim(this_vol_df)[1] > 0) {
 ss_checks_fmt <- ss_checks %>%
   dplyr::mutate(.,
                 release_level_ok = kableExtra::cell_spec(
@@ -236,10 +257,14 @@ ss_checks_fmt <- ss_checks %>%
                 state_ok = kableExtra::cell_spec(state_ok,
                 "html",
                 color = ifelse(state_ok == TRUE, "green", "red")))
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ```{r print-spreadsheet-checks1}
-ss_checks_fmt <- ss_checks_fmt %>%
+if (dim(this_vol_df)[1] > 0) {
+  ss_checks_fmt <- ss_checks_fmt %>%
   dplyr::select(., session_name,
                 release_level_ok,
                 release_level_public,
@@ -259,39 +284,55 @@ ss_checks_fmt <- ss_checks_fmt %>%
                 country_ok,
                 state_ok
   )
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ### QA pending only
 
 ```{r print-ss-checks-qa-pending}
+if (dim(this_vol_df)[1] > 0) {
 ss_checks_fmt %>%
   dplyr::filter(., qa_pending == TRUE) %>%
   dplyr::select(., -qa_pending) %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
   kableExtra::scroll_box(width="800px")  
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ### All
 
 ```{r print-ss-checks-all}
+if (dim(this_vol_df)[1] > 0) {
 ss_checks_fmt %>%
   dplyr::select(., -qa_pending) %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
   kableExtra::scroll_box(width="800px")
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ## Video checks
 
 ```{r video-file-checks}
+if (dim(this_vol_df)[1] > 0) {
 check_videos_l <- lapply(1:dim(this_vol_df)[1], check_videos_in_session, this_vol_df, params$vol_id)
 check_videos_df <- Reduce(function(x,y) merge(x,y, all=TRUE), check_videos_l)
+} else {
+  message("No sessions in spreadsheet.")
+}
 
 #assertthat::noNA(check_videos_df)
 ```
 
 ```{r fancy-format-video-file-checks}
+if (dim(this_vol_df)[1] > 0) {
 check_videos_fmt <- check_videos_df %>%
   dplyr::mutate(NaturalPlay_exists = kableExtra::cell_spec(
     NaturalPlay_exists,
@@ -318,36 +359,56 @@ check_videos_fmt <- check_videos_df %>%
     "html",
     color = ifelse(four_or_more_videos == TRUE, "green", "red")
   ))
+} else {
+  message("No sessions in spreadsheet")
+}
 ```
 
 ### QA pending only
 
 ```{r print-video-checks-qa-pending}
-check_videos_fmt %>%
+if (dim(this_vol_df)[1] > 0) {
+  check_videos_fmt %>%
   dplyr::filter(., qa_pending == TRUE) %>%
   dplyr::select(., -qa_pending) %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
   kableExtra::scroll_box(width="800px")  
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ### All
 
 ```{r print-video-checks-all}
+if (dim(this_vol_df)[1] > 0) {
 check_videos_fmt %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
-  kableExtra::scroll_box(width="800px")  
+  kableExtra::scroll_box(width="800px") 
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ```{r print-video-file-checks1, eval=FALSE}
+if (dim(this_vol_df)[1] > 0) {
 check_videos_fmt[, 1:4] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+} else {
+  message("No sessions in spreadsheet.")
+}
 ```
 
 ```{r print-video-file-checks2, eval=FALSE}
+if (dim(this_vol_df)[1] > 0) {
 check_videos_fmt[, c(1, 5:dim(check_videos_fmt)[2])] %>%
   knitr::kable(., format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+} else {
+  message("No sessions in spreadsheet.")
+}
+}
 ```

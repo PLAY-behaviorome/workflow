@@ -551,30 +551,71 @@ render_qa_report <- function(vol_id = 899,
   message(paste0("Execution time: ", end_time - start_time, " secs"))
 }
 
-generate_nyu_qa <- function(db_login) {
+generate_nyuni_qa <- function(db_login) {
   assertthat::is.string(db_login)
   render_qa_report(vol_id = 899,
                    site_code = "NYUNI",
                    databrary_login = db_login)
 }
 
-generate_gtu_qa <- function(db_login) {
+generate_georg_qa <- function(db_login) {
   assertthat::is.string(db_login)
   render_qa_report(vol_id = 954,
                    site_code = "GEORG",
                    databrary_login = db_login)
 }
 
-generate_vcu_qa <- function(db_login) {
+generate_vcomu_qa <- function(db_login) {
   assertthat::is.string(db_login)
   render_qa_report(vol_id = 982,
                    site_code = "VCOMU",
                    databrary_login = db_login)
 }
 
+generate_bostu_qa <- function(db_login) {
+  assertthat::is.string(db_login)
+  render_qa_report(vol_id = 1008,
+                   site_code = "BOSTU",
+                   databrary_login = db_login)
+}
+
+generate_cunys_qa <- function(db_login) {
+  assertthat::is.string(db_login)
+  render_qa_report(vol_id = 1023,
+                   site_code = "CUNYS",
+                   databrary_login = db_login)
+}
+
+generate_prinu_qa <- function(db_login) {
+  assertthat::is.string(db_login)
+  render_qa_report(vol_id = 979,
+                   site_code = "PRINU",
+                   databrary_login = db_login)
+}
+
+generate_ucriv_qa <- function(db_login) {
+  assertthat::is.string(db_login)
+  render_qa_report(vol_id = 966,
+                   site_code = "UCRIV",
+                   databrary_login = db_login)
+}
+
+generate_ucscr_qa <- function(db_login) {
+  assertthat::is.string(db_login)
+  render_qa_report(vol_id = 1066,
+                   site_code = "UCSCR",
+                   databrary_login = db_login)
+}
+
 generate_all_qa <- function(db_login) {
-  generate_nyu_qa(db_login)
-  generate_gtu_qa(db_login)
-  generate_vcu_qa(db_login)
+  generate_nyuni_qa(db_login)
+  generate_georg_qa(db_login)
+  generate_vcomu_qa(db_login)
+  generate_bostu_qa(db_login)
+  generate_cunys_qa(db_login)
+  generate_prinu_qa(db_login)
+  generate_ucriv_qa(db_login)
+  generate_ucscr_qa(db_login)
+  
   databraryapi::logout_db()
 }
